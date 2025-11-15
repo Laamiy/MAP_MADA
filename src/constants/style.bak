@@ -1,0 +1,104 @@
+
+import {
+
+  aerialways,
+  background,
+  boundaries,
+  boundaries_coarse,
+  building,
+  ferry_routes,
+  landuse,
+  madagascar,
+  minor_roads,
+  place,
+  poi,
+  railways,
+  regions,
+  roads,
+  state_province,
+  water_polygon,
+  waterways,
+  world_boundaries,
+  world_countries_50m,
+  world_countries_110m,
+  world_ocean_110m,
+  roads_low_name,
+  boundary_labels,
+  road_arrows
+} from "../constants/layers";
+import { MAP_CONFIG } from '../config/map.config'
+
+type TileDescription =
+  {
+    type: string;
+    tiles: string[];
+    minZoom: number;
+    maxZoom: number;
+  }
+const makeSource = (name: string, min: number, max: number): TileDescription => (
+  {
+    type: "vector",
+    tiles: [`${MAP_CONFIG.baseUrl}/${name}/{z}/{x}/{y}.pbf`],
+    minZoom: min,
+    maxZoom: max,
+  }
+);
+const mapStyle = {
+  version: 8,
+  sprite: MAP_CONFIG.spriteUrl,
+  glyphs: `${MAP_CONFIG.glyphUrl}/{fontstack}/{range}.pbf`,
+  sources: {
+    madagascar: makeSource("madagascar", 0, 20),
+    world_ocean_110m: makeSource("world_ocean_110m", 0, 20),
+    world_countries_110m: makeSource("world_countries_110m", 1, 3),
+    world_countries_50m: makeSource("world_countries_50m", 4, 15),
+    world_coastline_110m: makeSource("world_coastline_110m", 0, 3),
+    boundaries_coarse: makeSource("boundaries_coarse", 1, 8),
+    boundaries: makeSource("boundaries", 9, 20),
+    water: makeSource("water_polygons", 4, 20),
+    landuse: makeSource("landuse", 12, 20),
+    roads: makeSource("roads", 11, 20),
+    railways: makeSource("railways", 16, 20),
+    buildings: makeSource("buildings", 15, 20),
+    pois: makeSource("pois", 12, 20),
+    places: makeSource("places", 16, 20),
+    state_province_lines: makeSource("state_province_lines", 5, 10),
+    roads_low: makeSource("roads_low", 3, 16),
+    minor_roads: makeSource("minor_roads", 14, 20),
+    ferry_routes: makeSource("ferry_routes", 16, 20),
+    aerialways: makeSource("aerialways", 18, 20),
+    waterways: makeSource("waterways", 15, 20),
+    world_boundaries: makeSource("world_boundaries", 0, 20),
+    roads_low_name: makeSource("roads_low_name", 5, 20),
+    boundary_labels: makeSource("boundary_labels", 4, 17),
+    road_arrows: makeSource("road_arrows", 14, 20)
+  },
+  // THE ORDER MATTERS IN THIS ARRAY : 
+  layers: [
+    ...background,
+    ...madagascar,
+    ...world_ocean_110m,
+    ...world_countries_110m,
+    ...world_countries_50m,
+    ...world_boundaries,
+    ...boundaries,
+    // ...landuse,
+    ...water_polygon,
+    ...road_arrows,
+    // ...roads,
+    // ...railways,
+    // ...building,
+    // ...poi,
+    // ...minor_roads,
+    // ...ferry_routes,
+    // ...state_province,
+    // ...aerialways,
+    // ...waterways,
+    // ...regions,
+    // ...boundaries_coarse,
+    // ...place,
+    // ...roads_low_name,
+    ...boundary_labels,
+  ],
+};
+export default mapStyle
