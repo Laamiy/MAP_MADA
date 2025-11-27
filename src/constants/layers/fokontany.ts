@@ -15,7 +15,7 @@ export const fokontany = [
     source: "fokontany",
     "source-layer": "fokontany",
     paint: {
-      "fill-color": "#F5F0E5",
+      "fill-color": "#F6F5F5",
       "fill-opacity": 1,
     },
   },

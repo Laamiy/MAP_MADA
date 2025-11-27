@@ -9,7 +9,7 @@ export const waterways = [
     source: "waterways",
     "source-layer": "waterways",
     layout: {
-      "line-sort-key": ["get", "gid"], // Move it here from paint
+      "line-sort-key": ["get", "gid"],
     },
     paint: {
       "line-color": "rgba(115, 206, 216, 1)",

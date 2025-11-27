@@ -22,10 +22,8 @@ export const MapControls: React.FC<MapControlsProps> = ({
   onLayersClick,
   onNavigationClick,
 }) => {
-  /* Google-like wrapper: white bg, soft shadow, rounded-2xl */
-  const googleWrapper = 'bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden';
+  const Wrapper = 'bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden';
 
-  /* Single button look: hover highlight + tight internal border */
   const googleBtn =
     'w-11 h-11 grid place-content-center text-gray-700 ' +
     'hover:bg-gray-100 active:bg-gray-200 transition ' +
@@ -34,7 +32,7 @@ export const MapControls: React.FC<MapControlsProps> = ({
   return (
     <div className="absolute top-4 right-4 flex flex-col gap-2">
       {/* Zoom buttons in one shell */}
-      <div className={googleWrapper}>
+      <div className={Wrapper}>
         <button
           onClick={onZoomIn}
           disabled={zoom >= maxZoom}
@@ -57,7 +55,7 @@ export const MapControls: React.FC<MapControlsProps> = ({
       {/* Layers & Navigation as single buttons with the same shell */}
       <button
         onClick={onLayersClick}
-        className={`${buttonStyles.mapControl} ${googleWrapper} ${googleBtn}`}
+        className={`${buttonStyles.mapControl} ${Wrapper} ${googleBtn}`}
         aria-label="Toggle layers"
       >
         <Layers className="w-5 h-5" />
@@ -65,7 +63,7 @@ export const MapControls: React.FC<MapControlsProps> = ({
 
       <button
         onClick={onNavigationClick}
-        className={`${buttonStyles.mapControl} ${googleWrapper} ${googleBtn}`}
+        className={`${buttonStyles.mapControl} ${Wrapper} ${googleBtn}`}
         aria-label="Center map"
       >
         <Navigation className="w-5 h-5" />

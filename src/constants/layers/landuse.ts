@@ -30,12 +30,6 @@ const colors = {
   quarry: "#DED8D0",
 };
 
-// // Zoom configuration
-// const landuse_zoom = {
-//   min: 2,
-//   max: 20
-// };
-//
 
 export const landuse = [
   {
@@ -116,7 +110,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 2,
+    minzoom: 15,
     maxzoom: 20,
     filter: ["any", ["==", "natural", "wood"], ["==", "landuse", "forest"]],
     paint: {
@@ -142,7 +136,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 8,
+    minzoom: 14,
     maxzoom: 20,
     filter: [
       "any",
@@ -181,7 +175,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 10,
+    minzoom: 14,
     maxzoom: 20,
     filter: [
       "any",
@@ -202,7 +196,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 10,
+    minzoom: 14,
     maxzoom: 20,
     filter: ["any", ["==", "natural", "scrub"], ["==", "landuse", "scrub"]],
     paint: {
@@ -219,7 +213,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 10,
+    minzoom: 14,
     maxzoom: 20,
     filter: ["==", "landuse", "residential"],
     paint: {
@@ -243,7 +237,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 12,
+    minzoom: 14,
     maxzoom: 20,
     filter: [
       "any",
@@ -267,7 +261,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 11,
+    minzoom: 14,
     maxzoom: 20,
     filter: [
       "any",
@@ -332,7 +326,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 11,
+    minzoom: 13,
     maxzoom: 20,
     filter: ["==", "landuse", "military"],
     paint: {
@@ -349,7 +343,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: 10,
+    minzoom: 14,
     maxzoom: 20,
     filter: ["any", ["==", "natural", "bare_rock"], ["==", "natural", "rock"]],
     paint: {
@@ -395,52 +389,3 @@ export const landuse = [
   },
 ];
 
-// {
-//   id: "wood-fill",
-//   type: "fill",
-//   source: "landuse",
-//   "source-layer": "landuse",
-//   minzoom: landuse_zoom.min,
-//   maxzoom: landuse_zoom.max,
-//   // filter: ["any", ["==", "natural", "wood"], ["==", "landuse", "forest"]],
-//   filter: ["==", "natural", "wood"],
-//   // filter: ["any", ["has", "leisure"], ["has", "natural"]],
-//   paint: {
-//     "fill-color": "rgba(82, 215, 135, 1)",
-//     "fill-opacity": [
-//       "interpolate",
-//       ["linear"],
-//       ["zoom"],
-//       0,
-//       0,
-//       landuse_zoom.min,
-//       0.5,
-//       landuse_zoom.min + 0.01,
-//       1,
-//       landuse_zoom.max,
-//       0.5,
-//     ], }, }, { id: "forsert-fill",
-//   type: "fill",
-//   source: "landuse",
-//   "source-layer": "landuse",
-//   minzoom: landuse_zoom.min,
-//   maxzoom: landuse_zoom.max,
-//   filter: ["==", "landuse", "forest"],
-//   paint: {
-//     "fill-color": "rgba(82, 215, 135, 1)",
-//     "fill-opacity": [
-//       "interpolate",
-//       ["linear"],
-//       ["zoom"],
-//       0,
-//       0,
-//       landuse_zoom.min,
-//       0.5,
-//       landuse_zoom.min + 0.01,
-//       1,
-//       landuse_zoom.max,
-//       0.5,
-//     ],
-//   },
-// },
-// ];

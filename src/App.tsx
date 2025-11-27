@@ -1,11 +1,14 @@
-import React from "react";
+
+import React, { useEffect } from "react";
 import { Header } from "./components/Header/Header";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { MapLibreWrapper } from "./components/Map/MapLibreWrapper";
+import { RoutingPanel } from "./components/Routing/RoutingPanel";
 import { useMapState } from "./hooks/useMapState";
+import { useOSRMRoute } from "./hooks/useOSRMRoute";
 import { SAVED_PLACES, RECENT_PLACES } from "./constants/places.constants";
 import { layoutStyles } from "./styles";
-
+import type { OsrmCoordinate } from "./types/osrm.types"
 const App: React.FC = () => {
   const {
     sidebarOpen,
@@ -13,13 +16,62 @@ const App: React.FC = () => {
     mapCenter,
     zoom,
     selectedPlace,
+    routingMode,
+    startPoint,
+    endPoint,
     setSearchQuery,
     setZoom,
     setSelectedPlace,
+    setStartPoint,
+    setEndPoint,
     toggleSidebar,
     closeSidebar,
     closeSelectedPlace,
+    enableRoutingMode,
+    disableRoutingMode,
+    clearRoute: clearRoutePoints,
   } = useMapState();
+
+  const { route, loading, error, fetchRoute, clearRoute } = useOSRMRoute();
+
+  useEffect(() => {
+    if (startPoint && endPoint && routingMode) {
+      fetchRoute([startPoint, endPoint], {
+        steps: true,
+        geometries: 'geojson',
+        overview: 'full',
+      });
+    }
+  }, [startPoint, endPoint, routingMode, fetchRoute]);
+
+  const handleGetRoute = () => {
+    if (startPoint && endPoint) {
+      fetchRoute([startPoint, endPoint], {
+        steps: true,
+        geometries: 'geojson',
+        overview: 'full',
+      });
+    }
+  };
+
+  const handleClearRoute = () => {
+    clearRoute();
+    clearRoutePoints();
+  };
+
+  const handleCloseRouting = () => {
+    disableRoutingMode();
+    clearRoute();
+    clearRoutePoints();
+  };
+
+  const handleRouteToggle = () => {
+    if (routingMode) {
+      handleCloseRouting();
+    } else {
+      enableRoutingMode();
+    }
+  };
 
   return (
     <div className={layoutStyles.container}>
@@ -27,6 +79,8 @@ const App: React.FC = () => {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onMenuToggle={toggleSidebar}
+        onRouteToggle={handleRouteToggle}
+        isRoutingMode={routingMode}
       />
 
       <div className={layoutStyles.mainContent}>
@@ -42,8 +96,41 @@ const App: React.FC = () => {
           center={mapCenter}
           zoom={zoom}
           selectedPlace={selectedPlace}
+          routingMode={routingMode}
+          startPoint={startPoint}
+          endPoint={endPoint}
+          route={route}
           onZoomChange={setZoom}
           onPlaceClose={closeSelectedPlace}
+          onStartChange={setStartPoint}
+          onEndChange={setEndPoint}
+          onMapClick={(coord: OsrmCoordinate) => {
+            if (routingMode) {
+              if (!startPoint) {
+                setStartPoint(coord);
+              } else if (!endPoint) {
+                setEndPoint(coord);
+              } else {
+                // Reset and start over
+                setStartPoint(coord);
+                setEndPoint(null);
+              }
+            }
+          }}
+        />
+
+        <RoutingPanel
+          isActive={routingMode}
+          startPoint={startPoint}
+          endPoint={endPoint}
+          route={route}
+          loading={loading}
+          error={error}
+          onStartPointChange={setStartPoint}
+          onEndPointChange={setEndPoint}
+          onGetRoute={handleGetRoute}
+          onClear={handleClearRoute}
+          onClose={handleCloseRouting}
         />
       </div>
     </div>

@@ -9,11 +9,11 @@ export const road_arrows = [
     minzoom: road_arrows_zoom.min,
     layout: {
       "symbol-placement": "line",
-      "symbol-spacing": 250, // distance between arrows (px)
+      "symbol-spacing": 350, 
       "icon-image": "way", // your arrow icon id
-      "icon-size": 0.6,
+      "icon-size": 0.5,
       "icon-keep-upright": true, // flip if upside-down
-      "icon-allow-overlap": true,
+      "icon-allow-overlap": false,
       "icon-rotation-alignment": "map", // align to line tangent
     },
     paint: {

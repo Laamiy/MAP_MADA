@@ -1,8 +1,6 @@
+
 import React, { useEffect, useRef, useState } from "react";
-// mapblibre :
 import maplibregl, { type StyleSpecification } from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-// custom : 
 import { MapControls } from "./MapControls";
 import { PlaceCard } from "./PlaceCard";
 import type { Coordinates, Place } from "../../types/map.types";
@@ -10,22 +8,7 @@ import type { OsrmCoordinate, OSRMRoute } from "../../types/osrm.types";
 import { MAP_CONFIG } from "../../config/map.config";
 import { layoutStyles } from "../../styles";
 import mapStyle from "../../constants/maps.style";
-
-function createMarkerElement(
-  label: 'A' | 'B',
-  color: string
-): HTMLElement {
-  const el = document.createElement('div');
-  el.style.cssText = `
-    width:32px;height:32px;border-radius:50%;
-    background:${color};border:3px solid white;
-    box-shadow:0 2px 4px rgba(0,0,0,.3);
-    display:flex;align-items:center;justify-content:center;
-    color:white;font-weight:bold;font-size:16px;
-  `;
-  el.textContent = label;
-  return el;
-}
+import "maplibre-gl/dist/maplibre-gl.css";
 
 interface MapLibreWrapperProps {
   center: Coordinates;
@@ -38,9 +21,6 @@ interface MapLibreWrapperProps {
   onZoomChange: (zoom: number) => void;
   onPlaceClose: () => void;
   onMapClick?: (coord: OsrmCoordinate) => void;
-  onStartChange?: (c: OsrmCoordinate) => void;
-  onEndChange?: (c: OsrmCoordinate) => void;
-
 }
 
 export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
@@ -54,8 +34,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   onZoomChange,
   onPlaceClose,
   onMapClick,
-  onStartChange,
-  onEndChange,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -107,7 +85,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         }
       });
 
-      // handle click routing mode
+      // Add click handler for routing mode
       map.current.on("click", (e) => {
         if (routingMode && onMapClick) {
           onMapClick({
@@ -209,7 +187,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       // Fit bounds to show route
       const coordinates = route.geometry.coordinates;
       const bounds = coordinates.reduce(
-        (b, c) => b.extend([c[0], c[1]]),   // OSRM  [lng, lat]
+        (b, c) => b.extend([c[0], c[1]]),   // OSRM returns [lng, lat]
         new maplibregl.LngLatBounds(coordinates[0] as [number, number], coordinates[0] as [number, number])
       ); mapInstance.fitBounds(bounds, {
         padding: 80,
@@ -231,44 +209,78 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     };
   }, [route, routingMode]);
 
+  // Handle markers (start/end points)
 
   // Handle markers (start/end points)
   useEffect(() => {
     if (!map.current || !routingMode) return;
 
-    // wipe old markers
-    markersRef.current.forEach(m => m.remove());
+    // Remove existing markers
+    markersRef.current.forEach((marker) => marker.remove());
     markersRef.current = [];
+    if (!routingMode) return;
+    // Add start marker - ONLY if coordinates are valid
+    if (startPoint && !isNaN(startPoint.lat) && !isNaN(startPoint.lng)) {
+      const startEl = document.createElement('div');
+      startEl.style.cssText = `
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #10b981;
+      border: 3px solid white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+    `;
+      startEl.textContent = 'A';
 
-    const addMarker = (
-      point: OsrmCoordinate | null,
-      label: 'A' | 'B',
-      color: string,
-      title: string,
-      onMove: ((c: OsrmCoordinate) => void) | undefined
-    ) => {
-      if (!point || Number.isNaN(point.lat) || Number.isNaN(point.lng)) return;
+      const startMarker = new maplibregl.Marker({ element: startEl, draggable: true, })
+        .setLngLat([startPoint.lng, startPoint.lat])
+        .setPopup(
+          new maplibregl.Popup({ offset: 25 }).setHTML(
+            '<strong>Start Point</strong>'
+          )
+        )
+        .addTo(map.current);
 
-      const marker = new maplibregl.Marker({
-        element: createMarkerElement(label, color),
-        draggable: true,
-      })
-        .setLngLat([point.lng, point.lat])
-        .setPopup(new maplibregl.Popup({ offset: 25 }).setHTML(`<strong>${title}</strong>`))
-        .addTo(map.current!);
+      markersRef.current.push(startMarker);
+    }
 
-      marker.on('dragend', () => {
-        const { lng, lat } = marker.getLngLat();
-        onMove?.({ lng, lat });
-      });
+    // Add end marker - ONLY if coordinates are valid
+    if (endPoint && !isNaN(endPoint.lat) && !isNaN(endPoint.lng)) {
+      const endEl = document.createElement('div');
+      endEl.style.cssText = `
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #ef4444;
+      border: 3px solid white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+    `;
+      endEl.textContent = 'B';
 
-      markersRef.current.push(marker);
-    };
+      const endMarker = new maplibregl.Marker({ element: endEl, draggable: true, })
+        .setLngLat([endPoint.lng, endPoint.lat])
+        .setPopup(
+          new maplibregl.Popup({ offset: 25 }).setHTML(
+            '<strong>End Point</strong>'
+          )
+        )
+        .addTo(map.current);
 
-    addMarker(startPoint, 'A', '#10b981', 'Start Point', onStartChange);
-    addMarker(endPoint, 'B', '#ef4444', 'End Point', onEndChange);
-  }, [startPoint, endPoint, routingMode, onStartChange, onEndChange]);
-
+      markersRef.current.push(endMarker);
+    }
+  }, [startPoint, endPoint, routingMode]);
 
   const handleZoomIn = () => map.current?.zoomIn();
   const handleZoomOut = () => map.current?.zoomOut();
@@ -286,28 +298,28 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   return (
     <main className={layoutStyles.mapContainer}>
       {/* Debug overlay */}
-      <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs">
-        <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
-        <p className="text-xs mb-1">Status: {mapStatus}</p>
-        <p className="text-xs mb-1">IP: {MAP_CONFIG.baseUrl}</p>
-        <p className="text-xs mb-1">
-          Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}
-        </p>
-        <p className="text-xs mb-1">Zoom: {zoom}</p>
-        <p className="text-xs mb-1">
-          Routing: {routingMode ? 'Active' : 'Inactive'}
-        </p>
-        <p className="text-xs mb-1">
-          Start: {startPoint ? `${startPoint.lat.toFixed(4)}, ${startPoint.lng.toFixed(4)}` : 'None'}
-        </p>
-        <p className="text-xs mb-1">
-          End: {endPoint ? `${endPoint.lat.toFixed(4)}, ${endPoint.lng.toFixed(4)}` : 'None'}
-        </p>
-        <p className="text-xs">
-          Route: {route ? `${(route.distance / 1000).toFixed(2)} km` : 'None'}
-        </p>
-      </div>
-
+      {/* <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs"> */}
+      {/*   <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3> */}
+      {/*   <p className="text-xs mb-1">Status: {mapStatus}</p> */}
+      {/*   <p className="text-xs mb-1">IP: {MAP_CONFIG.baseUrl}</p> */}
+      {/*   <p className="text-xs mb-1"> */}
+      {/*     Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)} */}
+      {/*   </p> */}
+      {/*   <p className="text-xs mb-1">Zoom: {zoom}</p> */}
+      {/*   <p className="text-xs mb-1"> */}
+      {/*     Routing: {routingMode ? 'Active' : 'Inactive'} */}
+      {/*   </p> */}
+      {/*   <p className="text-xs mb-1"> */}
+      {/*     Start: {startPoint ? `${startPoint.lat.toFixed(4)}, ${startPoint.lng.toFixed(4)}` : 'None'} */}
+      {/*   </p> */}
+      {/*   <p className="text-xs mb-1"> */}
+      {/*     End: {endPoint ? `${endPoint.lat.toFixed(4)}, ${endPoint.lng.toFixed(4)}` : 'None'} */}
+      {/*   </p> */}
+      {/*   <p className="text-xs"> */}
+      {/*     Route: {route ? `${(route.distance / 1000).toFixed(2)} km` : 'None'} */}
+      {/*   </p> */}
+      {/* </div> */}
+      {/**/}
       <div
         ref={mapContainer}
         className="absolute inset-0 w-full h-full bg-gray-200"

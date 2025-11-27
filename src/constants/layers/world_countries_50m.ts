@@ -1,5 +1,4 @@
 import { world_countries_50m_zoom } from "../zoom";
-
 export const world_countries_50m = [
   {
     id: "world_countries_50m-fill",
@@ -9,27 +8,22 @@ export const world_countries_50m = [
     source: "world_countries_50m",
     "source-layer": "world_countries_50m",
     paint: {
-      // "fill-color": "rgba(206, 207, 206, 0.78)",
-      "fill-color": "#F5F0E5",
+      "fill-color": "#F5F0E5", //#F6F5F5",
+      "fill-opacity": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        world_countries_50m_zoom.min,
+        0,
+        world_countries_50m_zoom.min + 0.5,
+        1,
+        world_countries_50m_zoom.max - 0.5,
+        1,
+        world_countries_50m_zoom.max,
+        0,
+      ],
     },
   },
-  // {
-  //   id: "world_countries_50m-name-labels",
-  //   type: "symbol",
-  //   source: "world_countries_50m",
-  //   "source-layer": "world_countries_50m",
-  //   filter: ["has", "name"],
-  //   layout: {
-  //     "text-field": ["get", "name"],
-  //     "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
-  //     "text-size": ["interpolate", ["linear"], ["zoom"], 4, 9, 6, 15, 15, 0],
-  //     "symbol-spacing": 250,
-  //     "text-allow-overlap": false,
-  //   },
-  //   paint: {
-  //     "text-color": "#000",
-  //   },
-  // },
   {
     id: "world_countries_50m-line",
     type: "line",
@@ -40,6 +34,19 @@ export const world_countries_50m = [
     paint: {
       "line-color": "rgba(156, 162, 155, 0.4)",
       "line-width": 1,
+      "line-opacity": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        world_countries_50m_zoom.min,
+        0,
+        world_countries_50m_zoom.min + 0.3,
+        1,
+        world_countries_50m_zoom.max - 0.5,
+        0.8,
+        world_countries_50m_zoom.max,
+        0,
+      ],
     },
   },
-]
+];

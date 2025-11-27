@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, MapPin, Settings, User } from 'lucide-react';
+import { Menu, MapPin, Settings, User, Route } from 'lucide-react';
 import { SearchBar } from './SearchBar';
 import { buttonStyles, layoutStyles } from '../../styles';
 
@@ -7,12 +7,16 @@ interface HeaderProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
   onMenuToggle: () => void;
+  onRouteToggle?: () => void;
+  isRoutingMode?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   onSearchChange,
   onMenuToggle,
+  onRouteToggle,
+  isRoutingMode = false,
 }) => {
   return (
     <header className={`${layoutStyles.header} bg-white shadow-sm`}>
@@ -38,6 +42,18 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right Section */}
         <div className="flex items-center gap-5">
+          {/* Route Toggle Button */}
+          {onRouteToggle && (
+            <button
+              onClick={onRouteToggle}
+              className={`${buttonStyles.icon} ${isRoutingMode ? 'bg-blue-100 text-blue-600' : ''}`}
+              aria-label="Toggle routing mode"
+              title={isRoutingMode ? "Exit route planning" : "Plan route"}
+            >
+              <Route className="w-6 h-6" />
+            </button>
+          )}
+
           <button
             className={`${buttonStyles.icon} hidden md:flex`}
             aria-label="Settings"
@@ -55,4 +71,4 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
     </header>
   );
-};
+};;

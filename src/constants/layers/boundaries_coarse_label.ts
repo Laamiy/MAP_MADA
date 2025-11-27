@@ -1,4 +1,4 @@
-import { boundaries_coarse_label_zoom } from "../zoom";
+// import { boundaries_coarse_label_zoom } from "../zoom";
 
 export const boundaries_coarse_label = [
   // {

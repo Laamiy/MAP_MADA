@@ -8,7 +8,7 @@ export const boundaries_coarse = [
     "source-layer": "boundaries_coarse",
     filter: ["all", ["==", "admin_level", "4"], ["has", "name"]],
     paint: {
-      "line-color": "rgba(94, 98, 94, 0.94)",
+      "line-color": "rgba(0, 0, 0 ,0.7)",
       "line-width": [
         "interpolate",
         ["linear"],

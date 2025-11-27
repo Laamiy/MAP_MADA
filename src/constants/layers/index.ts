@@ -6,7 +6,6 @@ export * from "./boundaries_coarse"
 export * from "./building"
 export * from "./ferry_routes"
 export * from "./landuse"
-// export * from "./madagascar"
 export * from "./boundaries_coarse_label"
 export * from "./boundaries_coarse_name"
 export * from "./district"
@@ -21,9 +20,14 @@ export * from "./road_arrows"
 export * from "./roads"
 export * from "./roads_low"
 export * from "./roads_low_name"
-export * from "./state_province"
+//export * from "./state_province"
 export * from "./water_polygon"
 export * from "./waterways"
 export * from "./world_countries_110m"
 export * from "./world_countries_50m"
 export * from "./world_ocean_110m"
+export * from "./extra_vege"
+export * from './extra_vege_100m'
+export * from './extra_vege_30m'
+export * from './city_point'
+export * from './regions'

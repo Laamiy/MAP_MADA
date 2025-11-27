@@ -12,7 +12,7 @@ export const MAPS_COLORS = {
   boundaries_line: "rgba(189, 187, 186, 0.27)",
   //Buildings
   buildings_fill_extrusion: "#E8E9ED",
-  buildings_line: "rgba(85, 82, 82, 0.06)",
+  buildings_line: "rgba(0, 0, 0, 0.59)",
   //ferry_routes
   ferry_routes_line: "rgba(53, 50, 49, 1)",
   //Landuse
