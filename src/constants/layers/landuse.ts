@@ -37,7 +37,7 @@ export const landuse = [
     type: "fill",
     source: "landuse",
     "source-layer": "landuse",
-    minzoom: landuse_zoom.min + 11,
+    minzoom: landuse_zoom.min ,
     maxzoom: landuse_zoom.max,
     paint: {
       "fill-color": "rgba(174, 236, 188, 1)",
@@ -352,9 +352,7 @@ export const landuse = [
     },
   },
 
-  // ========================================
   // SUBTLE OUTLINES (only at high zoom)
-  // ========================================
   {
     id: "landuse-outline",
     type: "line",
@@ -374,7 +372,7 @@ export const landuse = [
         "match",
         ["get", "landuse"],
         "forest",
-        "#A8C5A0",
+        "#A8FFA0",
         "residential",
         "#D0D0D0",
         "commercial",
@@ -387,5 +385,6 @@ export const landuse = [
       "line-opacity": 0.4,
     },
   },
+
 ];
 

@@ -3,7 +3,7 @@ import type { OsrmCoordinate, OSRMResponse, RouteOptions } from '../types/osrm.t
 export class OSRMService {
   private baseUrl: string;
 
-  constructor(baseUrl: string = 'http://127.0.0.1:5000') {
+  constructor(baseUrl: string = 'http://127.0.0.1:5001') {
     this.baseUrl = baseUrl.trim();
   }
 

@@ -1,9 +1,9 @@
 import { esa_vegetation_raw_zoom } from '../zoom'
 
 const colors = {
-  forest: '#00f236ff',
-  shrubland: '#a6ff9bff',
-  grassland: '#F5F0E5FF',
+  forest: '#13FFC0',
+  shrubland: '#BFF2D5',
+  grassland: '#BFF2D5',
   mangroves: '#40ffb3ff'
 };
 

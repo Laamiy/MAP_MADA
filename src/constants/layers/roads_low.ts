@@ -2,39 +2,32 @@ import { INC, roads_low_zoom } from "../zoom";
 
 export const roads_low = [
   {
-    id: "roads-low-hightway-line",
+    id: "roads-low-primary",
     type: "line",
     source: "roads_low",
     "source-layer": "roads_low",
     minzoom: roads_low_zoom.min,
     maxzoom: roads_low_zoom.max,
-    filter: ["has", "highway"],
+    filter: ["in", ["get", "highway"], ["literal", ["motorway", "trunk", "primary"]]],
     layout: {
       "line-cap": "round",
       "line-join": "round",
     },
-
     paint: {
       "line-color": "rgba(139, 165, 193, 1)",
       "line-width": [
         "interpolate",
         ["linear"],
         ["zoom"],
-        roads_low_zoom.min,
-        0.5,
-        roads_low_zoom.min + INC,
-        1.5,
-        roads_low_zoom.min + INC * 2,
-        3.5,
-        roads_low_zoom.min + INC * 3,
-        5.5,
-        roads_low_zoom.max,
-        23,
+        roads_low_zoom.min, 0.5,
+        roads_low_zoom.min + INC, 1.5,
+        roads_low_zoom.min + INC * 2, 3.5,
+        roads_low_zoom.min + INC * 3, 4.0,
+        roads_low_zoom.max - 3, 35,
       ],
     },
   },
-  /* ----------  RN labels on roads_low  ---------- */
-  // {
+];  // {
   //   id: "roads-low-ref-symbol-RN",
   //   type: "symbol",
   //   source: "roads_low",
@@ -72,4 +65,3 @@ export const roads_low = [
   //     "text-halo-width": 1.5,
   //   },
   // },
-];

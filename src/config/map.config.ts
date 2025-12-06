@@ -8,7 +8,7 @@ export const MAP_CONFIG: MapConfig = {
   glyphUrl: "https://demotiles.maplibre.org/font",
   // Antananarivo
   defaultCenter: { lat: -18.8792, lng: 47.5079 },
-  defaultZoom: 6,
+  defaultZoom: 16,
   minZoom: 1,
   maxZoom: 19,
 };

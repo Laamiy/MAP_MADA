@@ -31,3 +31,7 @@ export * from './extra_vege_100m'
 export * from './extra_vege_30m'
 export * from './city_point'
 export * from './regions'
+export * from './water_polygons_labels'
+export * from './waterways_labels'
+export * from './landuse_labels'
+

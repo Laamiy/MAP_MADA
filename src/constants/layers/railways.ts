@@ -26,7 +26,7 @@ export const railways = [
         railways_zoom.max,
         0.5,
       ],
-      "line-dasharray": [4, 2],
+      "line-dasharray": [1, 5],
     },
   },
 ]

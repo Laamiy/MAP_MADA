@@ -7,12 +7,12 @@ export const poiName = {
 
 type PoiDef = {
   id: string;
-  min: number;     
-  size: number;     
+  min: number;          // icon min-zoom
+  size: number;         // icon scale
   icon: string;
   color: string;
-  fontSize: number;  
-  textMinZoom: number;
+  fontSize: number;     // NEW
+  textMinZoom: number;  // NEW – first zoom where label shows
 };
 
 const poiSymbol = (p: PoiDef) => ({
@@ -32,15 +32,15 @@ const poiSymbol = (p: PoiDef) => ({
 
     "text-field": [
     'concat',
-  ['upcase', ['slice', ['get', 'name'], 0, 1]],
+  ['upcase', ['slice', ['get', 'name'], 0, 1]],               // first char upper
   ['downcase', ['slice', ['get', 'name'], 1, 25],], 
   ['case', ['>', ['length', ['get', 'name']], 25], '…', '']
   ],
     // "text-field": ["upcase", ["get", "name"]],
     "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
     "text-size": p.fontSize,
-    "text-anchor": "right",        
-    "text-offset": [-2, 0],      
+    "text-anchor": "right",        // right edge of text touches offset
+    "text-offset": [-2, 0],      // negative x → left of icon
     "text-optional": true,
     "text-allow-overlap": false,
 
@@ -64,13 +64,13 @@ const poiSymbol = (p: PoiDef) => ({
 });
 
 const poiDefs: PoiDef[] = [
-  { id: "transport", min: pois_zoom.min + 7.5, size: 1.3, icon: "transport", color: "#00f", fontSize: 11, textMinZoom: pois_zoom.min + 9 },
-  { id: "tourism", min: pois_zoom.min, size: 1.4, icon: "tourism", color: "#F26300", fontSize: 12, textMinZoom: pois_zoom.min + 8 },
-  { id: "pharmacy", min: pois_zoom.min + 12.5, size: 1.3, icon: "pharmacy", color: "#00af00", fontSize: 13, textMinZoom: pois_zoom.min + 13 },
-  { id: "hospital", min: pois_zoom.min + 10.5, size: 1.3, icon: "hospital", color: "#f00", fontSize: 13, textMinZoom: pois_zoom.min + 12 },
-  { id: "health", min: pois_zoom.min + 12.5, size: 1.3, icon: "health", color: "#0f0", fontSize: 13, textMinZoom: pois_zoom.min + 13 },
-  { id: "fuel", min: pois_zoom.min + 11.5, size: 1.3, icon: "fuel", color: "#f00", fontSize: 13, textMinZoom: pois_zoom.min + 13 },
-  { id: "lodging", min: pois_zoom.min + 13, size: 1.3, icon: "hotel", color: "#F26300", fontSize: 12, textMinZoom: pois_zoom.min + 13.5 },
+  { id: "transport", min: pois_zoom.min + 7.5, size: 1.4, icon: "transport", color: "#00f", fontSize: 11, textMinZoom: pois_zoom.min + 9 },
+  { id: "tourism", min: pois_zoom.min, size: 1.4, icon: "tourism", color: "#afadae", fontSize: 12, textMinZoom: pois_zoom.min + 8 },
+  { id: "pharmacy", min: pois_zoom.min + 9.5, size: 1.4, icon: "pharmacy", color: "#00af00", fontSize: 13, textMinZoom: pois_zoom.min + 11 },
+  { id: "hospital", min: pois_zoom.min + 8.5, size: 1.4, icon: "hospital", color: "#f00", fontSize: 13, textMinZoom: pois_zoom.min + 10 },
+  { id: "health", min: pois_zoom.min + 11.5, size: 1.4, icon: "health", color: "#0f0", fontSize: 10, textMinZoom: pois_zoom.min + 13 },
+  { id: "fuel", min: pois_zoom.min + 10.5, size: 1.4, icon: "fuel", color: "#f00", fontSize: 10, textMinZoom: pois_zoom.min + 12 },
+  { id: "lodging", min: pois_zoom.min + 12.5, size: 1.4, icon: "hotel", color: "#afadae", fontSize: 11, textMinZoom: pois_zoom.min + 14 },
 ];
 
 export const poi = [
@@ -88,6 +88,7 @@ export const poi = [
       "icon-offset": [0, -20],
     },
   },
+
   ...poiDefs.map(poiSymbol),
 ];
 

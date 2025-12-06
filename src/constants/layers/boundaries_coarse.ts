@@ -8,7 +8,7 @@ export const boundaries_coarse = [
     "source-layer": "boundaries_coarse",
     filter: ["all", ["==", "admin_level", "4"], ["has", "name"]],
     paint: {
-      "line-color": "rgba(0, 0, 0 ,0.7)",
+      "line-color": "rgba(0, 0, 0 ,1)",
       "line-width": [
         "interpolate",
         ["linear"],
@@ -22,7 +22,7 @@ export const boundaries_coarse = [
         boundaries_coarse_zoom.max,
         0.5,
       ],
-      "line-dasharray": [1, 8],
+      "line-dasharray": [.5, 4],
     },
   },
 ];

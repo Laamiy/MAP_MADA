@@ -27,7 +27,7 @@ export const building = [
       "line-join": "round",
     },
     paint: {
-      "line-color": "rgba(170, 185, 201, 0.3)",
+      "line-color": "rgba(170, 185, 201, 0.7)",
       "line-width": 3,
       "line-opacity": [
         "interpolate",

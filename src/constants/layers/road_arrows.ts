@@ -12,7 +12,7 @@ export const road_arrows = [
       "symbol-spacing": 350, 
       "icon-image": "way", // your arrow icon id
       "icon-size": 0.5,
-      "icon-keep-upright": true, // flip if upside-down
+      "icon-keep-upright": false, // flip if upside-down
       "icon-allow-overlap": false,
       "icon-rotation-alignment": "map", // align to line tangent
     },

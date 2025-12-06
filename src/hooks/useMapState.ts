@@ -5,7 +5,7 @@ import type { OsrmCoordinate } from '../types/osrm.types';
 import { MAP_CONFIG } from '../config/map.config';
 
 export const useMapState = () => {
-  // Existing state
+  // Maps state
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [mapCenter, setMapCenter] = useState<Coordinates>(
@@ -19,7 +19,7 @@ export const useMapState = () => {
   const [startPoint, setStartPoint] = useState<OsrmCoordinate | null>(null);
   const [endPoint, setEndPoint] = useState<OsrmCoordinate | null>(null);
 
-  // Existing functions
+  // Maps functions
   const toggleSidebar = () => setSidebarOpen((prev: boolean) => !prev);
   const closeSidebar = () => setSidebarOpen(false);
   const closeSelectedPlace = () => setSelectedPlace(null);
@@ -43,7 +43,7 @@ export const useMapState = () => {
   };
 
   return {
-    // Existing returns
+    // Maps 
     sidebarOpen,
     searchQuery,
     mapCenter,
@@ -58,7 +58,7 @@ export const useMapState = () => {
     closeSidebar,
     closeSelectedPlace,
 
-    // Routing returns
+    // Routing
     routingMode,
     startPoint,
     endPoint,

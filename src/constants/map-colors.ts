@@ -26,4 +26,4 @@ export const MAPS_COLORS = {
   buildings: "rgba(220, 210, 200, 1)",
   boundaries: "rgba(100, 100, 100, 1)",
   ferryRoutes: "rgba(0, 150, 200, 1)",
-} as const;
+};

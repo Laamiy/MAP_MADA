@@ -1,5 +1,4 @@
 import { INC, places_zoom } from "../zoom";
-
 export const place = [
   {
     id: "places-name-symbol",
@@ -19,9 +18,9 @@ export const place = [
         0,
         0,
         places_zoom.min,
-        14,
+        11,
         places_zoom.min + INC,
-        17,
+        14,
       ],
       "symbol-spacing": 500,
       "text-allow-overlap": false,

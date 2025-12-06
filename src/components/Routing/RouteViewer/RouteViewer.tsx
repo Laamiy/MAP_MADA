@@ -21,7 +21,6 @@ export const RouteViewer: React.FC = () => {
     lat: -18.9088,
   });
 
-  // Update map when route changes
   useEffect(() => {
     if (route && mapRef.current) {
       mapRef.current.removeMarkers();
