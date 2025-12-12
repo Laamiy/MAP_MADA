@@ -1,6 +1,6 @@
 export const layoutStyles = {
   container: 'flex flex-col h-screen bg-gray-50 overflow-hidden',
-  header: 'bg-white shadow-md z-50 relative',
+  header: 'bg-white shadow-md z-50 relative ',
   headerContent: 'flex items-center px-4 h-20',// gap-3',
   mainContent: 'flex flex-1 overflow-hidden relative',
   sidebar: (isOpen: boolean) =>
