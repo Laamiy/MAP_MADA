@@ -1,93 +1,317 @@
-import { pois_zoom } from "../zoom";
+import { pois_zoom } from "../zoom"
 
 export const poiName = {
-  min: pois_zoom.min + 13.5,
-  max: pois_zoom.max,
-};
+min: pois_zoom.min + 13.5,
+max: pois_zoom.max,
+}
 
 type PoiDef = {
-  id: string;
-  min: number;     
-  size: number;     
-  icon: string;
-  color: string;
-  fontSize: number;  
-  textMinZoom: number;
-};
+id: string
+min: number
+size: number
+icon: string
+color: string
+fontSize: number
+textMinZoom: number
+}
 
 const poiSymbol = (p: PoiDef) => ({
-  id: `pois-${p.id}-symbol`,
-  type: "symbol",
-  source: "pois",
-  "source-layer": "pois",
-  minzoom: p.min,
-  maxzoom: poiName.max,
-  filter: ["==", ["get", "icon_class"], p.id],
-  layout: {
-    "icon-image": p.icon,
-    "icon-size": p.size,
-    "icon-anchor": "center",
-    "icon-allow-overlap": false,
-  
+id: `pois-${p.id}-symbol`,
+type: "symbol",
+source: "pois",
+"source-layer": "pois",
+minzoom: p.min,
+maxzoom: poiName.max,
+filter: ["==", ["get", "icon_class"], p.id],
+layout: {
+"icon-image": p.icon,
+"icon-size": p.size,
+"icon-anchor": "center",
+"icon-allow-overlap": false,
 
-    "text-field": [
-    'concat',
-  ['upcase', ['slice', ['get', 'name'], 0, 1]],
-  ['downcase', ['slice', ['get', 'name'], 1, 25],], 
-  ['case', ['>', ['length', ['get', 'name']], 25], '…', '']
-  ],
-    // "text-field": ["upcase", ["get", "name"]],
-    "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
-    "text-size": p.fontSize,
-    "text-anchor": "right",        
-    "text-offset": [-2, 0],      
-    "text-optional": true,
-    "text-allow-overlap": false,
-
-   },
-  paint: {
-    "text-color": p.color,
-    "text-halo-color": "rgba(255,250,250,0.8)",
-    "text-halo-width": 2.5,
-    "text-halo-blur": 1,
-     "text-opacity": [
-      "interpolate",
-      ["linear"],
-      ["zoom"],
-      Math.max(p.textMinZoom - 0.5, 0),
-      0,
-      p.textMinZoom,
-      1,
-    ],
-
-  },
-});
+"text-field": [
+"concat",
+["upcase", ["slice", ["get", "name"], 0, 1]],
+["downcase", ["slice", ["get", "name"], 1, 25]],
+["case", [">", ["length", ["get", "name"]], 25], "…", ""],
+],
+// "text-field": ["upcase", ["get", "name"]],
+"text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+"text-size": p.fontSize,
+"text-anchor": "right",
+"text-offset": [-2, 0],
+"text-optional": true,
+"text-allow-overlap": false,
+},
+paint: {
+"text-color": p.color,
+"text-halo-color": "rgba(255,250,250,0.8)",
+"text-halo-width": 2.5,
+"text-halo-blur": 1,
+"text-opacity": [
+"interpolate",
+["linear"],
+["zoom"],
+Math.max(p.textMinZoom - 0.5, 0),
+0,
+p.textMinZoom,
+1,
+],
+},
+})
 
 const poiDefs: PoiDef[] = [
-  { id: "transport", min: pois_zoom.min + 7.5, size: 1.3, icon: "transport", color: "#00f", fontSize: 11, textMinZoom: pois_zoom.min + 9 },
-  { id: "tourism", min: pois_zoom.min, size: 1.4, icon: "tourism", color: "#F26300", fontSize: 12, textMinZoom: pois_zoom.min + 8 },
-  { id: "pharmacy", min: pois_zoom.min + 12.5, size: 1.3, icon: "pharmacy", color: "#00af00", fontSize: 13, textMinZoom: pois_zoom.min + 13 },
-  { id: "hospital", min: pois_zoom.min + 10.5, size: 1.3, icon: "hospital", color: "#f00", fontSize: 13, textMinZoom: pois_zoom.min + 12 },
-  { id: "health", min: pois_zoom.min + 12.5, size: 1.3, icon: "health", color: "#0f0", fontSize: 13, textMinZoom: pois_zoom.min + 13 },
-  { id: "fuel", min: pois_zoom.min + 11.5, size: 1.3, icon: "fuel", color: "#f00", fontSize: 13, textMinZoom: pois_zoom.min + 13 },
-  { id: "lodging", min: pois_zoom.min + 13, size: 1.3, icon: "hotel", color: "#F26300", fontSize: 12, textMinZoom: pois_zoom.min + 13.5 },
-];
+// {
+// id: "assurance",
+// min: pois_zoom.min + 7.5,
+// size: 1,
+// icon: "assurance",
+// color: "#00f",
+// fontSize: 11,
+// textMinZoom: pois_zoom.min + 9,
+// },
+
+{
+id: "fast_food",
+min: pois_zoom.min + 14.5,
+size: 1.5,
+icon: "fast_food",
+color: "#F88913",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "ice_cream",
+min: pois_zoom.min + 8,
+size: 1.5,
+icon: "ice_cream",
+color: "#682B11",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "bbc",
+min: pois_zoom.min + 10,
+size: 1.5,
+icon: "bbc",
+color: "#F88913",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "cafe",
+min: pois_zoom.min + 11,
+size: 1.5,
+icon: "cafe",
+color: "#E2852E",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "food_court",
+min: pois_zoom.min + 4.5,
+size: 1.5,
+icon: "food_court",
+color: "#F88913",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "restaurant",
+min: pois_zoom.min + 5.5,
+size: 1.5,
+icon: "restaurant",
+color: "#B77466",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "pub",
+min: pois_zoom.min + 10,
+size: 1.5,
+icon: "pub",
+color: "#BF092F",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "bar",
+min: pois_zoom.min + 13,
+size: 1.5,
+icon: "bar",
+color: "#FF0B55",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 14,
+},
+{
+id: "fitness",
+min: pois_zoom.min + 7.5,
+size: 1.5,
+icon: "fitness",
+color: "#FF2DD1",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "pool",
+min: pois_zoom.min + 7.5,
+size: 1.5,
+icon: "pool",
+color: "#FF2DD1",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "bureau_de_change",
+min: pois_zoom.min + 7.5,
+size: 1.6,
+icon: "bureau_de_change",
+color: "#FF2DD1",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 11,
+},
+{
+id: "hunting_stand",
+min: pois_zoom.min + 7.5,
+size: 1.5,
+icon: "hunting_stand",
+color: "#E2852E",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "atm",
+min: pois_zoom.min + 10.5,
+size: 1.5,
+icon: "atm",
+color: "#219C90",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 12,
+},
+{
+id: "research_institute",
+min: pois_zoom.min + 7.5,
+size: 1.5,
+icon: "research_institute",
+color: "#F3C623",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 9,
+},
+{
+id: "bus",
+min: pois_zoom.min + 8.5,
+size: 1.5,
+icon: "bus",
+color: "#00f",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 11,
+},
+{
+id: "bus_stop",
+min: pois_zoom.min + 12,
+size: 1.5,
+icon: "bus_stop",
+color: "#FF9B00",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 13.5,
+},
+{
+id: "taxi",
+min: pois_zoom.min + 11.5,
+size: 1.5,
+icon: "taxi",
+color: "#63C8FF",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 12,
+},
+{
+id: "zoo",
+min: pois_zoom.min + 4.5,
+size: 1.5,
+icon: "zoo",
+color: "#2DAA9E",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 10,
+},
+{
+id: "tourism",
+min: pois_zoom.min,
+size: 1.5,
+icon: "tourism",
+color: "#FF0B55",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 8,
+},
+{
+id: "pharmacy",
+min: pois_zoom.min + 12.5,
+size: 1.5,
+icon: "pharmacy",
+color: "#00af00",
+fontSize:15,
+textMinZoom: pois_zoom.min + 13,
+},
+{
+id: "hospital",
+min: pois_zoom.min + 10.5,
+size: 1.5,
+icon: "hospital",
+color: "#f00",
+fontSize:15,
+textMinZoom: pois_zoom.min + 12,
+},
+{
+id: "health",
+min: pois_zoom.min + 12.5,
+size: 1.5,
+icon: "health",
+color: "#0f0",
+fontSize:15,
+textMinZoom: pois_zoom.min + 13,
+},
+{
+id: "fuel",
+min: pois_zoom.min + 11.5,
+size: 1.5,
+icon: "fuel",
+color: "#f00",
+fontSize:15,
+textMinZoom: pois_zoom.min + 13,
+},
+{
+id: "lodging",
+min: pois_zoom.min + 13,
+size: 1.5,
+icon: "hotel",
+color: "#F26300",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 13.5,
+},
+{
+id: "aerodrome",
+min: pois_zoom.min + 3,
+size: 1.8,
+icon: "aerodrome",
+color: "#F26300",
+fontSize: 15,
+textMinZoom: pois_zoom.min + 7,
+},
+]
 
 export const poi = [
-  {
-    id: "poi-icons-symbol",
-    type: "symbol",
-    source: "pois",
-    "source-layer": "pois",
-    minzoom: pois_zoom.min + 14.5,
-    maxzoom: pois_zoom.max,
-    filter: ["has", "icon_class"],
-    layout: {
-      "icon-image": ["get", "icon_class"],
-      "icon-size": 1.2,
-      "icon-offset": [0, -20],
-    },
-  },
-  ...poiDefs.map(poiSymbol),
-];
-
+{
+id: "poi-icons-symbol",
+type: "symbol",
+source: "pois",
+"source-layer": "pois",
+minzoom: pois_zoom.min + 14.5,
+maxzoom: pois_zoom.max,
+filter: ["has", "icon_class"],
+layout: {
+"icon-image": ["get", "icon_class"],
+"icon-size": 1.6,
+"icon-offset": [0, -20],
+},
+},
+...poiDefs.map(poiSymbol),
+]

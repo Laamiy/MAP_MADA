@@ -10,6 +10,10 @@ export const boundaries_coarse_name = [
     minzoom: boundaries_coarse_name_zoom.min + 4,
     maxzoom: boundaries_coarse_name_zoom.max,
     layout: {
+      "icon-image": "region",
+      "icon-size": 1.1,
+      "icon-anchor": "center",
+      "icon-allow-overlap": false,
       "text-field": ["get", "name"],
       "text-size": [
         "interpolate",
@@ -22,6 +26,7 @@ export const boundaries_coarse_name = [
       ],
       "symbol-placement": "point",
       "text-justify": "center",
+      "text-offset": [0, -1.9],
       "text-font": ["Noto Sans Regular"],
     },
     paint: {

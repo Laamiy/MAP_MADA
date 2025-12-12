@@ -32,7 +32,7 @@ export const waterways_labels=
           "text-allow-overlap": false,
         },
         paint: {
-          "text-color": "rgba(5, 20, 158, 1)",
+          "text-color": "#2DAA9E",
           "text-halo-color": "rgba(255, 250, 250, 0.8)",
           "text-halo-width": 2.5,
           "text-halo-blur": 1,

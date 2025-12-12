@@ -9,15 +9,15 @@ export const road_arrows = [
     minzoom: road_arrows_zoom.min,
     layout: {
       "symbol-placement": "line",
-      "symbol-spacing": 350, 
+      "symbol-spacing": 300, 
       "icon-image": "way", // your arrow icon id
-      "icon-size": 0.5,
+      "icon-size": 1.5,
       "icon-keep-upright": false, // flip if upside-down
       "icon-allow-overlap": false,
       "icon-rotation-alignment": "map", // align to line tangent
     },
     paint: {
-      "icon-opacity": 0.9,
+      "icon-opacity": 0.7,
     },
   },
 ]
