@@ -2,19 +2,19 @@ import { landuse_zoom } from "../zoom";
 // Google Maps-inspired color palette
 const colors = {
   // Vegetation (muted greens)
-  forest: "#C3D9B5", // Light sage green
-  wood: "#C3D9B5",
+  forest: "#A1EEBD", // Light sage green
+  wood: "#A1EEBD",
   park: "#C8E6C9", // Lighter park green
-  grass: "#E8F5E9", // Very light green
-  farmland: "#EEF0D5", // Beige-green
-  orchard: "#D4E8D4",
+  grass: "#A1EEBD", // Very light green
+  farmland: "#FFF2C2", // Beige-green
+  orchard: "#FFF2C2",
 
   // Water (soft blues)
   water: "#AAD3DF", // Muted blue
   wetland: "#C5E1E8", // Pale blue-grey
 
   // Urban (greys and tans)
-  residential: "#E8E8E8", // Light grey
+  residential: "#e8e8e8", // light grey
   commercial: "#F0E8E0", // Warm grey
   industrial: "#E0E0E3", // Cool grey
   retail: "#F5F0E8",
@@ -32,30 +32,30 @@ const colors = {
 
 
 export const landuse = [
-  {
-    id: "landuse-fill",
-    type: "fill",
-    source: "landuse",
-    "source-layer": "landuse",
-    minzoom: landuse_zoom.min ,
-    maxzoom: landuse_zoom.max,
-    paint: {
-      "fill-color": "rgba(174, 236, 188, 1)",
-      "fill-opacity": [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        0,
-        0,
-        landuse_zoom.min,
-        0.5,
-        landuse_zoom.min + 0.01,
-        1,
-        landuse_zoom.max,
-        0.5,
-      ],
-    },
-  },
+  // {
+  //   id: "landuse-fill",
+  //   type: "fill",
+  //   source: "landuse",
+  //   "source-layer": "landuse",
+  //   minzoom: landuse_zoom.min,
+  //   maxzoom: landuse_zoom.max,
+  //   paint: {
+  //     "fill-color": "rgba(174, 236, 188, 1)",
+  //     "fill-opacity": [
+  //       "interpolate",
+  //       ["linear"],
+  //       ["zoom"],
+  //       0,
+  //       0,
+  //       landuse_zoom.min,
+  //       0.5,
+  //       landuse_zoom.min + 0.01,
+  //       1,
+  //       landuse_zoom.max,
+  //       0.5,
+  //     ],
+  //   },
+  // },
   // ========================================
   // WATER (highest priority for visibility)
   // ========================================

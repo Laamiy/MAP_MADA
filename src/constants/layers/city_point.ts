@@ -65,11 +65,11 @@ export const antananarivoLayers: AnyLayer[] = [
       "text-font": ["Noto Sans Regular"],
       "text-size": 18,
       "text-transform": "uppercase",
-      "text-anchor": "bottom-left",
-      "text-variable-anchor-offset": ["left", [1, 0]],
+      "text-anchor": "center",
+      "text-variable-anchor-offset": ["center", [0, -1.2]],
     },
     paint: {
-      "text-color": "rgba(223, 28, 28, 1)",
+      "text-color": "rgba(2, 42, 48, 1)",
       "text-halo-color": "rgba(255, 250, 250, 0.8)",
       "text-halo-width": 2.5,
     },
@@ -82,7 +82,7 @@ export const madagascarLayers: AnyLayer[] = [
     id: "madagascar-label",
     type: "symbol",
     source: "madagascar",
-    minzoom: 1,//zoom.min,
+    minzoom: 1, //zoom.min,
     maxzoom: 5,
     layout: {
       "text-field": "Madagascar",

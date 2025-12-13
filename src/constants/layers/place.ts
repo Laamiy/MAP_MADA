@@ -1,4 +1,4 @@
-import { INC, places_zoom } from "../zoom";
+import { INC, places_zoom } from "../zoom"
 export const place = [
   {
     id: "places-name-symbol",
@@ -9,7 +9,12 @@ export const place = [
     maxzoom: places_zoom.max,
     filter: ["has", "name"],
     layout: {
+      "icon-image": "place",
+      "icon-size": 0.6,
+      "icon-anchor": "top",
+      "icon-allow-overlap": false,
       "text-field": ["upcase", ["get", "name"]],
+      "text-justify": "center",
       "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
       "text-size": [
         "interpolate",
@@ -18,16 +23,18 @@ export const place = [
         0,
         0,
         places_zoom.min,
-        11,
+        8,
         places_zoom.min + INC,
-        14,
+        11,
       ],
+      "symbol-placement": "point",
+      "text-offset": [0, -1],
       "symbol-spacing": 500,
       "text-allow-overlap": false,
     },
     paint: {
       "text-color": "#000000",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)",  // Dark, semi-transparent
+      "text-halo-color": "rgba(255, 250, 250, 0.8)", // Dark, semi-transparent
       "text-halo-width": 2.5,
       "text-halo-blur": 1,
       "text-opacity": [
@@ -43,4 +50,4 @@ export const place = [
       ],
     },
   },
-];
+]

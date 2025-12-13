@@ -35,7 +35,6 @@ export const MapView: React.FC<MapViewProps> = ({
   return (
     <main className={layoutStyles.mapContainer}>
       <div ref={mapRef} className={layoutStyles.mapView}>
-        {/* Mock Map Visualization - Replace with actual MapLibre component */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center p-8 bg-white bg-opacity-90 rounded-lg shadow-lg max-w-md">
             <MapPin className="w-16 h-16 text-blue-600 mx-auto mb-4" />

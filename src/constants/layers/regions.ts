@@ -1,7 +1,6 @@
 import { boundaries_coarse_name_zoom } from "../zoom"
 
 export const regions = [
-
   {
     id: "boundaries-coarse-name-region",
     type: "symbol",
@@ -12,7 +11,13 @@ export const regions = [
     maxzoom: boundaries_coarse_name_zoom.max - 3,
     layout: {
       "icon-image": "region",
-      "icon-size": 1,
+      "icon-size": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        boundaries_coarse_name_zoom.min + 2,
+        0.8,
+      ],
       "icon-anchor": "bottom",
       "icon-allow-overlap": false,
       "text-field": ["get", "name"],
@@ -21,9 +26,9 @@ export const regions = [
         ["linear"],
         ["zoom"],
         boundaries_coarse_name_zoom.min,
-        18,
+        12,
         boundaries_coarse_name_zoom.max - 3,
-        23,
+        15,
       ],
       "symbol-placement": "point",
       "text-justify": "center",
@@ -33,7 +38,7 @@ export const regions = [
     },
     paint: {
       "text-color": "#000000",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)",  // Dark, semi-transparent
+      "text-halo-color": "rgba(255, 250, 250, 0.8)", // Dark, semi-transparent
       "text-halo-width": 2.5,
       "text-opacity": [
         "interpolate",
@@ -50,10 +55,6 @@ export const regions = [
       ],
     },
   },
-
-
-
-
 
   // {
   //   id: "regions-fill",

@@ -54,8 +54,8 @@ function vegLayers30m(
 }
 
 export const extraVegLayers30m: AnyLayer[] = [
-  ...vegLayers30m('forest', colors.forest, 0.45),
-  ...vegLayers30m('shrubland', colors.shrubland, 0.4, esa_vegetation_30m_zoom.max - 4),
+  // ...vegLayers30m('forest', colors.forest, 0.45),
+  // ...vegLayers30m('shrubland', colors.shrubland, 0.4, esa_vegetation_30m_zoom.max - 4),
   ...vegLayers30m('grassland', colors.grassland, 0.35),
-  ...vegLayers30m('mangroves', colors.mangroves, 0.5)
+  // ...vegLayers30m('mangroves', colors.mangroves, 0.5)
 ];
