@@ -82,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               className={buttonStyles.icon}
               aria-label="Close menu"
             >
-              <X className="w-5 h-5 text-gray-600" />
+              <X className="w-8 h-8 text-gray-600 hover:bg-green-200 rounded-full " />
             </button>
           </div>
         </div>
