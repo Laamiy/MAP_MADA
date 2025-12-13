@@ -24,9 +24,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside className={layoutStyles.sidebar(isOpen)}>
       <div className={layoutStyles.sidebarContent}>
-        <div className="p-6 border-b">
+        <div className="!p-1 border-b ">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-800">Menu</h2>
+            <h2 className="text-xl font-semibold text-gray-800 cursor-pointer">
+              Menu
+            </h2>
             <button
               onClick={onClose}
               className={buttonStyles.icon}

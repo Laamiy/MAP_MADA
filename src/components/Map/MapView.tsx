@@ -67,5 +67,3 @@ export const MapView: React.FC<MapViewProps> = ({
     </main>
   );
 };
-
-

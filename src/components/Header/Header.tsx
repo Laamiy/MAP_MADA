@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className={`${layoutStyles.header} !px-5 shadow-sm`}>
+    <header className={`${layoutStyles.header} !px-5 shadow-sm `}>
       <div
         className={`${layoutStyles.headerContent} flex items-center justify-between  px-6 py-3 `}
       >

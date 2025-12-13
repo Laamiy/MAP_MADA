@@ -117,18 +117,28 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const attachEditorInteractions = () => {
     if (!map.current) return;
     const mapInstance = map.current;
-    const poiIds = mapInstance.getStyle().layers
-      .filter((l): l is maplibregl.SymbolLayerSpecification | maplibregl.LineLayerSpecification | maplibregl.FillLayerSpecification =>
-        'source' in l && l.source === 'pois')
-      .map(l => l.id);
-      poiIds.forEach(id => {
+    const poiIds = mapInstance
+      .getStyle()
+      .layers.filter(
+        (
+          l
+        ): l is
+          | maplibregl.SymbolLayerSpecification
+          | maplibregl.LineLayerSpecification
+          | maplibregl.FillLayerSpecification =>
+          'source' in l && l.source === 'pois'
+      )
+      .map((l) => l.id);
+    poiIds.forEach((id) => {
       mapInstance.on('click', id, async (e: any) => {
         if (!e.features?.length) return;
         const { osm_id, version, tags } = e.features[0].properties;
         if (!editorEnabled) return;
 
         try {
-          const { data } = await axios.get(`${import.meta.env.VITE_EDITOR_API}/api/poi/${osm_id}`);
+          const { data } = await axios.get(
+            `${import.meta.env.VITE_EDITOR_API}/api/poi/${osm_id}`
+          );
           setSelPoi(data);
         } catch (err) {
           console.error('Fetch POI failed:', err);
@@ -138,7 +148,13 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     mapInstance.on('click', (e: any) => {
       if (!e.originalEvent.shiftKey) return;
       if (!editorEnabled) return;
-      setSelPoi({ id: 0, lng: e.lngLat.lng, lat: e.lngLat.lat, tags: {}, version: 0 });
+      setSelPoi({
+        id: 0,
+        lng: e.lngLat.lng,
+        lat: e.lngLat.lat,
+        tags: {},
+        version: 0,
+      });
     });
   };
 
@@ -156,19 +172,46 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     if (!map.current || !routingMode) return;
     const mapInstance = map.current;
     if (mapInstance.getLayer('route')) mapInstance.removeLayer('route');
-    if (mapInstance.getLayer('route-casing')) mapInstance.removeLayer('route-casing');
+    if (mapInstance.getLayer('route-casing'))
+      mapInstance.removeLayer('route-casing');
     if (mapInstance.getSource('route')) mapInstance.removeSource('route');
     if (route) {
-      mapInstance.addSource('route', { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: route.geometry } });
-      mapInstance.addLayer({ id: 'route-casing', type: 'line', source: 'route', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#1e40af', 'line-width': 8, 'line-opacity': 0.6 } });
-      mapInstance.addLayer({ id: 'route', type: 'line', source: 'route', layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': '#3b82f6', 'line-width': 5 } });
+      mapInstance.addSource('route', {
+        type: 'geojson',
+        data: { type: 'Feature', properties: {}, geometry: route.geometry },
+      });
+      mapInstance.addLayer({
+        id: 'route-casing',
+        type: 'line',
+        source: 'route',
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: {
+          'line-color': '#1e40af',
+          'line-width': 8,
+          'line-opacity': 0.6,
+        },
+      });
+      mapInstance.addLayer({
+        id: 'route',
+        type: 'line',
+        source: 'route',
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: { 'line-color': '#3b82f6', 'line-width': 5 },
+      });
       const coordinates = route.geometry.coordinates;
-      const bounds = coordinates.reduce((b, c) => b.extend([c[0], c[1]]), new maplibregl.LngLatBounds(coordinates[0] as [number, number], coordinates[0] as [number, number]));
+      const bounds = coordinates.reduce(
+        (b, c) => b.extend([c[0], c[1]]),
+        new maplibregl.LngLatBounds(
+          coordinates[0] as [number, number],
+          coordinates[0] as [number, number]
+        )
+      );
       mapInstance.fitBounds(bounds, { padding: 80, duration: 1000 });
     }
     return () => {
       if (mapInstance.getLayer('route')) mapInstance.removeLayer('route');
-      if (mapInstance.getLayer('route-casing')) mapInstance.removeLayer('route-casing');
+      if (mapInstance.getLayer('route-casing'))
+        mapInstance.removeLayer('route-casing');
       if (mapInstance.getSource('route')) mapInstance.removeSource('route');
     };
   }, [route, routingMode]);
@@ -177,27 +220,45 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     if (!map.current || !routingMode) return;
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
-    const addMarker = (point: OsrmCoordinate | null, label: 'A' | 'B', color: string, title: string, onMove: ((c: OsrmCoordinate) => void) | undefined) => {
+    const addMarker = (
+      point: OsrmCoordinate | null,
+      label: 'A' | 'B',
+      color: string,
+      title: string,
+      onMove: ((c: OsrmCoordinate) => void) | undefined
+    ) => {
       if (!point || Number.isNaN(point.lat) || Number.isNaN(point.lng)) return;
-      const marker = new maplibregl.Marker({ element: createMarkerElement(label, color), draggable: true })
+      const marker = new maplibregl.Marker({
+        element: createMarkerElement(label, color),
+        draggable: true,
+      })
         .setLngLat([point.lng, point.lat])
-        .setPopup(new maplibregl.Popup({ offset: 25 }).setHTML(`<strong>${title}</strong>`))
+        .setPopup(
+          new maplibregl.Popup({ offset: 25 }).setHTML(
+            `<strong>${title}</strong>`
+          )
+        )
         .addTo(map.current!);
-      marker.on('dragend', () => { const { lng, lat } = marker.getLngLat(); onMove?.({ lng, lat }); });
+      marker.on('dragend', () => {
+        const { lng, lat } = marker.getLngLat();
+        onMove?.({ lng, lat });
+      });
       markersRef.current.push(marker);
     };
     addMarker(startPoint, 'A', '#10b981', 'Start Point', onStartChange);
     addMarker(endPoint, 'B', '#ef4444', 'End Point', onEndChange);
   }, [startPoint, endPoint, routingMode, onStartChange, onEndChange]);
-  
+
   useEffect(() => {
-    if (!editorEnabled) setSelPoi(null);   // hide form
+    if (!editorEnabled) setSelPoi(null); // hide form
   }, [editorEnabled]);
 
   const bustTiles = () => {
     if (!map.current) return;
     const src = map.current.getSource('poi') as maplibregl.VectorTileSource;
-    src.tiles = src.tiles.map((t: string) => t.replace(/\?.*|$/, '?v=' + Date.now()));
+    src.tiles = src.tiles.map((t: string) =>
+      t.replace(/\?.*|$/, '?v=' + Date.now())
+    );
     map.current.style.sourceCaches.poi?.clearTiles();
     map.current.triggerRepaint();
   };
@@ -206,26 +267,70 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const handleZoomOut = () => map.current?.zoomOut();
   const handleLayersClick = () => console.log('Layers clicked');
   const handleNavigationClick = () => {
-    if (map.current) map.current.flyTo({ center: [center.lng, center.lat], zoom, duration: 1000 });
+    if (map.current)
+      map.current.flyTo({
+        center: [center.lng, center.lat],
+        zoom,
+        duration: 1000,
+      });
   };
 
   return (
     <main className={layoutStyles.mapContainer}>
-      <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs">
+      <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs ">
         <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
         <p className="text-xs mb-1">Status: {mapStatus}</p>
         <p className="text-xs mb-1">IP: {MAP_CONFIG.baseUrl}</p>
-        <p className="text-xs mb-1">Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}</p>
+        <p className="text-xs mb-1">
+          Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}
+        </p>
         <p className="text-xs mb-1">Zoom: {zoom}</p>
-        <p className="text-xs mb-1">Routing: {routingMode ? 'Active' : 'Inactive'}</p>
-        <p className="text-xs mb-1">Start: {startPoint ? `${startPoint.lat.toFixed(4)}, ${startPoint.lng.toFixed(4)}` : 'None'}</p>
-        <p className="text-xs mb-1">End: {endPoint ? `${endPoint.lat.toFixed(4)}, ${endPoint.lng.toFixed(4)}` : 'None'}</p>
-        <p className="text-xs">Route: {route ? `${(route.distance / 1000).toFixed(2)} km` : 'None'}</p>
+        <p className="text-xs mb-1">
+          Routing: {routingMode ? 'Active' : 'Inactive'}
+        </p>
+        <p className="text-xs mb-1">
+          Start:{' '}
+          {startPoint
+            ? `${startPoint.lat.toFixed(4)}, ${startPoint.lng.toFixed(4)}`
+            : 'None'}
+        </p>
+        <p className="text-xs mb-1">
+          End:{' '}
+          {endPoint
+            ? `${endPoint.lat.toFixed(4)}, ${endPoint.lng.toFixed(4)}`
+            : 'None'}
+        </p>
+        <p className="text-xs">
+          Route: {route ? `${(route.distance / 1000).toFixed(2)} km` : 'None'}
+        </p>
       </div>
-      <div ref={mapContainer} className="absolute inset-0 w-full h-full bg-gray-200" style={{ minHeight: '100%', minWidth: '100%' }} />
-      <MapControls zoom={zoom} minZoom={MAP_CONFIG.minZoom} maxZoom={MAP_CONFIG.maxZoom} onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} onLayersClick={handleLayersClick} onNavigationClick={handleNavigationClick} />
-      {selectedPlace && !routingMode && <PlaceCard place={selectedPlace} onClose={onPlaceClose} />}
-      {editorEnabled && selPoi && <Editor poi={selPoi} onClose={() => setSelPoi(null)} onDone={() => { setSelPoi(null); bustTiles(); }} />}
+      <div
+        ref={mapContainer}
+        className="absolute inset-0 w-full h-full bg-gray-200"
+        style={{ minHeight: '100%', minWidth: '100%' }}
+      />
+      <MapControls
+        zoom={zoom}
+        minZoom={MAP_CONFIG.minZoom}
+        maxZoom={MAP_CONFIG.maxZoom}
+        onZoomIn={handleZoomIn}
+        onZoomOut={handleZoomOut}
+        onLayersClick={handleLayersClick}
+        onNavigationClick={handleNavigationClick}
+      />
+      {selectedPlace && !routingMode && (
+        <PlaceCard place={selectedPlace} onClose={onPlaceClose} />
+      )}
+      {editorEnabled && selPoi && (
+        <Editor
+          poi={selPoi}
+          onClose={() => setSelPoi(null)}
+          onDone={() => {
+            setSelPoi(null);
+            bustTiles();
+          }}
+        />
+      )}
     </main>
   );
 };
