@@ -1,8 +1,8 @@
-import { boundaries_coarse_name_zoom } from "../zoom";
+import { boundaries_coarse_name_zoom } from "../zoom"
 
 export const boundaries_coarse_name = [
   {
-    id: "boundaries-coarse-name-district",
+    id: "boundaries-coarse-name-district", 
     type: "symbol",
     source: "boundaries_coarse_name",
     "source-layer": "boundaries_coarse_name",
@@ -11,7 +11,7 @@ export const boundaries_coarse_name = [
     maxzoom: boundaries_coarse_name_zoom.max,
     layout: {
       "icon-image": "region",
-      "icon-size": 1.1,
+      "icon-size": 0.8,
       "icon-anchor": "center",
       "icon-allow-overlap": false,
       "text-field": ["get", "name"],
@@ -20,13 +20,13 @@ export const boundaries_coarse_name = [
         ["linear"],
         ["zoom"],
         boundaries_coarse_name_zoom.min + 4,
-        15,
+        11,
         boundaries_coarse_name_zoom.max,
-        18,
+        13,
       ],
       "symbol-placement": "point",
       "text-justify": "center",
-      "text-offset": [0, -1.9],
+      "text-offset": [0, -2.3],
       "text-font": ["Noto Sans Regular"],
     },
     paint: {
@@ -48,4 +48,4 @@ export const boundaries_coarse_name = [
       ],
     },
   },
-];
+]

@@ -2,6 +2,16 @@ import { boundaries_coarse_zoom, INC } from "../zoom";
 
 export const boundaries_coarse = [
   {
+    id: "boundaries-coarse-fill",
+    type: "fill",
+    source: "boundaries_coarse",
+    "source-layer": "boundaries_coarse",
+    paint: {
+      "fill-color": "#F6F5F5",
+      "fill-opacity": 1,
+    },
+  },
+  {
     id: "boundaries-coarse-line-district",
     type: "line",
     source: "boundaries_coarse",
@@ -25,4 +35,5 @@ export const boundaries_coarse = [
       "line-dasharray": [.5, 4],
     },
   },
+
 ];

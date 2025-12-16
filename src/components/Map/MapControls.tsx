@@ -12,7 +12,6 @@ interface MapControlsProps {
   onLayersClick?: () => void;
   onNavigationClick?: () => void;
 }
-
 export const MapControls: React.FC<MapControlsProps> = ({
   zoom,
   minZoom,
@@ -31,7 +30,6 @@ export const MapControls: React.FC<MapControlsProps> = ({
 
   return (
     <div className="absolute top-4 right-4 flex flex-col gap-2">
-      {/* Zoom buttons in one shell */}
       <div className={Wrapper}>
         <button
           onClick={onZoomIn}
@@ -51,8 +49,6 @@ export const MapControls: React.FC<MapControlsProps> = ({
           <Minus className="w-5 h-5" />
         </button>
       </div>
-
-      {/* Layers & Navigation as single buttons with the same shell */}
       <button
         onClick={onLayersClick}
         className={`${buttonStyles.mapControl} ${Wrapper} ${googleBtn}`}
