@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigation, Layers } from 'lucide-react';
 // import { buttonStyles, quickActionStyles } from '../../styles';
 
 export const QuickActions: React.FC = () => {
