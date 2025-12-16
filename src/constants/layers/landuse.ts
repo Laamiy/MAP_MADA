@@ -1,4 +1,3 @@
-import { landuse_zoom } from "../zoom";
 // Google Maps-inspired color palette
 const colors = {
   // Vegetation (muted greens)
@@ -28,8 +27,7 @@ const colors = {
   sand: "#F5EBD3",
   rock: "#E8E0D8",
   quarry: "#DED8D0",
-};
-
+}
 
 export const landuse = [
   {
@@ -385,6 +383,4 @@ export const landuse = [
       "line-opacity": 0.4,
     },
   },
-
-];
-
+]

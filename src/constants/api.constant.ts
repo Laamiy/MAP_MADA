@@ -1,0 +1,1 @@
+export const ROUTE_GET_ICON = "api/poi/"

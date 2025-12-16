@@ -11,8 +11,8 @@ import mapStyle from "../../constants/maps.style";
 import axios from "axios";
 import Editor from "./Editor";
 import "./Editor.css";
-import type { PointOfInterestInterface } from "../../interface/point.of.interest.interface";
-import EditInfoModal from "./EditInfoModal";
+import { useGetIconProfileById } from "../../api/map/get.icon";
+
 
 function createMarkerElement(label: "A" | "B", color: string): HTMLElement {
   const el = document.createElement("div");
@@ -67,6 +67,8 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const [selectedPOI, setSelectedPOI] = useState<
     PointOfInterestInterface | undefined
   >(undefined);
+
+  // const { data, isLoading, isSuccess } = useGetIconProfileById("");
 
   // Initialize map
   useEffect(() => {
@@ -159,15 +161,12 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         poiSourceName = name;
 
         console.log(' Found POI source:', name);
-
         break;
       }
     }
 
     if (!poiSourceName) {
-
       console.warn('POI source not found. Available sources:', Object.keys(style.sources));
-
       const vectorSources = Object.entries(style.sources)
         .filter(([_, source]: [string, any]) => source.type === "vector")
         .map(([name]) => name);
@@ -188,8 +187,8 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     console.log("POI layers found:", poiLayers);
 
     if (poiLayers.length === 0) {
-
       console.warn('No POI layers found, using generic click handler');
+
       // Fallback: handle all clicks
       mapInstance.on("click", async (e: any) => {
         if (!editorEnabled) return;
@@ -247,7 +246,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       console.error("No ID in feature:", props);
       setIsModalOpen(true);
       setSelectedPOI(props);
-
       return;
     }
 
@@ -331,7 +329,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       });
       map.current.triggerRepaint();
       console.log("Tiles refreshed");
-
     } catch (err) {
       console.error("Tile bust error:", err);
     }
@@ -362,7 +359,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       mapInstance.addSource("route", {
         type: "geojson",
         data: { type: "Feature", properties: {}, geometry: route.geometry },
-
       });
       mapInstance.addLayer({
         id: "route-casing",
@@ -390,7 +386,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
           coordinates[0] as [number, number],
           coordinates[0] as [number, number]
         )
-
       );
       mapInstance.fitBounds(bounds, { padding: 80, duration: 1000 });
     }
@@ -400,7 +395,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       if (mapInstance.getLayer("route-casing"))
         mapInstance.removeLayer("route-casing");
       if (mapInstance.getSource("route")) mapInstance.removeSource("route");
-
     };
   }, [route, routingMode]);
 
@@ -419,10 +413,10 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       onMove: ((c: OsrmCoordinate) => void) | undefined
     ) => {
       if (!point || Number.isNaN(point.lat) || Number.isNaN(point.lng)) return;
+
       const marker = new maplibregl.Marker({
         element: createMarkerElement(label, color),
         draggable: true,
-
       })
         .setLngLat([point.lng, point.lat])
         .setPopup(
@@ -432,7 +426,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         )
         .addTo(map.current!);
       marker.on("dragend", () => {
-
         const { lng, lat } = marker.getLngLat();
         onMove?.({ lng, lat });
       });
@@ -465,7 +458,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   };
 
   return (
-
     <>
       <main className={layoutStyles.mapContainer}>
         {debugMode && (
@@ -536,6 +528,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
           isOpen={isModalOpen}
           setIsOpen={setIsModalOpen}
           pointOfInterestData={selectedPOI}
+
         />
       )}
     </>

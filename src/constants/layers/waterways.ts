@@ -1,4 +1,4 @@
-import { waterways_zoom ,INC} from "../zoom"
+import { waterways_zoom } from "../zoom"
 
 export const waterways = [
   {
@@ -26,5 +26,4 @@ export const waterways = [
       ],
     },
   },
-   
 ]

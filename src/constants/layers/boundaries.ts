@@ -1,4 +1,3 @@
-// import { boundaries_zoom, INC } from "../zoom"
 
 export const boundaries = [
   {
