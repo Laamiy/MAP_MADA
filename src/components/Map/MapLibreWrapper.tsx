@@ -132,7 +132,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const attachEditorInteractions = () => {
     if (!map.current) return;
     const mapInstance = map.current;
-    
     const style = mapInstance.getStyle();
     
     // Try to find POI source
@@ -142,13 +141,13 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     for (const name of possibleSourceNames) {
       if (style.sources[name]) {
         poiSourceName = name;
-        console.log('✅ Found POI source:', name);
+        console.log(' Found POI source:', name);
         break;
       }
     }
     
     if (!poiSourceName) {
-      console.warn('⚠️ POI source not found. Available sources:', Object.keys(style.sources));
+      console.warn('POI source not found. Available sources:', Object.keys(style.sources));
       const vectorSources = Object.entries(style.sources)
         .filter(([_, source]: [string, any]) => source.type === 'vector')
         .map(([name]) => name);
@@ -169,7 +168,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     console.log('POI layers found:', poiLayers);
 
     if (poiLayers.length === 0) {
-      console.warn('⚠️ No POI layers found, using generic click handler');
+      console.warn('No POI layers found, using generic click handler');
       
       // Fallback: handle all clicks
       mapInstance.on('click', async (e: any) => {
@@ -226,7 +225,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     const osm_id = props.osm_id || props.id || props.osmId;
     
     if (!osm_id) {
-      console.error('❌ No ID in feature:', props);
+      console.error('No ID in feature:', props);
       alert(`No ID found. Properties: ${Object.keys(props).join(', ')}`);
       return;
     }
@@ -301,7 +300,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         }
       });
       map.current.triggerRepaint();
-      console.log('✅ Tiles refreshed');
+      console.log('Tiles refreshed');
     } catch (err) {
       console.error('Tile bust error:', err);
     }
@@ -325,10 +324,12 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     const mapInstance = map.current;
     
     if (mapInstance.getLayer('route')) mapInstance.removeLayer('route');
-    if (mapInstance.getLayer('route-casing')) mapInstance.removeLayer('route-casing');
+    if (mapInstance.getLayer('route-casing'))
+      mapInstance.removeLayer('route-casing');
     if (mapInstance.getSource('route')) mapInstance.removeSource('route');
     
     if (route) {
+
       mapInstance.addSource('route', { 
         type: 'geojson', 
         data: { type: 'Feature', properties: {}, geometry: route.geometry } 
@@ -352,13 +353,15 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       const bounds = coordinates.reduce(
         (b, c) => b.extend([c[0], c[1]]), 
         new maplibregl.LngLatBounds(coordinates[0] as [number, number], coordinates[0] as [number, number])
+
       );
       mapInstance.fitBounds(bounds, { padding: 80, duration: 1000 });
     }
     
     return () => {
       if (mapInstance.getLayer('route')) mapInstance.removeLayer('route');
-      if (mapInstance.getLayer('route-casing')) mapInstance.removeLayer('route-casing');
+      if (mapInstance.getLayer('route-casing'))
+        mapInstance.removeLayer('route-casing');
       if (mapInstance.getSource('route')) mapInstance.removeSource('route');
     };
   }, [route, routingMode]);
@@ -369,6 +372,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
+
     
     const addMarker = (
       point: OsrmCoordinate | null, 
@@ -382,24 +386,29 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       const marker = new maplibregl.Marker({ 
         element: createMarkerElement(label, color), 
         draggable: true 
+
       })
         .setLngLat([point.lng, point.lat])
-        .setPopup(new maplibregl.Popup({ offset: 25 }).setHTML(`<strong>${title}</strong>`))
+        .setPopup(
+          new maplibregl.Popup({ offset: 25 }).setHTML(
+            `<strong>${title}</strong>`
+          )
+        )
         .addTo(map.current!);
-      
       marker.on('dragend', () => {
         const { lng, lat } = marker.getLngLat();
         onMove?.({ lng, lat });
       });
-      
+
       markersRef.current.push(marker);
     };
     
     addMarker(startPoint, 'A', '#10b981', 'Start Point', onStartChange);
     addMarker(endPoint, 'B', '#ef4444', 'End Point', onEndChange);
   }, [startPoint, endPoint, routingMode, onStartChange, onEndChange]);
-  
+
   useEffect(() => {
+
     if (!editorEnabled) setSelPoi(null);
   }, [editorEnabled]);
 
@@ -407,19 +416,20 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const handleZoomOut = () => map.current?.zoomOut();
   const handleLayersClick = () => console.log('Layers clicked');
   const handleNavigationClick = () => {
+
     if (map.current) {
       map.current.flyTo({ center: [center.lng, center.lat], zoom, duration: 1000 });
     }
+
   };
 
   return (
     <main className={layoutStyles.mapContainer}>
-      {/* Debug info */}
       {debugMode && (
         <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs">
           <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
           <p className="text-xs mb-1">Status: {mapStatus}</p>
-          <p className="text-xs mb-1">Editor: {editorEnabled ? '✅' : '❌'}</p>
+          <p className="text-xs mb-1">Editor: {editorEnabled ? 'ON' : 'OFF'}</p>
           <p className="text-xs mb-1">Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}</p>
           <p className="text-xs mb-1">Zoom: {zoom}</p>
         </div>
