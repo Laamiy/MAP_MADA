@@ -157,16 +157,17 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     for (const name of possibleSourceNames) {
       if (style.sources[name]) {
         poiSourceName = name;
-        console.log("✅ Found POI source:", name);
+
+        console.log(' Found POI source:', name);
+
         break;
       }
     }
 
     if (!poiSourceName) {
-      console.warn(
-        "⚠️ POI source not found. Available sources:",
-        Object.keys(style.sources)
-      );
+
+      console.warn('POI source not found. Available sources:', Object.keys(style.sources));
+
       const vectorSources = Object.entries(style.sources)
         .filter(([_, source]: [string, any]) => source.type === "vector")
         .map(([name]) => name);
@@ -187,8 +188,8 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     console.log("POI layers found:", poiLayers);
 
     if (poiLayers.length === 0) {
-      console.warn("⚠️ No POI layers found, using generic click handler");
 
+      console.warn('No POI layers found, using generic click handler');
       // Fallback: handle all clicks
       mapInstance.on("click", async (e: any) => {
         if (!editorEnabled) return;
@@ -242,9 +243,11 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     const osm_id = props.osm_id;
 
     if (!osm_id) {
-      console.error("❌ No ID in feature:", props);
+
+      console.error("No ID in feature:", props);
       setIsModalOpen(true);
       setSelectedPOI(props);
+
       return;
     }
 
@@ -327,7 +330,8 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         }
       });
       map.current.triggerRepaint();
-      console.log("✅ Tiles refreshed");
+      console.log("Tiles refreshed");
+
     } catch (err) {
       console.error("Tile bust error:", err);
     }
@@ -349,7 +353,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   useEffect(() => {
     if (!map.current || !routingMode) return;
     const mapInstance = map.current;
-
     if (mapInstance.getLayer("route")) mapInstance.removeLayer("route");
     if (mapInstance.getLayer("route-casing"))
       mapInstance.removeLayer("route-casing");
@@ -359,6 +362,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       mapInstance.addSource("route", {
         type: "geojson",
         data: { type: "Feature", properties: {}, geometry: route.geometry },
+
       });
       mapInstance.addLayer({
         id: "route-casing",
@@ -386,6 +390,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
           coordinates[0] as [number, number],
           coordinates[0] as [number, number]
         )
+
       );
       mapInstance.fitBounds(bounds, { padding: 80, duration: 1000 });
     }
@@ -395,6 +400,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       if (mapInstance.getLayer("route-casing"))
         mapInstance.removeLayer("route-casing");
       if (mapInstance.getSource("route")) mapInstance.removeSource("route");
+
     };
   }, [route, routingMode]);
 
@@ -413,10 +419,10 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
       onMove: ((c: OsrmCoordinate) => void) | undefined
     ) => {
       if (!point || Number.isNaN(point.lat) || Number.isNaN(point.lng)) return;
-
       const marker = new maplibregl.Marker({
         element: createMarkerElement(label, color),
         draggable: true,
+
       })
         .setLngLat([point.lng, point.lat])
         .setPopup(
@@ -425,8 +431,8 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
           )
         )
         .addTo(map.current!);
-
       marker.on("dragend", () => {
+
         const { lng, lat } = marker.getLngLat();
         onMove?.({ lng, lat });
       });
@@ -439,6 +445,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   }, [startPoint, endPoint, routingMode, onStartChange, onEndChange]);
 
   useEffect(() => {
+
     if (!editorEnabled) setSelPoi(null);
   }, [editorEnabled]);
 
@@ -446,6 +453,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const handleZoomOut = () => map.current?.zoomOut();
   const handleLayersClick = () => console.log("Layers clicked");
   const handleNavigationClick = () => {
+
     if (map.current) {
       map.current.flyTo({
         center: [center.lng, center.lat],
@@ -453,18 +461,19 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         duration: 1000,
       });
     }
+
   };
 
   return (
+
     <>
       <main className={layoutStyles.mapContainer}>
-        {/* Debug info */}
         {debugMode && (
           <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs">
             <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
             <p className="text-xs mb-1">Status: {mapStatus}</p>
             <p className="text-xs mb-1">
-              Editor: {editorEnabled ? "✅" : "❌"}
+              Editor: {editorEnabled ? "ON" : "OFF"}
             </p>
             <p className="text-xs mb-1">
               Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}
@@ -522,7 +531,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
           />
         )}
       </main>
-
       {isModalOpen && selectedPOI && (
         <EditInfoModal
           isOpen={isModalOpen}
