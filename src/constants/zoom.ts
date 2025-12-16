@@ -13,7 +13,7 @@ export const world_countries_110m_zoom: zoom_range = { min: 1, max: 4 }
 // world countries 50m
 export const world_countries_50m_zoom: zoom_range = { min: 3, max: 10 }
 // boundaries coarse
-export const boundaries_coarse_zoom: zoom_range = { min: 4, max: 8 }
+export const boundaries_coarse_zoom: zoom_range = { min: 4, max: 20 }
 // boundaries coarse name
 export const boundaries_coarse_name_zoom: zoom_range = { min: 4, max: 13 }
 // boundaries
@@ -57,4 +57,4 @@ export const boundaries_coarse_district_zoom: zoom_range = { min: 4, max: 8 }
 export const esa_vegetation_raw_zoom: zoom_range = { min: 3, max: 11.5 }
 export const esa_vegetation_100m_zoom: zoom_range = { min: 8, max: 9.5 }
 export const esa_vegetation_30m_zoom: zoom_range = { min: 14, max: 20 }
-export const water_polygons_labels_zoom: zoom_range = {min:14 , max: 20 }
+export const water_polygons_labels_zoom: zoom_range = { min: 14, max: 20 }

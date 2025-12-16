@@ -13,6 +13,7 @@ import Editor from "./Editor";
 import "./Editor.css";
 import { useGetIconProfileById } from "../../api/map/get.icon";
 
+
 function createMarkerElement(label: "A" | "B", color: string): HTMLElement {
   const el = document.createElement("div");
   el.style.cssText = `
@@ -62,6 +63,10 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const editorEnabled = window.location.search.includes("editor=1");
   const [selPoi, setSelPoi] = useState<any>(null);
   const [debugMode, setDebugMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPOI, setSelectedPOI] = useState<
+    PointOfInterestInterface | undefined
+  >(undefined);
 
   // const { data, isLoading, isSuccess } = useGetIconProfileById("");
 
@@ -154,16 +159,14 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     for (const name of possibleSourceNames) {
       if (style.sources[name]) {
         poiSourceName = name;
-        console.log("✅ Found POI source:", name);
+
+        console.log(' Found POI source:', name);
         break;
       }
     }
 
     if (!poiSourceName) {
-      console.warn(
-        "⚠️ POI source not found. Available sources:",
-        Object.keys(style.sources)
-      );
+      console.warn('POI source not found. Available sources:', Object.keys(style.sources));
       const vectorSources = Object.entries(style.sources)
         .filter(([_, source]: [string, any]) => source.type === "vector")
         .map(([name]) => name);
@@ -184,7 +187,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
     console.log("POI layers found:", poiLayers);
 
     if (poiLayers.length === 0) {
-      console.warn("⚠️ No POI layers found, using generic click handler");
+      console.warn('No POI layers found, using generic click handler');
 
       // Fallback: handle all clicks
       mapInstance.on("click", async (e: any) => {
@@ -233,14 +236,16 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   };
 
   const handlePoiClick = async (feature: any, lngLat: any) => {
-    const props = feature.properties;
+    const props: PointOfInterestInterface = feature.properties;
     console.log("POI clicked:", props);
 
-    const osm_id = props.osm_id || props.id || props.osmId;
+    const osm_id = props.osm_id;
 
     if (!osm_id) {
-      console.error("❌ No ID in feature:", props);
-      alert(`No ID found. Properties: ${Object.keys(props).join(", ")}`);
+
+      console.error("No ID in feature:", props);
+      setIsModalOpen(true);
+      setSelectedPOI(props);
       return;
     }
 
@@ -323,7 +328,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         }
       });
       map.current.triggerRepaint();
-      console.log("✅ Tiles refreshed");
+      console.log("Tiles refreshed");
     } catch (err) {
       console.error("Tile bust error:", err);
     }
@@ -345,7 +350,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   useEffect(() => {
     if (!map.current || !routingMode) return;
     const mapInstance = map.current;
-
     if (mapInstance.getLayer("route")) mapInstance.removeLayer("route");
     if (mapInstance.getLayer("route-casing"))
       mapInstance.removeLayer("route-casing");
@@ -421,7 +425,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
           )
         )
         .addTo(map.current!);
-
       marker.on("dragend", () => {
         const { lng, lat } = marker.getLngLat();
         onMove?.({ lng, lat });
@@ -435,6 +438,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   }, [startPoint, endPoint, routingMode, onStartChange, onEndChange]);
 
   useEffect(() => {
+
     if (!editorEnabled) setSelPoi(null);
   }, [editorEnabled]);
 
@@ -442,6 +446,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
   const handleZoomOut = () => map.current?.zoomOut();
   const handleLayersClick = () => console.log("Layers clicked");
   const handleNavigationClick = () => {
+
     if (map.current) {
       map.current.flyTo({
         center: [center.lng, center.lat],
@@ -449,71 +454,83 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
         duration: 1000,
       });
     }
+
   };
 
   return (
-    <main className={layoutStyles.mapContainer}>
-      {/* Debug info */}
-      {debugMode && (
-        <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs">
-          <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
-          <p className="text-xs mb-1">Status: {mapStatus}</p>
-          <p className="text-xs mb-1">Editor: {editorEnabled ? "✅" : "❌"}</p>
-          <p className="text-xs mb-1">
-            Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}
-          </p>
-          <p className="text-xs mb-1">Zoom: {zoom}</p>
-        </div>
-      )}
+    <>
+      <main className={layoutStyles.mapContainer}>
+        {debugMode && (
+          <div className="absolute top-20 left-4 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs">
+            <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
+            <p className="text-xs mb-1">Status: {mapStatus}</p>
+            <p className="text-xs mb-1">
+              Editor: {editorEnabled ? "ON" : "OFF"}
+            </p>
+            <p className="text-xs mb-1">
+              Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}
+            </p>
+            <p className="text-xs mb-1">Zoom: {zoom}</p>
+          </div>
+        )}
 
-      {/* Toggle debug button */}
-      <button
-        onClick={() => setDebugMode(!debugMode)}
-        style={{
-          position: "absolute",
-          top: "10px",
-          left: "10px",
-          zIndex: 1000,
-          background: "white",
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-          padding: "5px 10px",
-          cursor: "pointer",
-          fontSize: "12px",
-        }}
-      >
-        🐛 {debugMode ? "Hide" : "Show"} Debug
-      </button>
-
-      <div
-        ref={mapContainer}
-        className="absolute inset-0 w-full h-full bg-gray-200"
-      />
-
-      <MapControls
-        zoom={zoom}
-        minZoom={MAP_CONFIG.minZoom}
-        maxZoom={MAP_CONFIG.maxZoom}
-        onZoomIn={handleZoomIn}
-        onZoomOut={handleZoomOut}
-        onLayersClick={handleLayersClick}
-        onNavigationClick={handleNavigationClick}
-      />
-
-      {selectedPlace && !routingMode && (
-        <PlaceCard place={selectedPlace} onClose={onPlaceClose} />
-      )}
-
-      {editorEnabled && selPoi && (
-        <Editor
-          poi={selPoi}
-          onClose={() => setSelPoi(null)}
-          onDone={() => {
-            setSelPoi(null);
-            bustTiles();
+        {/* Toggle debug button */}
+        <button
+          onClick={() => setDebugMode(!debugMode)}
+          style={{
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            zIndex: 1000,
+            background: "white",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            padding: "5px 10px",
+            cursor: "pointer",
+            fontSize: "12px",
           }}
+        >
+          🐛 {debugMode ? "Hide" : "Show"} Debug
+        </button>
+
+        <div
+          ref={mapContainer}
+          className="absolute inset-0 w-full h-full bg-gray-200"
+        />
+
+        <MapControls
+          zoom={zoom}
+          minZoom={MAP_CONFIG.minZoom}
+          maxZoom={MAP_CONFIG.maxZoom}
+          onZoomIn={handleZoomIn}
+          onZoomOut={handleZoomOut}
+          onLayersClick={handleLayersClick}
+          onNavigationClick={handleNavigationClick}
+        />
+
+        {selectedPlace && !routingMode && (
+          <PlaceCard place={selectedPlace} onClose={onPlaceClose} />
+        )}
+
+        {editorEnabled && selPoi && (
+          <Editor
+            poi={selPoi}
+            onClose={() => setSelPoi(null)}
+            onDone={() => {
+              setSelPoi(null);
+              bustTiles();
+            }}
+          />
+        )}
+      </main>
+      {isModalOpen && selectedPOI && (
+        <EditInfoModal
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+          pointOfInterestData={selectedPOI}
+
         />
       )}
-    </main>
+    </>
   );
 };

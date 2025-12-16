@@ -30,30 +30,30 @@ const colors = {
 }
 
 export const landuse = [
-  // {
-  //   id: "landuse-fill",
-  //   type: "fill",
-  //   source: "landuse",
-  //   "source-layer": "landuse",
-  //   minzoom: landuse_zoom.min,
-  //   maxzoom: landuse_zoom.max,
-  //   paint: {
-  //     "fill-color": "rgba(174, 236, 188, 1)",
-  //     "fill-opacity": [
-  //       "interpolate",
-  //       ["linear"],
-  //       ["zoom"],
-  //       0,
-  //       0,
-  //       landuse_zoom.min,
-  //       0.5,
-  //       landuse_zoom.min + 0.01,
-  //       1,
-  //       landuse_zoom.max,
-  //       0.5,
-  //     ],
-  //   },
-  // },
+  {
+    id: "landuse-fill",
+    type: "fill",
+    source: "landuse",
+    "source-layer": "landuse",
+    minzoom: landuse_zoom.min,
+    maxzoom: landuse_zoom.max,
+    paint: {
+      "fill-color": "#F5F0E5",
+      "fill-opacity": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        0,
+        0,
+        landuse_zoom.min,
+        0.5,
+        landuse_zoom.min + 0.01,
+        1,
+        landuse_zoom.max,
+        0.5,
+      ],
+    },
+  },
   // ========================================
   // WATER (highest priority for visibility)
   // ========================================
