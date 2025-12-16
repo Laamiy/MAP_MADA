@@ -1,3 +1,5 @@
+import { landuse_zoom } from "../zoom"
+
 // Google Maps-inspired color palette
 const colors = {
   // Vegetation (muted greens)
