@@ -289,7 +289,7 @@ textMinZoom: pois_zoom.min + 13.5,
 },
 {
 id: "aerodrome",
-min: pois_zoom.min + 3,
+min: pois_zoom.min + 9,
 size: 1.8,
 icon: "aerodrome",
 color: "#F26300",

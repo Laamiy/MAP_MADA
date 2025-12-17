@@ -3,11 +3,11 @@ import { landuse_zoom } from "../zoom"
 // Google Maps-inspired color palette
 const colors = {
   // Vegetation (muted greens)
-  forest: "#A1EEBD", // Light sage green
-  wood: "#A1EEBD",
+  forest: "#a1eebdbb", // Light sage green
+  wood: "#a1eebdb0",
   park: "#C8E6C9", // Lighter park green
   grass: "#A1EEBD", // Very light green
-  farmland: "#FFF2C2", // Beige-green
+  farmland: "#F6F5F5", // Beige-green
   orchard: "#FFF2C2",
 
   // Water (soft blues)
@@ -40,7 +40,7 @@ export const landuse = [
     minzoom: landuse_zoom.min,
     maxzoom: landuse_zoom.max,
     paint: {
-      "fill-color": "#F5F0E5",
+      "fill-color": "#F6F5F5",
       "fill-opacity": [
         "interpolate",
         ["linear"],

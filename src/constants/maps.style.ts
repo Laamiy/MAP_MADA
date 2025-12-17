@@ -1,5 +1,5 @@
 import * as layers_imp from "../constants/layers";
-import { antananarivoGeoJSON, antananarivoLayers } from "./layers/city_point";
+import { citiesGeoJSON, citiesLayers } from "./layers/city_point";
 import type { style, AnyLayer } from "../types/map.types"
 import {
   aerialways_zoom,
@@ -60,11 +60,10 @@ function src(
     tiles: [`${MAP_CONFIG.baseUrl}/${name}/{z}/{x}/{y}.pbf`],
     minzoom: min,
     maxzoom: max,
-    layers: [{ id: name, fields: keepFields }], // drop everything else
+    layers: [{ id: name, fields: keepFields }],
+     // drop everything else
     tileUrlFunction: (p: { z: number; x: number; y: number }) =>
-      insideMadagascar(p.z, p.x, p.y)
-        ? `${MAP_CONFIG.baseUrl}/${name}/${p.z}/${p.x}/${p.y}.pbf`
-        : null,
+        insideMadagascar(p.z, p.x, p.y) ? `${MAP_CONFIG.baseUrl}/${name}/${p.z}/${p.x}/${p.y}.pbf` : null,
   };
 }
 
@@ -72,63 +71,160 @@ const sources = {
   world_ocean_110m: src(
     "world_ocean_110m",
     world_ocean_110m_zoom.min,
-    world_ocean_110m_zoom.max,
+    world_ocean_110m_zoom.max
   ),
   world_countries_110m: src(
     "world_countries_110m",
     world_countries_110m_zoom.min,
-    world_countries_110m_zoom.max,
+    world_countries_110m_zoom.max
   ),
   world_countries_50m: src(
     "world_countries_50m",
     world_countries_50m_zoom.min,
-    world_countries_50m_zoom.max,
+    world_countries_50m_zoom.max
   ),
   boundaries_coarse: src(
     "boundaries_coarse",
     boundaries_coarse_zoom.min,
-    boundaries_coarse_zoom.max,
+    boundaries_coarse_zoom.max
   ),
   boundaries_coarse_name: src(
     "boundaries_coarse_name",
     boundaries_coarse_name_zoom.min,
     boundaries_coarse_name_zoom.max,
-    ["name", "admin_level"],
+    ["name", "admin_level"]
   ),
   boundaries_coarse_label: src(
     "boundaries_coarse_label",
     boundaries_coarse_label_zoom.min,
     boundaries_coarse_label_zoom.max,
-    ["name", "admin_level"],
+    ["name", "admin_level"]
   ),
-  // boundaries: src("boundaries", boundaries_zoom.min, boundaries_zoom.max),
-  water_polygons: src("water_polygons", water_polygons_zoom.min, water_polygons_zoom.max, ["name"]),
-  waterways: src("waterways", waterways_zoom.min, waterways_zoom.max, ["name"]),
-  landuse: src("landuse", landuse_zoom.min, landuse_zoom.max, ["name"]),
-  roads_low: src("roads_low", roads_low_zoom.min, roads_low_zoom.max, ["highway", "ref",]),
-  roads: src("roads", roads_zoom.min, roads_zoom.max, ["highway"]),
-  roads_low_name: src("roads_low_name", roads_low_name_zoom.min, roads_low_name_zoom.max, ["highway", "ref", "name"],),
-  road_arrows: src("road_arrows", road_arrows_zoom.min, road_arrows_zoom.max),
-  minor_roads: src("minor_roads", minor_roads_zoom.min, minor_roads_zoom.max, ["highway",]),
-  railways: src("railways", railways_zoom.min, railways_zoom.max, ["railway"]),
-  ferry_routes: src("ferry_routes", ferry_routes_zoom.min, ferry_routes_zoom.max, ["route"],),
-  aerialways: src("aerialways", aerialways_zoom.min, aerialways_zoom.max, ["aerialway",]),
-  buildings: src("buildings", buildings_zoom.min, buildings_zoom.max),
-  places: src("places", places_zoom.min, places_zoom.max, ["name", "osm_id"]),
-  pois: src("pois", pois_zoom.min, pois_zoom.max, []),
-  regions: src("boudaries_coarse_name", boundaries_coarse_name_zoom.min, boundaries_coarse_name_zoom.max),
-  fokontany: src("fokontany", fokontany_zoom.min, fokontany_zoom.max),
-  fokontany_labels: src("fokontany_labels", fokontany_labels_zoom.min, fokontany_labels_zoom.max,),
-  // district: src("boundaries_coarse", boundaries_coarse_district_zoom.min, boundaries_coarse_district_zoom.max,),
-  esa_vegetation_raw: src("esa_vegetation_raw", esa_vegetation_raw_zoom.min, esa_vegetation_raw_zoom.max),
-  esa_vegetation_100m: src("esa_vegetation_100m", esa_vegetation_100m_zoom.min, esa_vegetation_100m_zoom.max),
-  esa_vegetation_30m: src("esa_vegetation_30m", esa_vegetation_30m_zoom.min, esa_vegetation_30m_zoom.max),
-  water_polygons_labels: src("water_polygons_labels", water_polygons_labels_zoom.min, water_polygons_labels_zoom.max),
-  antananarivo: antananarivoGeoJSON,
+  water_polygons: src(
+    "water_polygons",
+    water_polygons_zoom.min,
+    water_polygons_zoom.max,
+    ["name"]
+  ),
+  water_polygons_labels: src(
+    "water_polygons_labels",
+    water_polygons_labels_zoom.min,
+    water_polygons_labels_zoom.max
+  ),
+  waterways: src(
+    "waterways",
+    waterways_zoom.min,
+    waterways_zoom.max,
+    ["name"]
+  ),
+  landuse: src(
+    "landuse",
+    landuse_zoom.min,
+    landuse_zoom.max,
+    ["name"]
+  ),
+  roads_low: src(
+    "roads_low",
+    roads_low_zoom.min,
+    roads_low_zoom.max,
+    ["highway", "ref"]
+  ),
+  roads: src(
+    "roads",
+    roads_zoom.min,
+    roads_zoom.max,
+    ["highway"]
+  ),
+  roads_low_name: src(
+    "roads_low_name",
+    roads_low_name_zoom.min,
+    roads_low_name_zoom.max,
+    ["highway", "ref", "name"]
+  ),
+  road_arrows: src(
+    "road_arrows",
+    road_arrows_zoom.min,
+    road_arrows_zoom.max
+  ),
+  minor_roads: src(
+    "minor_roads",
+    minor_roads_zoom.min,
+    minor_roads_zoom.max,
+    ["highway"]
+  ),
+  railways: src(
+    "railways",
+    railways_zoom.min,
+    railways_zoom.max,
+    ["railway"]
+  ),
+  ferry_routes: src(
+    "ferry_routes",
+    ferry_routes_zoom.min,
+    ferry_routes_zoom.max,
+    ["route"]
+  ),
+  aerialways: src(
+    "aerialways",
+    aerialways_zoom.min,
+    aerialways_zoom.max,
+    ["aerialway"]
+  ),
+  buildings: src(
+    "buildings",
+    buildings_zoom.min,
+    buildings_zoom.max
+  ),
+  places: src(
+    "places",
+    places_zoom.min,
+    places_zoom.max,
+    ["name", "osm_id"]
+  ),
+  pois: src(
+    "pois",
+    pois_zoom.min,
+    pois_zoom.max,
+    [] // no attributes
+  ),
+  regions: src(
+    "boudaries_coarse_name",
+    boundaries_coarse_name_zoom.min,
+    boundaries_coarse_name_zoom.max
+  ),
+  fokontany: src(
+    "fokontany",
+    fokontany_zoom.min,
+    fokontany_zoom.max
+  ),
+  fokontany_labels: src(
+    "fokontany_labels",
+    fokontany_labels_zoom.min,
+    fokontany_labels_zoom.max
+  ),
+  esa_vegetation_raw: src(
+    "esa_vegetation_raw",
+    esa_vegetation_raw_zoom.min,
+    esa_vegetation_raw_zoom.max
+  ),
+  esa_vegetation_100m: src(
+    "esa_vegetation_100m",
+    esa_vegetation_100m_zoom.min,
+    esa_vegetation_100m_zoom.max
+  ),
+  esa_vegetation_30m: src(
+    "esa_vegetation_30m",
+    esa_vegetation_30m_zoom.min,
+    esa_vegetation_30m_zoom.max
+  ),
+  mada:        citiesGeoJSON.mada,
+  antananarivo: citiesGeoJSON.tana,
+  toamasina:   citiesGeoJSON.toamasina,
+  mahajanga:   citiesGeoJSON.mahajanga,
+  antsiranana: citiesGeoJSON.antsiranana,
+  tolagnaro:   citiesGeoJSON.tolangnaro
 };
-
-const withSource = (layers: AnyLayer[], src: string): AnyLayer[] =>
-  layers.map((l) => ({ ...l, source: src }));
+const withSource = (layers: AnyLayer[], src: string): AnyLayer[] => layers.map((l) => ({ ...l, source: src }));
 
 const layers: AnyLayer[] = [
   ...layers_imp.background,
@@ -163,7 +259,7 @@ const layers: AnyLayer[] = [
   ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
   ...withSource(layers_imp.waterways_labels, "waterways"),
   ...withSource(layers_imp.landuse_labels, "landuse"),
-  ...antananarivoLayers,
+  ...citiesLayers,
 
 ];
 

@@ -58,10 +58,7 @@ export const MapView: React.FC<MapViewProps> = ({
           onZoomIn={handleZoomIn}
           onZoomOut={handleZoomOut}
         />
-
-        {selectedPlace && (
-          <PlaceCard place={selectedPlace} onClose={onPlaceClose} />
-        )}
+        {selectedPlace && (<PlaceCard place={selectedPlace} onClose={onPlaceClose} />)}
       </div>
     </main>
   );

@@ -2,13 +2,15 @@ import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
 // Base API URL without the /api/poi path
-const API_BASE = import.meta.env.VITE_EDITOR_API || 'http://localhost:4004';
+const API_BASE     = import.meta.env.VITE_EDITOR_API || 'http://localhost:4004';
 const API_ENDPOINT = `${API_BASE}/api/poi`;
 
 type TagDict = Record<string, string>;
 
-interface Props {
-  poi: { 
+interface Props 
+{
+  poi: 
+  { 
     id: number; 
     version: number; 
     lng?: number; 
@@ -19,162 +21,191 @@ interface Props {
   onDone: () => void;
 }
 
-export default function Editor({ poi, onClose, onDone }: Props) {
-  const [tags, setTags] = useState<TagDict>(poi?.tags ?? {});
+export default function Editor({ poi, onClose, onDone }: Props) 
+{
+  const [tags, setTags]       = useState<TagDict>(poi?.tags ?? {});
   const [comment, setComment] = useState('');
-  const [error, setError] = useState<string>('');
-  const [saving, setSaving] = useState(false);
+  const [error, setError]     = useState<string>('');
+  const [saving, setSaving]   = useState(false);
 
-  if (!poi) return null;
+  if (!poi)
+     return null;
 
-  const validateTags = (): string | null => {
-    // Remove empty tags
-    const cleanTags = Object.fromEntries(
-      Object.entries(tags).filter(([_, v]) => v.trim() !== '')
-    );
-
-    if (Object.keys(cleanTags).length < 2) {
-      return 'At least 2 tags are required';
-    }
-
-    if (!cleanTags.name && !cleanTags.amenity && !cleanTags.shop && !cleanTags.tourism) {
-      return 'At least one of: name, amenity, shop, or tourism is required';
-    }
-
+  const validateTags = (): string | null => 
+    {
+    const cleanTags = Object.fromEntries(Object.entries(tags).filter(([_, v]) => v.trim() !== ''));
+    if (Object.keys(cleanTags).length < 2) 
+      {
+        return '[INFO] At least 2 tags are required';
+      }
+    if (!cleanTags.name && !cleanTags.amenity && !cleanTags.shop && !cleanTags.tourism) 
+      {
+        return '[INFO] At least one of: name, amenity, shop, or tourism is required';
+      }
     return null;
   };
 
   const save = async () => {
     setError('');
-    
     // Validate before sending
     const validationError = validateTags();
-    if (validationError) {
-      setError(validationError);
+    if (validationError) 
+      {
+        setError(validationError);
+        return;
+      }
+    setSaving(true);
+
+    try 
+    {
+      // remove empty values
+      const cleanTags = Object.fromEntries(Object.entries(tags).filter(([_, v]) => v.trim() !== ''));
+
+      if (poi.id === 0) 
+      {
+          // CREATE - new POI
+          if (poi.lng === undefined || poi.lat === undefined)
+            {
+              throw new Error('Coordinates are required for new POI');
+            }
+          await axios.post(API_ENDPOINT, {
+                                            lng: poi.lng,
+                                            lat: poi.lat,
+                                            tags: cleanTags,
+                                            comment: comment.trim() || undefined,
+                                          });
+      } 
+      else 
+      {
+              // UPDATE - existing POI
+              await axios.put(`${API_ENDPOINT}/${poi.id}`, 
+                {
+                    version: poi.version,
+                    tags: cleanTags,
+                    comment: comment.trim() || undefined,
+                }
+              );
+      }
+      onDone();
+    } 
+  catch (e)
+{
+  console.error('[ERROR] Save error:', e);
+
+  if (!axios.isAxiosError(e))
+  {
+    setError(`[ERROR] Unexpected error: ${e}`);
+    return;
+  }
+  const axiosError = e as AxiosError<any>;
+  if (!axiosError.response)
+  {
+    setError(
+      axiosError.request
+        ? '[WARN] No response from server. Is the backend running on port 4004?'
+        : `[ERROR] Request error: ${axiosError.message}`
+    );
+    return;
+  }
+  // Server responded with error
+  const { status, data } = axiosError.response;
+  switch (status)
+  {
+    case 400:
+      setError(`[ERROR] Validation error: ${data.message || JSON.stringify(data)}`);
+      break;
+
+    case 409:
+      setError('[ERROR] Conflict: POI was modified by another user. Please reload.');
+      break;
+
+    case 404:
+      setError('[ERROR] POI not found. It may have been deleted.');
+      break;
+
+    default:
+      setError(`[ERROR] Server error (${status}): ${data.message || 'Unknown error'}`);
+  }
+}
+finally
+{
+  setSaving(false);
+}
+};
+const remove = async () =>
+{
+  if (!confirm('[INFO] Delete this POI?'))
+    return;
+
+  setError('');
+  setSaving(true);
+  try
+  {
+    await axios.delete(
+      `${API_ENDPOINT}/${poi.id}`,
+      { params: { comment: comment.trim() || undefined } }
+    );
+    onDone();
+  }
+  catch (e)
+  {
+    console.error('[ERROR] Delete error:', e);
+
+    if (!axios.isAxiosError(e))
+    {
+      setError(`[ERROR] Unexpected error: ${e}`);
       return;
     }
 
-    setSaving(true);
-
-    try {
-      // Clean tags: remove empty values
-      const cleanTags = Object.fromEntries(
-        Object.entries(tags).filter(([_, v]) => v.trim() !== '')
-      );
-
-      if (poi.id === 0) {
-        // CREATE - new POI
-        if (poi.lng === undefined || poi.lat === undefined) {
-          throw new Error('Coordinates are required for new POI');
-        }
-
-        await axios.post(API_ENDPOINT, {
-          lng: poi.lng,
-          lat: poi.lat,
-          tags: cleanTags,
-          comment: comment.trim() || undefined,
-        });
-      } else {
-        // UPDATE - existing POI
-        await axios.put(`${API_ENDPOINT}/${poi.id}`, {
-          version: poi.version,
-          tags: cleanTags,
-          comment: comment.trim() || undefined,
-        });
-      }
-
-      onDone();
-    } catch (e) {
-      console.error('Save error:', e);
-      
-      if (axios.isAxiosError(e)) {
-        const axiosError = e as AxiosError<any>;
-        
-        if (axiosError.response) {
-          // Server responded with error
-          const status = axiosError.response.status;
-          const data = axiosError.response.data;
-          
-          if (status === 400) {
-            setError(`Validation error: ${data.message || JSON.stringify(data)}`);
-          } else if (status === 409) {
-            setError('Conflict: POI was modified by another user. Please reload.');
-          } else if (status === 404) {
-            setError('POI not found. It may have been deleted.');
-          } else {
-            setError(`Server error (${status}): ${data.message || 'Unknown error'}`);
-          }
-        } else if (axiosError.request) {
-          // Request made but no response
-          setError('No response from server. Is the backend running on port 4004?');
-        } else {
-          // Request setup error
-          setError(`Request error: ${axiosError.message}`);
-        }
-      } else {
-        setError(`Unexpected error: ${e}`);
-      }
-    } finally {
-      setSaving(false);
+    const axiosError = e as AxiosError<any>;
+    const { response } = axiosError;
+    if (!response)
+    {
+      setError('[WARN] No response from server. Is the backend running?');
+      return;
     }
-  }; 
+    const { status, data } = response;
+    switch (status)
+    {
+      case 404:
+        setError('[WARN] POI not found. It may have been deleted already.');
+        break;
 
-  const remove = async () => {
-    if (!confirm('Delete this POI?')) return;
-    
-    setError('');
-    setSaving(true);
-
-    try {
-      await axios.delete(`${API_ENDPOINT}/${poi.id}`, {
-        params: { comment: comment.trim() || undefined },
-      });
-      onDone();
-    } catch (e) {
-      console.error('Delete error:', e);
-      
-      if (axios.isAxiosError(e)) {
-        const axiosError = e as AxiosError<any>;
-        
-        if (axiosError.response) {
-          const status = axiosError.response.status;
-          const data = axiosError.response.data;
-          
-          if (status === 404) {
-            setError('POI not found. It may have been deleted already.');
-          } else {
-            setError(`Delete failed (${status}): ${data.message || 'Unknown error'}`);
-          }
-        } else {
-          setError('No response from server. Is the backend running?');
-        }
-      } else {
-        setError(`Unexpected error: ${e}`);
-      }
-    } finally {
-      setSaving(false);
+      default:
+        setError(`[ERROR] Delete failed (${status}): ${data.message || 'Unknown error'}`);
     }
-  };
+  }
+  finally
+  {
+    setSaving(false);
+  }
+};
+const handleTagChange = (key: string, value: string) =>
+{
+  setTags({ ...tags, [key]: value });
+  setError(''); // Clear error when user makes changes
+};
+const handleRawTagsChange = (value: string) =>
+{
+  try
+  {
+    const parsed = JSON.parse(value);
 
-  const handleTagChange = (key: string, value: string) => {
-    setTags({ ...tags, [key]: value });
-    setError(''); // Clear error when user makes changes
-  };
-
-  const handleRawTagsChange = (value: string) => {
-    try {
-      const parsed = JSON.parse(value);
-      if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
-        setTags(parsed);
-        setError('');
-      } else {
-        setError('Tags must be a JSON object');
-      }
-    } catch (e) {
-      setError('Invalid JSON');
+    if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed))
+    {
+      setTags(parsed);
+      setError('');
     }
-  };
-
+    else
+    {
+      setError('[WARN] Tags must be a JSON object');
+    }
+  }
+  catch
+  {
+    setError('[WARN] Invalid JSON');
+  }
+};
   return (
     <div className="editor-popup">
       <div className="editor-header">

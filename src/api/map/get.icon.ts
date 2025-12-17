@@ -1,5 +1,5 @@
 import { ROUTE_GET_ICON } from "../../constants/api.constant"
-import { AxiosErrorCustom } from "../axios.error.custum"
+import { AxiosErrorCustom } from "../axios.error.custom"
 import apiClient from "../main"
 import { useQuery } from "@tanstack/react-query"
 

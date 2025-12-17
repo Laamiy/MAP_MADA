@@ -23,7 +23,7 @@ export const boundaries_coarse_label_zoom: zoom_range = { min: 4, max: 20 }
 // water polygons
 export const water_polygons_zoom: zoom_range = { min: 5, max: 20 }
 // waterways
-export const waterways_zoom: zoom_range = { min: 12, max: 20 }
+export const waterways_zoom: zoom_range = { min: 15, max: 20 }
 // landuse
 export const landuse_zoom: zoom_range = { min: 10, max: 20 }
 //Roads low
@@ -45,7 +45,7 @@ export const aerialways_zoom: zoom_range = { min: 18, max: 20 }
 // Buildings
 export const buildings_zoom: zoom_range = { min: 16, max: 20 }
 // Places
-export const places_zoom: zoom_range = { min: 12, max: 17 }
+export const places_zoom: zoom_range = { min: 14, max: 17 }
 // POIs
 export const pois_zoom: zoom_range = { min: 4.5, max: 20 }
 //fokotany

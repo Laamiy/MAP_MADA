@@ -6,6 +6,7 @@ export const boundaries_coarse = [
     type: "fill",
     source: "boundaries_coarse",
     "source-layer": "boundaries_coarse",
+    filter: ["all", ["==", "admin_level", "4"], ["has", "name"]],
     paint: {
       "fill-color": "#F6F5F5",
       "fill-opacity": 1,
