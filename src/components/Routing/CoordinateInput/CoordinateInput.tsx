@@ -76,4 +76,4 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
   );
 };
 
-// focus:ring-2  focus:ring-blue-500/20
+// focus:ring-2  focus:ring-blue-500/20 vrgerhe
