@@ -5,20 +5,20 @@ const colors = {
   // Vegetation (muted greens)
   forest: "#a1eebdbb", // Light sage green
   wood: "#a1eebdb0",
-  park: "#C8E6C9", // Lighter park green
+  park: "#C3F1D5", // Lighter park green
   grass: "#A1EEBD", // Very light green
   farmland: "#F6F5F5", // Beige-green
-  orchard: "#FFF2C2",
+  orchard: "#ffc2c2ff",
 
   // Water (soft blues)
   water: "#AAD3DF", // Muted blue
   wetland: "#C5E1E8", // Pale blue-grey
 
   // Urban (greys and tans)
-  residential: "#e8e8e8", // light grey
-  commercial: "#F0E8E0", // Warm grey
-  industrial: "#E0E0E3", // Cool grey
-  retail: "#F5F0E8",
+  residential: "#C3F1D5", // light grey
+  commercial: "#C3F1D5", // Warm grey
+  industrial: "#C3F1D5", // Cool grey
+  retail: "#C3F1D5",
 
   // Infrastructure
   cemetery: "#E0E8E0", // Pale green-grey

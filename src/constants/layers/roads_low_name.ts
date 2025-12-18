@@ -18,7 +18,7 @@ export const roads_low_name = [
         roads_low_name_zoom.min + 8,
         11,
         roads_low_name_zoom.max,
-        14,
+        19,
       ],
       "symbol-placement": "line",
       "symbol-spacing": 400,
