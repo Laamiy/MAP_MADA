@@ -1,12 +1,12 @@
 import React from 'react';
 import type { OsrmCoordinate } from '../../../types/osrm.types';
-
 interface CoordinateInputProps {
   label: string;
   coordinate: OsrmCoordinate;
   onChange: (coordinate: OsrmCoordinate) => void;
   markerColor?: string;
   disabled?: boolean;
+  pathIcon?: string | undefined;
 }
 
 export const CoordinateInput: React.FC<CoordinateInputProps> = ({
@@ -15,6 +15,7 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
   onChange,
   markerColor = '#ff0000',
   disabled = false,
+  pathIcon,
 }) => {
   return (
     <div className="flex items-start gap-4 !p-2 bg-white rounded-2xl shadow-sm border justify-center border-gray-100">
@@ -23,7 +24,10 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
         className="w-18 h-18 rounded-full shadow-inner flex-shrink-0 relative overflow-hidden self-center"
         style={{ backgroundColor: markerColor }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent" />
+        {/* <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent" /> */}
+        <label className="flex items-end justify-center h-[80%] w-full">
+          <img src={pathIcon} alt="Not found" width="40" height="40" />
+        </label>
       </div>
 
       {/* Content */}
@@ -76,4 +80,4 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
   );
 };
 
-// focus:ring-2  focus:ring-blue-500/20
+// focus:ring-2  focus:ring-blue-500/20 vrgerhe

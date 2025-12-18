@@ -3,6 +3,8 @@ import { X } from 'lucide-react';
 import { CoordinateInput } from './CoordinateInput/CoordinateInput';
 import { RouteInfo } from './RouteInfo/RouteInfo';
 import type { OsrmCoordinate, OSRMRoute } from '../../types/osrm.types';
+import start from '../../assets/images/rocket.png';
+import end from '../../assets/images/end.png';
 
 interface RoutingPanelProps {
   isActive: boolean;
@@ -44,7 +46,7 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
   };
 
   return (
-    <div className="absolute top-70 left-190 bg-white !rounded-xl shadow-lg w-80 max-h-[calc(100vh-6rem)] overflow-y-auto z-20 !p-6">
+    <div className="absolute top-[24vh] right-[1vw] bg-white !rounded-xl shadow-lg w-80 max-h-[calc(100vh-6rem)] overflow-y-auto z-20 !p-6">
       {/* Header */}
       <div className="flex items-center justify-between !mb-2 ">
         <h3 className="text-xl font-bold">Route Planning</h3>
@@ -57,13 +59,14 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
         </button>
       </div>
 
-      <div className=" !space-y-4">
+      <div className=" !space-y-3">
         {/* Start Point */}
         <CoordinateInput
           label="Start Point"
           coordinate={safeStartPoint}
           onChange={onStartPointChange}
           markerColor="#10b981"
+          pathIcon={start}
         />
 
         {/* End Point */}
@@ -72,6 +75,7 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
           coordinate={safeEndPoint}
           onChange={onEndPointChange}
           markerColor="#ef4444"
+          pathIcon={end}
         />
 
         {/* Action Buttons */}
@@ -99,9 +103,9 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
 
         {/* Error Display */}
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-700">
-              <strong>Error:</strong> {error}
+          <div className="!p-1 bg-red-50 border  border-red-200 rounded-lg">
+            <p className=" text-sm text-red-700">
+              <strong className="!mr-2">Error:</strong> {error}
             </p>
           </div>
         )}
@@ -114,3 +118,5 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
     </div>
   );
 };
+
+//fjleioizhegzq
