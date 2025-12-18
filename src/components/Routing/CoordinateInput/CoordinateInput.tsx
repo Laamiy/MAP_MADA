@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { OsrmCoordinate } from '../../../types/osrm.types';
 
@@ -18,10 +17,10 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
   disabled = false,
 }) => {
   return (
-    <div className="flex items-start gap-4 p-5 bg-white rounded-2xl shadow-sm border border-gray-100">
+    <div className="flex items-start gap-4 !p-2 bg-white rounded-2xl shadow-sm border justify-center border-gray-100">
       {/* Color Swatch */}
       <div
-        className="w-12 h-12 rounded-xl shadow-inner flex-shrink-0 relative overflow-hidden"
+        className="w-18 h-18 rounded-full shadow-inner flex-shrink-0 relative overflow-hidden self-center"
         style={{ backgroundColor: markerColor }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent" />
@@ -44,9 +43,9 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
               }
               placeholder="Latitude"
               disabled={disabled}
-              className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl
+              className="w-full !px-2 py-3 text-sm bg-gray-100  rounded-xl
                      placeholder:text-gray-400 text-gray-900
-                     hover:border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
+                     hover:border-gray-300 focus:border-blue-500 
                      disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed
                      transition-all duration-200 outline-none"
             />
@@ -64,9 +63,9 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
               }
               placeholder="Longitude"
               disabled={disabled}
-              className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl
+              className="w-full !px-2 py-3 text-sm bg-gray-100  rounded-xl
                      placeholder:text-gray-400 text-gray-900
-                     hover:border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
+                     hover:border-gray-300 focus:border-blue-500  focus:ring-blue-500/20
                      disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed
                      transition-all duration-200 outline-none"
             />
@@ -76,3 +75,5 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
     </div>
   );
 };
+
+// focus:ring-2  focus:ring-blue-500/20

@@ -34,24 +34,30 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
   if (!isActive) return null;
 
   // Provide default coordinates to prevent NaN
-  const safeStartPoint: OsrmCoordinate = startPoint || { lat: -18.9137, lng: 47.5214 };
-  const safeEndPoint: OsrmCoordinate = endPoint || { lat: -18.9088, lng: 47.5267 };
+  const safeStartPoint: OsrmCoordinate = startPoint || {
+    lat: -18.9137,
+    lng: 47.5214,
+  };
+  const safeEndPoint: OsrmCoordinate = endPoint || {
+    lat: -18.9088,
+    lng: 47.5267,
+  };
 
   return (
-    <div className="absolute top-20 left-4 bg-white rounded-lg shadow-lg w-80 max-h-[calc(100vh-6rem)] overflow-y-auto z-20">
+    <div className="absolute top-70 left-190 bg-white !rounded-xl shadow-lg w-80 max-h-[calc(100vh-6rem)] overflow-y-auto z-20 !p-6">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
-        <h3 className="text-lg font-bold">Route Planning</h3>
+      <div className="flex items-center justify-between !mb-2 ">
+        <h3 className="text-xl font-bold">Route Planning</h3>
         <button
           onClick={onClose}
-          className="hover:bg-gray-100 p-1 rounded transition-colors"
+          className="hover:bg-blue-200 !p-1 rounded-full transition-colors"
           aria-label="Close"
         >
-          <X className="w-5 h-5" />
+          <X className="w-7 h-7" />
         </button>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className=" !space-y-4">
         {/* Start Point */}
         <CoordinateInput
           label="Start Point"
@@ -80,7 +86,7 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
           <button
             onClick={onClear}
             disabled={loading}
-            className="px-4 py-2.5 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-700 font-semibold rounded-lg transition-colors"
+            className="!px-4 !py-2.5 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-700 font-semibold rounded-lg transition-colors"
           >
             Clear
           </button>
