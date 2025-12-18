@@ -43,9 +43,9 @@ const roadColor = [
   "minor", "#C6D0DB",
   "residential", "#C6D0DB",
   "service", "#f0f0f0",
-  "path", "#B3B3B3",
-  "track", "#D9C46A",
-  "#ccc" // other
+  "path", "#BFCEDB",
+  "track", "#C6D0DB",
+  "#8ba5c19c" // other
 ];
 
 /* ---------- white "stairs" dash layer --------------------------------- */

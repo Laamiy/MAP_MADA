@@ -17,6 +17,7 @@ export const RouteInfo: React.FC<RouteInfoProps> = ({
       className={`!p-2 bg-blue-50 rounded-lg border border-blue-200 ${className}`}
     >
       <div className=" !pl-4 grid grid-cols-2 gap-15 ">
+
         <div>
           <p className="text-sm text-gray-600 mb-1">Distance</p>
           <p className="text-xl font-bold text-blue-700">

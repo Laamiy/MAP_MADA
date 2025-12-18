@@ -1,211 +1,164 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
-// Base API URL without the /api/poi path
-const API_BASE     = import.meta.env.VITE_EDITOR_API || 'http://localhost:4004';
+const API_BASE = import.meta.env.VITE_EDITOR_API || 'http://localhost:4004';
 const API_ENDPOINT = `${API_BASE}/api/poi`;
 
 type TagDict = Record<string, string>;
 
-interface Props 
-{
-  poi: 
-  { 
-    id: number; 
-    version: number; 
-    lng?: number; 
-    lat?: number; 
+interface Props {
+  poi: {
+    id: number;
+    version: number;
+    lng?: number;
+    lat?: number;
     tags: TagDict;
   } | null;
   onClose: () => void;
   onDone: () => void;
 }
 
-export default function Editor({ poi, onClose, onDone }: Props) 
-{
-  const [tags, setTags]       = useState<TagDict>(poi?.tags ?? {});
+export default function Editor({ poi, onClose, onDone }: Props) {
+  // Prevents the "Unexpected non-whitespace " 
+  const ensureObject = (input: any): TagDict => {
+    if (!input) return {};
+    if (typeof input === 'object' && !Array.isArray(input)) return input;
+    
+    if (typeof input === 'string') {
+      try {
+        // Only parse if  like a JSON object
+        if (input.trim().startsWith('{')) {
+          return JSON.parse(input);
+        }
+      } catch (e) {
+        console.error("[WARN] Failed to parse tags string:", input);
+      }
+    }
+    return {};
+  };
+
+  const [tags, setTags] = useState<TagDict>(() => ensureObject(poi?.tags));
   const [comment, setComment] = useState('');
-  const [error, setError]     = useState<string>('');
-  const [saving, setSaving]   = useState(false);
+  const [error, setError] = useState<string>('');
+  const [saving, setSaving] = useState(false);
 
-  if (!poi)
-     return null;
+  if (!poi) return null;
 
-  const validateTags = (): string | null => 
-    {
-    const cleanTags = Object.fromEntries(Object.entries(tags).filter(([_, v]) => v.trim() !== ''));
-    if (Object.keys(cleanTags).length < 2) 
-      {
-        return '[INFO] At least 2 tags are required';
-      }
-    if (!cleanTags.name && !cleanTags.amenity && !cleanTags.shop && !cleanTags.tourism) 
-      {
-        return '[INFO] At least one of: name, amenity, shop, or tourism is required';
-      }
+  // Sanitize tags (strips MapLibre junk ) 
+  const getCleanTags = (rawTags: any): TagDict => {
+    const target = ensureObject(rawTags);
+    
+    return Object.fromEntries(
+      Object.entries(target).filter(([k, v]) => {
+        const key = String(k);
+        const val = String(v ?? '');
+        const isValueValid = val.trim() !== '';
+        
+        const isKeyJunk =
+          key.startsWith('mapbox') ||
+          key.startsWith('_vector') ||
+          key.startsWith('osm_') ||
+          ['version', 'osm_id', 'icon_class'].includes(key);
+
+        return isValueValid && !isKeyJunk;
+      })
+    ) as TagDict;
+  };
+
+  // Validation 
+  const validateTags = (): string | null => {
+    const clean = getCleanTags(tags);
+    if (Object.keys(clean).length < 2) {
+      return '[INFO] At least 2 valid tags are required';
+    }
+    const hasRequiredKey = !!(clean.name || clean.amenity || clean.shop || clean.tourism || clean.leisure || clean.natural);
+    if (!hasRequiredKey) {
+      return '[INFO] Missing identifying tag (e.g., name, amenity, shop)';
+    }
     return null;
   };
 
+  // Input Handlers 
+  const handleTagChange = (key: string, value: string) => {
+    setError('');
+    // Ensure we are spreading an object
+    const currentTags = ensureObject(tags);
+    setTags({ ...currentTags, [key]: value });
+  };
+
+  const handleRawTagsChange = (value: string) => {
+    setError('');
+    try {
+      if (value.trim().startsWith('{')) {
+        const parsed = JSON.parse(value);
+        if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
+          setTags(parsed);
+        }
+      }
+    } catch {
+      // User is typing; ignore partial JSON errors
+    }
+  };
+
+  // Save Action 
   const save = async () => {
     setError('');
-    // Validate before sending
     const validationError = validateTags();
-    if (validationError) 
-      {
-        setError(validationError);
-        return;
-      }
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     setSaving(true);
+    try {
+      const cleanTags = getCleanTags(tags);
+      console.log(`[DEBUG] Final Save Payload (${Object.keys(cleanTags).length} tags):`, cleanTags);
 
-    try 
-    {
-      // remove empty values
-      const cleanTags = Object.fromEntries(Object.entries(tags).filter(([_, v]) => v.trim() !== ''));
+      const payload = {
+        version: poi.version,
+        tags: cleanTags,
+        comment: comment.trim() || undefined,
+      };
 
-      if (poi.id === 0) 
-      {
-          // CREATE - new POI
-          if (poi.lng === undefined || poi.lat === undefined)
-            {
-              throw new Error('Coordinates are required for new POI');
-            }
-          await axios.post(API_ENDPOINT, {
-                                            lng: poi.lng,
-                                            lat: poi.lat,
-                                            tags: cleanTags,
-                                            comment: comment.trim() || undefined,
-                                          });
-      } 
-      else 
-      {
-              // UPDATE - existing POI
-              await axios.put(`${API_ENDPOINT}/${poi.id}`, 
-                {
-                    version: poi.version,
-                    tags: cleanTags,
-                    comment: comment.trim() || undefined,
-                }
-              );
+      if (poi.id === 0) {
+        if (poi.lng === undefined || poi.lat === undefined) throw new Error('Missing coordinates');
+        await axios.post(API_ENDPOINT, { ...payload, lng: poi.lng, lat: poi.lat });
+      } else {
+        await axios.put(`${API_ENDPOINT}/${poi.id}`, payload);
       }
+
       onDone();
-    } 
-  catch (e)
-{
-  console.error('[ERROR] Save error:', e);
-
-  if (!axios.isAxiosError(e))
-  {
-    setError(`[ERROR] Unexpected error: ${e}`);
-    return;
-  }
-  const axiosError = e as AxiosError<any>;
-  if (!axiosError.response)
-  {
-    setError(
-      axiosError.request
-        ? '[WARN] No response from server. Is the backend running on port 4004?'
-        : `[ERROR] Request error: ${axiosError.message}`
-    );
-    return;
-  }
-  // Server responded with error
-  const { status, data } = axiosError.response;
-  switch (status)
-  {
-    case 400:
-      setError(`[ERROR] Validation error: ${data.message || JSON.stringify(data)}`);
-      break;
-
-    case 409:
-      setError('[ERROR] Conflict: POI was modified by another user. Please reload.');
-      break;
-
-    case 404:
-      setError('[ERROR] POI not found. It may have been deleted.');
-      break;
-
-    default:
-      setError(`[ERROR] Server error (${status}): ${data.message || 'Unknown error'}`);
-  }
-}
-finally
-{
-  setSaving(false);
-}
-};
-const remove = async () =>
-{
-  if (!confirm('[INFO] Delete this POI?'))
-    return;
-
-  setError('');
-  setSaving(true);
-  try
-  {
-    await axios.delete(
-      `${API_ENDPOINT}/${poi.id}`,
-      { params: { comment: comment.trim() || undefined } }
-    );
-    onDone();
-  }
-  catch (e)
-  {
-    console.error('[ERROR] Delete error:', e);
-
-    if (!axios.isAxiosError(e))
-    {
-      setError(`[ERROR] Unexpected error: ${e}`);
-      return;
+    } catch (e) {
+      console.error('[ERROR] Save failed:', e);
+      if (axios.isAxiosError(e)) {
+        const status = e.response?.status;
+        const msg = e.response?.data?.message || e.message;
+        setError(`[ERROR] Server (${status || 'Request'}): ${msg}`);
+      } else {
+        setError(`[ERROR] ${e instanceof Error ? e.message : 'Unknown error'}`);
+      }
+    } finally {
+      setSaving(false);
     }
+  };
 
-    const axiosError = e as AxiosError<any>;
-    const { response } = axiosError;
-    if (!response)
-    {
-      setError('[WARN] No response from server. Is the backend running?');
-      return;
+  // Delete Action 
+  const remove = async () => {
+    if (!confirm('Delete this POI?')) return;
+    setError('');
+    setSaving(true);
+    try {
+      await axios.delete(`${API_ENDPOINT}/${poi.id}`, {
+        params: { comment: comment.trim() || undefined }
+      });
+      onDone();
+    } catch (e) {
+      console.error('[ERROR] Delete failed:', e);
+      setError('[ERROR] Delete failed. Check console for details.');
+    } finally {
+      setSaving(false);
     }
-    const { status, data } = response;
-    switch (status)
-    {
-      case 404:
-        setError('[WARN] POI not found. It may have been deleted already.');
-        break;
-
-      default:
-        setError(`[ERROR] Delete failed (${status}): ${data.message || 'Unknown error'}`);
-    }
-  }
-  finally
-  {
-    setSaving(false);
-  }
-};
-const handleTagChange = (key: string, value: string) =>
-{
-  setTags({ ...tags, [key]: value });
-  setError(''); // Clear error when user makes changes
-};
-const handleRawTagsChange = (value: string) =>
-{
-  try
-  {
-    const parsed = JSON.parse(value);
-
-    if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed))
-    {
-      setTags(parsed);
-      setError('');
-    }
-    else
-    {
-      setError('[WARN] Tags must be a JSON object');
-    }
-  }
-  catch
-  {
-    setError('[WARN] Invalid JSON');
-  }
-};
+  };
   return (
     <div className="editor-popup">
       <div className="editor-header">

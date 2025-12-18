@@ -10,5 +10,5 @@ export const MAP_CONFIG: MapConfig = {
   defaultCenter: { lat: -18.8792, lng: 47.5079 },
   defaultZoom: 14,
   minZoom: 1,
-  maxZoom: 19,
+  maxZoom: 19.5,
 };

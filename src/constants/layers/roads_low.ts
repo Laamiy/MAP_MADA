@@ -23,7 +23,7 @@ export const roads_low = [
         roads_low_zoom.min + INC, 1.5,
         roads_low_zoom.min + INC * 2, 3.5,
         roads_low_zoom.min + INC * 3, 7.0,
-        roads_low_zoom.max - 3, 45,
+        roads_low_zoom.max - 3, 35,
       ],
     },
   },
