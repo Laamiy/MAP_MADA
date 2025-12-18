@@ -3,6 +3,8 @@ import { X } from 'lucide-react';
 import { CoordinateInput } from './CoordinateInput/CoordinateInput';
 import { RouteInfo } from './RouteInfo/RouteInfo';
 import type { OsrmCoordinate, OSRMRoute } from '../../types/osrm.types';
+import start from '../../assets/images/rocket.png';
+import end from '../../assets/images/end.png';
 
 interface RoutingPanelProps {
   isActive: boolean;
@@ -64,6 +66,7 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
           coordinate={safeStartPoint}
           onChange={onStartPointChange}
           markerColor="#10b981"
+          pathIcon={start}
         />
 
         {/* End Point */}
@@ -72,6 +75,7 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
           coordinate={safeEndPoint}
           onChange={onEndPointChange}
           markerColor="#ef4444"
+          pathIcon={end}
         />
 
         {/* Action Buttons */}
