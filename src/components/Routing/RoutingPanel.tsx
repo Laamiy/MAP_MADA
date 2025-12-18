@@ -44,7 +44,7 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
   };
 
   return (
-    <div className="absolute top-70 left-190 bg-white !rounded-xl shadow-lg w-80 max-h-[calc(100vh-6rem)] overflow-y-auto z-20 !p-6">
+    <div className="absolute top-[24vh] right-[1vw] bg-white !rounded-xl shadow-lg w-80 max-h-[calc(100vh-6rem)] overflow-y-auto z-20 !p-6">
       {/* Header */}
       <div className="flex items-center justify-between !mb-2 ">
         <h3 className="text-xl font-bold">Route Planning</h3>
@@ -57,7 +57,7 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
         </button>
       </div>
 
-      <div className=" !space-y-4">
+      <div className=" !space-y-3">
         {/* Start Point */}
         <CoordinateInput
           label="Start Point"
@@ -99,9 +99,9 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
 
         {/* Error Display */}
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-700">
-              <strong>Error:</strong> {error}
+          <div className="!p-1 bg-red-50 border  border-red-200 rounded-lg">
+            <p className=" text-sm text-red-700">
+              <strong className="!mr-2">Error:</strong> {error}
             </p>
           </div>
         )}

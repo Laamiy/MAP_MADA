@@ -13,16 +13,18 @@ export const RouteInfo: React.FC<RouteInfoProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`p-4 bg-blue-50 rounded-lg border border-blue-200 ${className}`}>
-      <div className="grid grid-cols-2 gap-4">
+    <div
+      className={`!p-2 bg-blue-50 rounded-lg border border-blue-200 ${className}`}
+    >
+      <div className=" !pl-4 grid grid-cols-2 gap-15 ">
         <div>
-          <p className="text-xs text-gray-600 mb-1">Distance</p>
+          <p className="text-sm text-gray-600 mb-1">Distance</p>
           <p className="text-xl font-bold text-blue-700">
             {formatDistance(distance)}
           </p>
         </div>
         <div>
-          <p className="text-xs text-gray-600 mb-1">Duration</p>
+          <p className="text-sm text-gray-600 mb-1">Duration</p>
           <p className="text-xl font-bold text-blue-700">
             {formatDuration(duration)}
           </p>
@@ -31,4 +33,3 @@ export const RouteInfo: React.FC<RouteInfoProps> = ({
     </div>
   );
 };
-

@@ -3,11 +3,11 @@ import type { OsrmCoordinate, OSRMResponse, RouteOptions } from '../types/osrm.t
 export class OSRMService {
   private baseUrl: string;
 
-  constructor(baseUrl: string = 'http://127.0.0.1:5001') {
+  constructor(baseUrl: string = 'http://192.168.88.133:5001') {
     this.baseUrl = baseUrl.trim();
   }
 
-//   Get route between two or more points
+  //   Get route between two or more points
   async getRoute(coordinates: OsrmCoordinate[], options: RouteOptions = {}): Promise<OSRMResponse> {
     const {
       steps = true,
@@ -44,13 +44,13 @@ export class OSRMService {
     return data;
   }
 
-//   Get nearest road point to a coordinate
+  //   Get nearest road point to a coordinate
   async nearest(coordinate: OsrmCoordinate): Promise<JSON> {
     const url = `${this.baseUrl}/nearest/v1/driving/${coordinate.lng},${coordinate.lat}`;
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`OSRM API error: ${response.statusText}`); 
+      throw new Error(`OSRM API error: ${response.statusText}`);
     }
 
     return response.json();
