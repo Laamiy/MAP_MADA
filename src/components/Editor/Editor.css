@@ -1,13 +1,43 @@
-.editor-popup{
+.editor-popup {
   position: absolute;
-  top: 80px; right: 10px;
+  top: 80px;
+  right: 10px;
   width: 320px;
   background: #fff;
   border-radius: 6px;
   padding: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
-.editor-popup label{display:block;margin:6px 0;font-size:14px}
-.editor-popup input,select,textarea{width:100%}
-.editor-popup .buttons{display:flex;gap:6px;margin-top:10px}
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+}
+.editor-popup label {
+  display: block;
+  font-size: 14px;
+}
+.editor-popup input,
+.editor-popup select,
+.editor-popup textarea {
+  width: 100%;
+}
+.editor-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.editor-buttons button {
+  flex: 1;
+}

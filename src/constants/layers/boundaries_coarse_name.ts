@@ -2,7 +2,7 @@ import { boundaries_coarse_name_zoom } from "../zoom"
 
 export const boundaries_coarse_name = [
   {
-    id: "boundaries-coarse-name-district", 
+    id: "boundaries-coarse-name-district",
     type: "symbol",
     source: "boundaries_coarse_name",
     "source-layer": "boundaries_coarse_name",
@@ -20,9 +20,9 @@ export const boundaries_coarse_name = [
         ["linear"],
         ["zoom"],
         boundaries_coarse_name_zoom.min + 4,
-        11,
+        17,
         boundaries_coarse_name_zoom.max,
-        13,
+        20,
       ],
       "symbol-placement": "point",
       "text-justify": "center",

@@ -1,9 +1,9 @@
 import React from 'react';
-import type { OsrmCoordinate } from '../../../types/osrm.types';
+import type { OSRMCoordinate } from '../../../types/osrm.types';
 interface CoordinateInputProps {
   label: string;
-  coordinate: OsrmCoordinate;
-  onChange: (coordinate: OsrmCoordinate) => void;
+  coordinate: OSRMCoordinate;
+  onChange: (coordinate: OSRMCoordinate) => void;
   markerColor?: string;
   disabled?: boolean;
   pathIcon?: string | undefined;

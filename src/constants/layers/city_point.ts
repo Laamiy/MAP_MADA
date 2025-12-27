@@ -1,6 +1,6 @@
 import type { AnyLayer } from "../../types/map.types"
-const zoom = { min: 4, max: 11 }
-
+const zoom = { min: 4, max: 14 }
+const INC = 3;
 // Coordonnées
 const tanaCoords: [number, number] = [47.5214, -18.8967]
 const madaCoords: [number, number] = [45.8, -21.0]
@@ -26,18 +26,20 @@ export const createGeoJSON = (coords: [number, number]) => ({
 
 // Sources GeoJSON
 const antananarivoGeoJSON = createGeoJSON(tanaCoords)
-const madagascarGeoJSON   = createGeoJSON(madaCoords)
-const toamasinaGeoJSON    = createGeoJSON(toamasina)
-const mahajangaGeoJSON    = createGeoJSON(mahajanga)
-const antsirananaGeoJSON  = createGeoJSON(antsiranana)
-const tolagnaroGeoJSON    = createGeoJSON(tolagnaro)
+const madagascarGeoJSON = createGeoJSON(madaCoords)
+const toamasinaGeoJSON = createGeoJSON(toamasina)
+const mahajangaGeoJSON = createGeoJSON(mahajanga)
+const antsirananaGeoJSON = createGeoJSON(antsiranana)
+const tolagnaroGeoJSON = createGeoJSON(tolagnaro)
 
-export const citiesGeoJSON = {  tana  : antananarivoGeoJSON , 
-                                mada  :  madagascarGeoJSON , 
-                                toamasina : toamasinaGeoJSON ,
-                                mahajanga : mahajangaGeoJSON , 
-                                antsiranana : antsirananaGeoJSON , 
-                                tolangnaro : tolagnaroGeoJSON}
+export const citiesGeoJSON = {
+  tana: antananarivoGeoJSON,
+  mada: madagascarGeoJSON,
+  toamasina: toamasinaGeoJSON,
+  mahajanga: mahajangaGeoJSON,
+  antsiranana: antsirananaGeoJSON,
+  tolangnaro: tolagnaroGeoJSON
+}
 
 // Layers pour Antananarivo
 const antananarivoLayers: AnyLayer[] = [
@@ -76,7 +78,19 @@ const antananarivoLayers: AnyLayer[] = [
     layout: {
       "text-field": "Antananarivo",
       "text-font": ["Noto Sans Regular"],
-      "text-size": 18,
+      "text-size": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        0,
+        0,
+        zoom.min,
+        20,
+        zoom.min + INC,
+        19,
+        zoom.max - 1,
+        30
+      ],
       "text-transform": "uppercase",
       "text-anchor": "center",
       "text-variable-anchor-offset": ["center", [0, -1.2]],
@@ -148,7 +162,7 @@ const toamasinaLayers: AnyLayer[] = [
     layout: {
       "text-field": "Toamasina",
       "text-font": ["Noto Sans Regular"],
-      "text-size": 13,
+      "text-size": 15,
       "text-transform": "uppercase",
       "text-anchor": "center",
       "text-variable-anchor-offset": ["center", [0, -1.2]],
@@ -197,7 +211,7 @@ const mahajangaLayers: AnyLayer[] = [
     layout: {
       "text-field": "Mahajanga",
       "text-font": ["Noto Sans Regular"],
-      "text-size": 13,
+      "text-size": 15,
       "text-transform": "uppercase",
       "text-anchor": "center",
       "text-variable-anchor-offset": ["center", [0, -1.2]],
@@ -246,7 +260,7 @@ const antsirananaLayers: AnyLayer[] = [
     layout: {
       "text-field": "Antsiranana",
       "text-font": ["Noto Sans Regular"],
-      "text-size": 13,
+      "text-size": 15,
       "text-transform": "uppercase",
       "text-anchor": "center",
       "text-variable-anchor-offset": ["center", [0, -1.2]],
@@ -296,7 +310,7 @@ const tolagnaroLayers: AnyLayer[] = [
     layout: {
       "text-field": "Tolagnaro",
       "text-font": ["Noto Sans Regular"],
-      "text-size": 13,
+      "text-size": 15,
       "text-transform": "uppercase",
       "text-anchor": "center",
       "text-variable-anchor-offset": ["center", [0, -1.2]],
@@ -308,10 +322,10 @@ const tolagnaroLayers: AnyLayer[] = [
     },
   }
 ]
-export const citiesLayers = [ ...antananarivoLayers ,
-                              ...madagascarLayers , 
-                              ...toamasinaLayers , 
-                              ...mahajangaLayers ,
-                              ...antsirananaLayers,
-                              ...tolagnaroLayers
-                            ]
+export const citiesLayers = [...antananarivoLayers,
+...madagascarLayers,
+...toamasinaLayers,
+...mahajangaLayers,
+...antsirananaLayers,
+...tolagnaroLayers
+]

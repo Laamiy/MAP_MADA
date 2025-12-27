@@ -3,20 +3,19 @@ import { buildings_zoom } from "../zoom"
 export const building = [
 
   // 3D extrusion  : 
-
   // {
-  //   id: "buildings-fill-extrusion",
+  //   id: "buildings-3d",
   //   type: "fill-extrusion",
   //   source: "buildings",
   //   "source-layer": "buildings",
+  //   minzoom: 16,
   //   paint: {
-  //     // "fill-color": "#E8E9ED",
-  //     "fill-extrusion-color": "#E8E9ED",
-  //     // "fill-extrusion-height": ["get", "height"], // ou une valeur fixe, ex. 10
-  //     "fill-extrusion-height": 3, // ou une valeur fixe, ex. 10
-  //     "fill-extrusion-opacity": 0.9,
-  //   },
+  //     "fill-extrusion-color": "#d0d0d0",
+  //     "fill-extrusion-height": 10,
+  //     "fill-extrusion-opacity": 0.85
+  //   }
   // },
+
   {
     id: "buildings-line",
     type: "line",
@@ -42,6 +41,24 @@ export const building = [
       ],
     },
   },
+  // {
+  //   id: "buildings-3d",
+  //   type: "fill-extrusion",
+  //   source: "buildings3d",
+  //   "source-layer": "buildings3d",
+  //   minzoom: 16,
+  //   paint: {
+  //     "fill-extrusion-color": "#d0d0d0",
+  //     "fill-extrusion-opacity": 0.85,
+  //     "fill-extrusion-base": 0,
+  //     "fill-extrusion-height": [
+  //       "coalesce",
+  //       ["to-number", ["get", "height"]],        // real height (m)
+  //       ["*", ["to-number", ["get", "levels"]], 3.5], // 3.5 m per level
+  //       10                                        // default metres
+  //     ]
+  //   }
+  // }
   {
     id: "buildings-fill",
     type: "fill",

@@ -1,14 +1,12 @@
-import type { OsrmCoordinate, OSRMResponse, RouteOptions } from '../types/osrm.types';
-
+import type { OSRMCoordinate, OSRMResponse, RouteOptions } from '../types/osrm.types';
+const LOCAL_IP = import.meta.env.VITE_LOCAL_IP;
 export class OSRMService {
   private baseUrl: string;
 
-  constructor(baseUrl: string = 'http://192.168.88.133:5001') {
+  constructor(baseUrl: string = `${LOCAL_IP}:5001`) {
     this.baseUrl = baseUrl.trim();
   }
-
-  //   Get route between two or more points
-  async getRoute(coordinates: OsrmCoordinate[], options: RouteOptions = {}): Promise<OSRMResponse> {
+  async getRoute(coordinates: OSRMCoordinate[], options: RouteOptions = {}): Promise<OSRMResponse> {
     const {
       steps = true,
       geometries = 'geojson',
@@ -32,20 +30,20 @@ export class OSRMService {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`OSRM API error: ${response.statusText}`);
+      throw new Error(`[ERROR] : OSRM API error: ${response.statusText}`);
     }
 
-    const data = await response.json();
+    const data: OSRMResponse = await response.json();
 
     if (data.code !== 'Ok') {
-      throw new Error(`OSRM routing failed: ${data.code}`);
+      throw new Error(`[ERROR] : OSRM routing failed: ${data.code}`);
     }
 
     return data;
   }
 
   //   Get nearest road point to a coordinate
-  async nearest(coordinate: OsrmCoordinate): Promise<JSON> {
+  async nearest(coordinate: OSRMCoordinate): Promise<JSON> {
     const url = `${this.baseUrl}/nearest/v1/driving/${coordinate.lng},${coordinate.lat}`;
     const response = await fetch(url);
 

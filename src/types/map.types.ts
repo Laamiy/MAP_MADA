@@ -38,4 +38,6 @@ export type style =
     sources: object;
     layers: AnyLayer
   }
+
+  
 export type AnyLayer = Record<string, any>;

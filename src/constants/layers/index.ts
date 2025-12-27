@@ -34,4 +34,5 @@ export * from './regions'
 export * from './water_polygons_labels'
 export * from './waterways_labels'
 export * from './landuse_labels'
-
+export * from './buildings3d'
+export * from './locations'

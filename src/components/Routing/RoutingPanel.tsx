@@ -2,23 +2,9 @@ import React from 'react';
 import { X } from 'lucide-react';
 import { CoordinateInput } from './CoordinateInput/CoordinateInput';
 import { RouteInfo } from './RouteInfo/RouteInfo';
-import type { OsrmCoordinate, OSRMRoute } from '../../types/osrm.types';
+import type { OSRMCoordinate, RoutingPanelProps } from '../../types/osrm.types';
 import start from '../../assets/images/rocket.png';
 import end from '../../assets/images/end.png';
-
-interface RoutingPanelProps {
-  isActive: boolean;
-  startPoint: OsrmCoordinate | null;
-  endPoint: OsrmCoordinate | null;
-  route: OSRMRoute | null;
-  loading: boolean;
-  error: string | null;
-  onStartPointChange: (coord: OsrmCoordinate) => void;
-  onEndPointChange: (coord: OsrmCoordinate) => void;
-  onGetRoute: () => void;
-  onClear: () => void;
-  onClose: () => void;
-}
 
 export const RoutingPanel: React.FC<RoutingPanelProps> = ({
   isActive,
@@ -36,15 +22,14 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
   if (!isActive) return null;
 
   // Provide default coordinates to prevent NaN
-  const safeStartPoint: OsrmCoordinate = startPoint || {
+  const safeStartPoint: OSRMCoordinate = startPoint || {
     lat: -18.9137,
     lng: 47.5214,
   };
-  const safeEndPoint: OsrmCoordinate = endPoint || {
-    lat: -18.9088,
+  const safeEndPoint: OSRMCoordinate = endPoint || {
+    lat: -18.988,
     lng: 47.5267,
   };
-
   return (
     <div className="absolute top-[24vh] right-[1vw] bg-white !rounded-xl shadow-lg w-80 max-h-[calc(100vh-6rem)] overflow-y-auto z-20 !p-6">
       {/* Header */}
@@ -119,4 +104,3 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
   );
 };
 
-//fjleioizhegzq

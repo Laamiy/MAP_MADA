@@ -8,7 +8,7 @@ import { useMapState } from "./hooks/useMapState";
 import { useOSRMRoute } from "./hooks/useOSRMRoute";
 import { SAVED_PLACES, RECENT_PLACES } from "./constants/places.constants";
 import { layoutStyles } from "./styles";
-import type { OsrmCoordinate } from "./types/osrm.types"
+import type { OSRMCoordinate } from "./types/osrm.types"
 const App: React.FC = () => {
   const {
     sidebarOpen,
@@ -66,11 +66,13 @@ const App: React.FC = () => {
   };
 
   const handleRouteToggle = () => {
-    if (routingMode) {
+    if (routingMode)
+    {
       handleCloseRouting();
-    } else {
-      enableRoutingMode();
     }
+      // else {
+      enableRoutingMode();
+    // }
   };
 
   return (
@@ -104,7 +106,7 @@ const App: React.FC = () => {
           onPlaceClose={closeSelectedPlace}
           onStartChange={setStartPoint}
           onEndChange={setEndPoint}
-          onMapClick={(coord: OsrmCoordinate) => {
+          onMapClick={(coord: OSRMCoordinate) => {
             if (routingMode) {
               if (!startPoint) {
                 setStartPoint(coord);

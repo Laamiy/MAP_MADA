@@ -5,18 +5,18 @@ import type { RouteMapRef } from '../RouteMap/RouteMap';
 import { RouteInfo } from '../RouteInfo/RouteInfo';
 import { CoordinateInput } from '../CoordinateInput/CoordinateInput';
 import { useOSRMRoute } from '../../../hooks/useOSRMRoute';
-import type { OsrmCoordinate } from '../../../types/osrm.types';
+import type { OSRMCoordinate } from '../../../types/osrm.types';
 
 export const RouteViewer: React.FC = () => {
   const mapRef = useRef<RouteMapRef>(null);
   const { route, loading, error, fetchRoute, clearRoute } = useOSRMRoute();
 
-  const [startPoint, setStartPoint] = useState<OsrmCoordinate>({
+  const [startPoint, setStartPoint] = useState<OSRMCoordinate>({
     lng: 47.5214,
     lat: -18.9137,
   });
 
-  const [endPoint, setEndPoint] = useState<OsrmCoordinate>({
+  const [endPoint, setEndPoint] = useState<OSRMCoordinate>({
     lng: 47.5267,
     lat: -18.9088,
   });

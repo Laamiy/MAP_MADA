@@ -3,7 +3,7 @@ import { citiesGeoJSON, citiesLayers } from "./layers/city_point";
 import type { style, AnyLayer } from "../types/map.types"
 import {
   aerialways_zoom,
-  boundaries_coarse_district_zoom,
+  // boundaries_coarse_district_zoom,
   boundaries_coarse_label_zoom,
   boundaries_coarse_name_zoom,
   boundaries_coarse_zoom,
@@ -30,6 +30,7 @@ import {
   esa_vegetation_100m_zoom,
   esa_vegetation_30m_zoom,
   water_polygons_labels_zoom,
+
 } from "./zoom";
 
 import { MAP_CONFIG } from "../config/map.config";
@@ -61,9 +62,9 @@ function src(
     minzoom: min,
     maxzoom: max,
     layers: [{ id: name, fields: keepFields }],
-     // drop everything else
+    // drop everything else
     tileUrlFunction: (p: { z: number; x: number; y: number }) =>
-        insideMadagascar(p.z, p.x, p.y) ? `${MAP_CONFIG.baseUrl}/${name}/${p.z}/${p.x}/${p.y}.pbf` : null,
+      insideMadagascar(p.z, p.x, p.y) ? `${MAP_CONFIG.baseUrl}/${name}/${p.z}/${p.x}/${p.y}.pbf` : null,
   };
 }
 
@@ -175,6 +176,7 @@ const sources = {
     buildings_zoom.min,
     buildings_zoom.max
   ),
+  buildings3d: src("buildings3d", 16, 20, ["height", "levels"]),
   places: src(
     "places",
     places_zoom.min,
@@ -217,12 +219,17 @@ const sources = {
     esa_vegetation_30m_zoom.min,
     esa_vegetation_30m_zoom.max
   ),
-  mada:        citiesGeoJSON.mada,
+  locations: src(
+    "locations",
+    4,
+    20
+  ),
+  mada: citiesGeoJSON.mada,
   antananarivo: citiesGeoJSON.tana,
-  toamasina:   citiesGeoJSON.toamasina,
-  mahajanga:   citiesGeoJSON.mahajanga,
+  toamasina: citiesGeoJSON.toamasina,
+  mahajanga: citiesGeoJSON.mahajanga,
   antsiranana: citiesGeoJSON.antsiranana,
-  tolagnaro:   citiesGeoJSON.tolangnaro
+  tolagnaro: citiesGeoJSON.tolangnaro
 };
 const withSource = (layers: AnyLayer[], src: string): AnyLayer[] => layers.map((l) => ({ ...l, source: src }));
 
@@ -259,8 +266,9 @@ const layers: AnyLayer[] = [
   ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
   ...withSource(layers_imp.waterways_labels, "waterways"),
   ...withSource(layers_imp.landuse_labels, "landuse"),
+  ...withSource(layers_imp.buildings3d, "buildings3d"),
+  ...withSource(layers_imp.locations,"locations"),
   ...citiesLayers,
-
 ];
 
 
