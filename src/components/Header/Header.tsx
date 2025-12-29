@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, MapPin, Settings, User, Route } from 'lucide-react';
-import { SearchBar } from './SearchBar';
+import { SearchBarWithResults } from './SearchBar';
 import { buttonStyles, layoutStyles } from '../../styles';
 
 interface HeaderProps {
@@ -9,6 +9,7 @@ interface HeaderProps {
   onMenuToggle: () => void;
   onRouteToggle?: () => void;
   isRoutingMode?: boolean;
+  onFlyTo?: (lng: number, lat: number) => void; // <-- add this line
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -61,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex-1 mx-6 max-w-2xl">
-          <SearchBar value={searchQuery} onChange={onSearchChange} />
+          <SearchBarWithResults value={searchQuery} onChange={onSearchChange} />
         </div>
 
         <div className="flex items-center gap-5">

@@ -15,7 +15,7 @@ export const world_countries_50m_zoom: zoom_range = { min: 3, max: 10 }
 // boundaries coarse
 export const boundaries_coarse_zoom: zoom_range = { min: 4, max: 20 }
 // boundaries coarse name
-export const boundaries_coarse_name_zoom: zoom_range = { min: 4, max: 13 }
+export const boundaries_coarse_name_zoom: zoom_range = { min: 4, max: 15}
 // boundaries
 export const boundaries_zoom: zoom_range = { min: 9, max: 20 }
 // boundaries coarse labels

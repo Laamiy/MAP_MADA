@@ -3,6 +3,7 @@ export interface PointOfInterestInterface {
   name: string
   amenity?: string
   tourism?: string
+  public_transport?:string
   shop?: string
   man_made?: string
   leisure?: string

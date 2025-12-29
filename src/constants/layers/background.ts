@@ -2,6 +2,6 @@ export const background = [
   {
     id: "background",
     type: "background",
-    paint: { "background-color": "rgba(115, 206, 216, 1)" },
+    paint: { "background-color": "#73CED8" },
   },
 ] 

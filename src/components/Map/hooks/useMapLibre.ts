@@ -47,6 +47,8 @@ export const useMapLibre = ({
         maxZoom: MAP_CONFIG.maxZoom,
       });
 
+      (window as any).map = map.current;
+      
       map.current.on("load", () => {
         setMapStatus("Map loaded");
         const style = map.current!.getStyle();
@@ -84,14 +86,17 @@ export const useMapLibre = ({
   }, []);
 
   // Update center
-  useEffect(() => {
-    if (map.current) map.current.setCenter([center.lng, center.lat]);
-  }, [center.lng, center.lat]);
+  useEffect(() => 
+    {
+      if (map.current) 
+        map.current.setCenter([center.lng, center.lat]);
+    }, [center.lng, center.lat]);
 
   // Update zoom
-  useEffect(() => {
-    if (map.current && Math.abs(map.current.getZoom() - zoom) > 0.1) {
-      map.current.setZoom(zoom);
+  useEffect(() => 
+    {
+      if (map.current && Math.abs(map.current.getZoom() - zoom) > 0.1) {
+        map.current.setZoom(zoom);
     }
   }, [zoom]);
 
@@ -107,34 +112,49 @@ export const useMapLibre = ({
     }
   };
 
-  const bustTiles = () => {
-    if (!map.current) return;
-    try {
+  const bustTiles = () => 
+  {
+    if (!map.current) 
+      return;
+    try 
+    {
       const style = map.current.getStyle();
-      Object.keys(style.sources).forEach((sourceName) => {
-        const src = map.current!.getSource(sourceName) as any;
-        if (src?.tiles) {
-          src.tiles = src.tiles.map(
-            (t: string) => `${t.split("?")[0]}?v=${Date.now()}`
-          );
-          const cache = (map.current as any).style?.sourceCaches?.[sourceName];
-          cache?.clearTiles();
-        }
-      });
-      map.current.triggerRepaint();
-      console.log("[INFO] : Tiles refreshed");
-    } catch (err) {
+      Object.keys(style.sources).forEach((sourceName) => 
+        {
+          const src = map.current!.getSource(sourceName) as any;
+          if (src?.tiles) 
+            {
+              src.tiles = src.tiles.map(
+                  (t: string) => `${t.split("?")[0]}?v=${Date.now()}`
+              );
+              const cache = (map.current as any).style?.sourceCaches?.[sourceName];
+              cache?.clearTiles();
+            }
+        } 
+    );
+        map.current.triggerRepaint();
+        console.log("[INFO] : Tiles refreshed");
+    } 
+    catch (err) 
+    {
       console.error("[ERROR] : Tile bust error:", err);
     }
   };
+  const flyToFeature = (coords: [number, number], zoom = 16) => 
+    {
+      if (!map.current) 
+        return;
+      map.current.flyTo({ center: coords, zoom, duration: 1200 });
+    };
+return {
+  mapContainer,
+  map,
+  mapStatus,
+  handleZoomIn,
+  handleZoomOut,
+  handleNavigationClick,
+  bustTiles,
+  flyToFeature, // <-- new
+};
 
-  return {
-    mapContainer,
-    map,
-    mapStatus,
-    handleZoomIn,
-    handleZoomOut,
-    handleNavigationClick,
-    bustTiles,
-  };
 };

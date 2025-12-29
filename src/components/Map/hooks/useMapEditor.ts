@@ -1,8 +1,8 @@
 import { useEffect, useState, type MutableRefObject } from "react";
 import maplibregl from "maplibre-gl";
 import axios from "axios";
-import type { Coordinates } from "../../types/map.types";
-import type { PointOfInterestInterface } from "../../interface/point.of.interest.interface";
+import type { Coordinates } from "../../../types/map.types";
+import type { PointOfInterestInterface } from "../../../interface/point.of.interest.interface";
 
 interface UseMapEditorProps {
   map: MutableRefObject<maplibregl.Map | null>;
@@ -25,6 +25,7 @@ export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => {
       amenity: feature.properties?.amenity,
       shop: feature.properties?.shop,
       tourism: feature.properties?.tourism,
+      public_transport : feature.properties?.public_transport,
       man_made: feature.properties?.man_made,
       leisure: feature.properties?.leisure,
       natural: feature.properties?.natural,
@@ -71,7 +72,7 @@ export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => {
     }
 
     try {
-      const API_BASE = import.meta.env.VITE_EDITOR_API || "http://localhost:4004";
+      const API_BASE = `${import.meta.env.VITE_EDITOR_API}:4004` || "http://localhost:4004";
       const { data } = await axios.get(`${API_BASE}/api/poi/${osm_id}`);
 
       setSelPoi({
@@ -142,8 +143,8 @@ export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => {
 
     const poiLayers = poiSourceName
       ? style.layers
-          .filter((l): l is any => "source" in l && l.source === poiSourceName)
-          .map((l) => l.id)
+        .filter((l): l is any => "source" in l && l.source === poiSourceName)
+        .map((l) => l.id)
       : [];
     console.log("[INFO] : POI layers found:", poiLayers);
 

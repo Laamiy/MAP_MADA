@@ -1,4 +1,4 @@
-
+// App.tsx
 import React, { useEffect } from "react";
 import { Header } from "./components/Header/Header";
 import { Sidebar } from "./components/Sidebar/Sidebar";
@@ -8,7 +8,8 @@ import { useMapState } from "./hooks/useMapState";
 import { useOSRMRoute } from "./hooks/useOSRMRoute";
 import { SAVED_PLACES, RECENT_PLACES } from "./constants/places.constants";
 import { layoutStyles } from "./styles";
-import type { OSRMCoordinate } from "./types/osrm.types"
+import type { OSRMCoordinate } from "./types/osrm.types";
+
 const App: React.FC = () => {
   const {
     sidebarOpen,
@@ -24,6 +25,7 @@ const App: React.FC = () => {
     setSelectedPlace,
     setStartPoint,
     setEndPoint,
+    setMapCenter, // ← already here
     toggleSidebar,
     closeSidebar,
     closeSelectedPlace,
@@ -66,18 +68,23 @@ const App: React.FC = () => {
   };
 
   const handleRouteToggle = () => {
-    if (routingMode)
-    {
+    if (routingMode) {
       handleCloseRouting();
-    }
-      // else {
+    } else {
       enableRoutingMode();
-    // }
+    }
   };
+
+  // 1-liner: fly map to search result
+const handleFlyTo = (lng: number, lat: number) => {
+  setMapCenter({ lat, lng });
+  setZoom(18); 
+};
 
   return (
     <div className={layoutStyles.container}>
       <Header
+        onFlyTo={handleFlyTo} 
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onMenuToggle={toggleSidebar}
@@ -113,7 +120,6 @@ const App: React.FC = () => {
               } else if (!endPoint) {
                 setEndPoint(coord);
               } else {
-                // Reset and start over
                 setStartPoint(coord);
                 setEndPoint(null);
               }

@@ -267,7 +267,7 @@ const layers: AnyLayer[] = [
   ...withSource(layers_imp.waterways_labels, "waterways"),
   ...withSource(layers_imp.landuse_labels, "landuse"),
   ...withSource(layers_imp.buildings3d, "buildings3d"),
-  ...withSource(layers_imp.locations,"locations"),
+  ...withSource(layers_imp.locations, "locations"),
   ...citiesLayers,
 ];
 

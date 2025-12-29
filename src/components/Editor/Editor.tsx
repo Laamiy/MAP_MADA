@@ -90,25 +90,12 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
                 <option value="school">School</option>
                 <option value="pharmacy">Pharmacy</option>
                 <option value="parking">Parking</option>
+                <option value="atm">atm</option>
+                <option value="bus_stop">bus station</option>
+                <option value="ice_cream">ice_cream</option>
               </select>
-            </div>
-
-            <div>
-              <label className={labelClass}>
-                <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                Shop
-              </label>
-              <input 
-                className={inputClass}
-                value={tags.shop || ''} 
-                onChange={e => handleTagChange('shop', e.target.value)}
-                placeholder="e.g., supermarket, bakery"
-                disabled={saving}
-              />
-            </div>
-
+          </div>
+{/*------------------------------------------------------------*/}
             <div>
               <label className={labelClass}>
                 <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,33 +104,79 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
                 </svg>
                 Tourism
               </label>
-              <input 
+              <select 
                 className={inputClass}
                 value={tags.tourism || ''} 
                 onChange={e => handleTagChange('tourism', e.target.value)}
-                placeholder="e.g., museum, hotel"
                 disabled={saving}
-              />
+              >
+                <option value="">Select tourism type...</option>
+                <option value="zoo">zoo</option>
+                <option value="hotel">hotel</option>
+                <option value="museum">museum</option>
+                <option value="arts_centre">arts_centre</option>
+                <option value="attraction">attraction</option>
+              </select>
             </div>
-
+{/*------------------------------------------------------------*/}
             <div>
               <label className={labelClass}>
-                <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                shop
+              </label>
+              <select 
+                className={inputClass}
+                value={tags.shop || ''} 
+                onChange={e => handleTagChange('shop', e.target.value)}
+                disabled={saving}
+              >
+                <option value="">Select shop type...</option>
+                <option value="supermarket">supermarket</option>
+                <option value="marketplace">marketplace</option>
+              </select>
+            </div>
+{/*------------------------------------------------------------*/}
+            <div>
+              <label className={labelClass}>
+                 <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Leisure
               </label>
-              <input 
+              <select 
                 className={inputClass}
                 value={tags.leisure || ''} 
                 onChange={e => handleTagChange('leisure', e.target.value)}
-                placeholder="e.g., park, playground"
                 disabled={saving}
-              />
+              >
+                <option value="">Select leisure type...</option>
+                <option value="fitness_center">fitness_center</option>
+                <option value="swimming_pool">swimming_pool</option>
+              </select>
             </div>
+{/*------------------------------------------------------------*/}
+{/*------------------------------------------------------------*/}
+            <div>
+              <label className={labelClass}>
+                <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round"  strokeWidth="2" d="M5 4h14a2 2 0 012 2v9a2 2 0 01-2 2h-1a2 2 0 11-4 0H10a2 2 0 11-4 0H5a2 2 0 01-2-2V6a2 2 0 012-2z M7 10h10 M7 7h10 M7 14h2 M15 14h2"/>
+                </svg>
+                  Bus
+              </label>
+              <select 
+                className={inputClass}
+                value={tags.public_transport || ''} 
+                onChange={e => handleTagChange('public_transport', e.target.value)}
+                disabled={saving}
+              >
+                <option value="">Select type...</option>
+                <option value="station">bus stop</option>
+              </select>
+            </div>
+{/*------------------------------------------------------------*/}
           </div>
-
-          {/* Advanced Section */}
           <details className="group !p-3 ">
             <summary className="cursor-pointer  bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-all list-none">
               <div className="flex justify-between !p-4 items-center">

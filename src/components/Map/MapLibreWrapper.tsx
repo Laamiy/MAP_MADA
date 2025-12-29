@@ -11,64 +11,66 @@ import { useMapLibre } from "./hooks/useMapLibre";
 import { useMapEditor } from "./hooks/useMapEditor"
 import { useMapRouting } from "./hooks/useMapRouting";
 
-export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = ({
-  center,
-  zoom,
-  selectedPlace,
-  routingMode = false,
-  startPoint = null,
-  endPoint = null,
-  route = null,
-  onZoomChange,
-  onPlaceClose,
-  onMapClick,
-  onStartChange,
-  onEndChange,
-}) => {
-  const [debugMode, setDebugMode] = useState(false);
-  const editorEnabled = window.location.search.includes("editor=1");
-
-  // Core map functionality
-  const {
-    mapContainer,
-    map,
-    mapStatus,
-    handleZoomIn,
-    handleZoomOut,
-    handleNavigationClick,
-    bustTiles,
-  } = useMapLibre({
+export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
+  {
     center,
     zoom,
-    routingMode,
+    selectedPlace,
+    routingMode = false,
+    startPoint = null,
+    endPoint = null,
+    route = null,
     onZoomChange,
+    onPlaceClose,
     onMapClick,
-    onMapLoad: () => {
-      if (editorEnabled) {
-        attachEditorInteractions();
-      }
-    },
-  });
-
-  // Editor functionality
-  const { selPoi, setSelPoi, attachEditorInteractions } = useMapEditor({
-    map,
-    editorEnabled,
-  });
-
-  // Routing functionality
-  useMapRouting({
-    map,
-    routingMode,
-    startPoint,
-    endPoint,
-    route,
     onStartChange,
     onEndChange,
-  });
-
+  }
+  ) => 
+    // Core map functionality
+    {
+      const [debugMode, setDebugMode] = useState(false);
+      const editorEnabled = window.location.search.includes("editor=1");
+      const {
+        mapContainer,
+        map,
+        mapStatus,
+        handleZoomIn,
+        handleZoomOut,
+        handleNavigationClick,
+        bustTiles,
+        flyToFeature,
+      } = useMapLibre(
+        {
+          center,
+          zoom,
+          routingMode,
+          onZoomChange,
+          onMapClick,
+          onMapLoad: () => 
+            {
+              if (editorEnabled) 
+                {
+                  attachEditorInteractions();
+                }
+            },
+      }
+    );
+  // Editor functionality
+  const { selPoi, setSelPoi, attachEditorInteractions } = useMapEditor({map,editorEnabled,});
+  // Routing functionality
+  useMapRouting(
+    {
+      map,
+      routingMode,
+      startPoint,
+      endPoint,
+      route,
+      onStartChange,
+      onEndChange,
+    }
+  );
   const handleLayersClick = () => console.log("Layers clicked");
-
   return (
     <main className={layoutStyles.mapContainer}>
       {debugMode && (
