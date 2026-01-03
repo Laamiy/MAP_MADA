@@ -1,5 +1,5 @@
 // App.tsx
-import React, { useEffect } from "react";
+import React from "react";
 import { Header } from "./components/Header/Header";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { MapLibreWrapper } from "./components/Map/MapLibreWrapper";
@@ -8,7 +8,6 @@ import { useMapState } from "./hooks/useMapState";
 import { useOSRMRoute } from "./hooks/useOSRMRoute";
 import { SAVED_PLACES, RECENT_PLACES } from "./constants/places.constants";
 import { layoutStyles } from "./styles";
-import type { OSRMCoordinate } from "./types/osrm.types";
 
 const App: React.FC = () => {
   const {
@@ -34,51 +33,18 @@ const App: React.FC = () => {
     clearRoute: clearRoutePoints,
   } = useMapState();
 
-  const { route, loading, error, fetchRoute, clearRoute } = useOSRMRoute();
-
-  useEffect(() => {
-    if (startPoint && endPoint && routingMode) {
-      fetchRoute([startPoint, endPoint], {
-        steps: true,
-        geometries: 'geojson',
-        overview: 'full',
-      });
+  const { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting} = useOSRMRoute(
+    {
+        startPoint , endPoint ,
+        routingMode , clearRoutePoints , 
+        enableRoutingMode , disableRoutingMode
     }
-  }, [startPoint, endPoint, routingMode, fetchRoute]);
-
-  const handleGetRoute = () => {
-    if (startPoint && endPoint) {
-      fetchRoute([startPoint, endPoint], {
-        steps: true,
-        geometries: 'geojson',
-        overview: 'full',
-      });
-    }
-  };
-
-  const handleClearRoute = () => {
-    clearRoute();
-    clearRoutePoints();
-  };
-
-  const handleCloseRouting = () => {
-    disableRoutingMode();
-    clearRoute();
-    clearRoutePoints();
-  };
-
-  const handleRouteToggle = () => {
-    if (routingMode) {
-      handleCloseRouting();
-    } else {
-      enableRoutingMode();
-    }
-  };
+  );
 
   // 1-liner: fly map to search result
 const handleFlyTo = (lng: number, lat: number) => {
   setMapCenter({ lat, lng });
-  setZoom(18); 
+  setZoom(14); 
 };
 
   return (
@@ -113,18 +79,18 @@ const handleFlyTo = (lng: number, lat: number) => {
           onPlaceClose={closeSelectedPlace}
           onStartChange={setStartPoint}
           onEndChange={setEndPoint}
-          onMapClick={(coord: OSRMCoordinate) => {
-            if (routingMode) {
-              if (!startPoint) {
-                setStartPoint(coord);
-              } else if (!endPoint) {
-                setEndPoint(coord);
-              } else {
-                setStartPoint(coord);
-                setEndPoint(null);
-              }
-            }
-          }}
+          // onMapClick={(coord: OSRMCoordinate) => {
+          //   if (routingMode) {
+          //     if (!startPoint) {
+          //       setStartPoint(coord);
+          //     } else if (!endPoint) {
+          //       setEndPoint(coord);
+          //     } else {
+          //       setStartPoint(coord);
+          //       setEndPoint(null);
+          //     }
+          //   }
+          // }}
         />
 
         <RoutingPanel

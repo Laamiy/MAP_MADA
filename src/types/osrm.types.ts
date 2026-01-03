@@ -50,8 +50,12 @@ export interface OSRMRouteResult
   route: OSRMRoute | null;
   loading: boolean;
   error: string | null;
-  fetchRoute: (coordinates: OSRMCoordinate[], options?: RouteOptions) => Promise<void>;
-  clearRoute: () => void;
+  fetchRoute?: (coordinates: OSRMCoordinate[], options?: RouteOptions) => Promise<void>;
+  clearRoute?: () => void;
+  handleGetRoute:() => void  ; 
+  handleClearRoute:()=> void ; 
+  handleRouteToggle:()=>void ; 
+  handleCloseRouting:()=>void; 
 }
 export interface RoutingPanelProps 
 {

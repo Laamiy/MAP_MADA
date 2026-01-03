@@ -64,7 +64,7 @@ export const SearchBarWithResults: React.FC<Props> = ({
             <button
               key={f.properties.gid || f.properties.id || index}
               onClick={() => handleSelectPlace(index)}
-              className="w-full text-left px-4 py-3 hover:bg-gray-50 border-b last:border-b-0 border-gray-100 transition-colors"
+              className="w-full text-left !ml-1 !px-4 !py-3 hover:bg-gray-50 border-b last:border-b-0 border-gray-100 transition-colors"
             >
               <div className="font-medium text-gray-900">{f.properties.name}</div>
               <div className="text-xs text-gray-500 truncate">{f.properties.label}</div>

@@ -1,10 +1,19 @@
 
-import { useState, useRef, useCallback } from 'react';
+import { useState,useEffect, useRef, useCallback } from 'react';
 import { OSRMService } from '../services/osrm.service';
 import type { OSRMCoordinate, OSRMRoute, RouteOptions , OSRMRouteResult , OSRMResponse} from '../types/osrm.types';
 
-
-export const useOSRMRoute = (baseUrl?: string): OSRMRouteResult => 
+interface Routehookparams 
+{
+  startPoint : OSRMCoordinate | null
+  endPoint : OSRMCoordinate | null
+  routingMode  :boolean  | null
+  clearRoutePoints  : () => void
+  disableRoutingMode  : () => void 
+  enableRoutingMode  : ()=>void
+}
+export const useOSRMRoute = ({startPoint , endPoint , routingMode , clearRoutePoints , enableRoutingMode , disableRoutingMode} : Routehookparams, baseUrl?: string ):
+ OSRMRouteResult => 
   {
     const [route, setRoute]     = useState<OSRMRoute | null>(null);
     const [loading, setLoading] = useState(false);
@@ -44,6 +53,48 @@ export const useOSRMRoute = (baseUrl?: string): OSRMRouteResult =>
       setRoute(null);
       setError(null);
     }, []);
-
-    return { route, loading, error, fetchRoute, clearRoute };
+    // ---------------------------------- not sure ------------------------------------ 
+      useEffect(() => {
+        if (startPoint && endPoint && routingMode) {
+          fetchRoute([startPoint, endPoint], {
+            steps: true,
+            geometries: 'geojson',
+            overview: 'full',
+          });
+        }
+      }, [startPoint, endPoint, routingMode, fetchRoute]);
+    
+      const handleGetRoute = () => 
+        {
+          if (startPoint && endPoint)
+             {
+              fetchRoute([startPoint, endPoint], 
+                {
+                  steps: true,
+                  geometries: 'geojson',
+                  overview: 'full',
+                 }
+                );
+              }
+      };
+      const handleClearRoute = () => {
+        clearRoute();
+        clearRoutePoints();
+      };
+    
+      const handleCloseRouting = () => {
+        disableRoutingMode();
+        clearRoute();
+        clearRoutePoints();
+      };
+    
+      const handleRouteToggle = () => {
+        if (routingMode) {
+          handleCloseRouting();
+        } else {
+          enableRoutingMode();
+        }
+      };
+    //--------------------------------------------------------------------------------
+    return { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting};
 };

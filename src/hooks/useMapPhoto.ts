@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import maplibregl from 'maplibre-gl';
-
 export interface MapPhotoData {
   id: string;
   name: string;
@@ -25,14 +24,15 @@ export const useMapPhotos = (map: React.MutableRefObject<maplibregl.Map | null>)
 
   const props = e.features[0].properties;
   const filename = props?.storage_path?.split('/')?.at(-1) ; 
-  console.log("[DEBUG] : actual object from server : ", props); 
-  console.log("[DEBUG] Trying to load:", props?.storage_path?.split('/')?.at(-1));
+  // console.log("[DEBUG] : actual object from server : ", props); 
+  // console.log("[DEBUG] Trying to load:", props?.storage_path?.split('/')?.at(-1));
 
   if (props)
     {
       // const fileName = `${props.id}.jpg`;
-      const photoUrl = `http://192.168.88.133:8088/${filename}`;
-      console.log("[DEBUG] Trying to load:", photoUrl);
+      const baseURL = import.meta.env.VITE_LOCAL_IP; 
+      const photoUrl = `${baseURL}:8088/${filename}`;
+      // console.log("[DEBUG] Trying to load:", photoUrl);
       setSelectedPhoto(
         {
           id: String(props.id),
@@ -48,7 +48,6 @@ export const useMapPhotos = (map: React.MutableRefObject<maplibregl.Map | null>)
   }
 
 });
-
     // Change on hover
     mapInstance.on('mouseenter', PHOTO_LAYER, () => {
       mapInstance.getCanvas().style.cursor = 'pointer';

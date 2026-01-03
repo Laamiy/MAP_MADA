@@ -26,7 +26,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
     route = null,
     onZoomChange,
     onPlaceClose,
-    onMapClick,
+    // onMapClick,
     onStartChange,
     onEndChange,
   }
@@ -50,7 +50,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
       zoom,
       routingMode,
       onZoomChange,
-      onMapClick,
+      // onMapClick,
       onMapLoad: () => {
         attachPhotoInteractions();
         if (editorEnabled) {

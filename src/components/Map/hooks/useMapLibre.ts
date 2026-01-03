@@ -18,7 +18,7 @@ export const useMapLibre = ({
   zoom,
   routingMode,
   onZoomChange,
-  onMapClick,
+  // onMapClick,
   onMapLoad,
 }: UseMapLibreProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -68,12 +68,12 @@ export const useMapLibre = ({
           onZoomChange(Math.round(map.current.getZoom()));
       });
 // !!  Potentially removed in future commits
-      map.current.on("click", (event: maplibregl.MapMouseEvent) => {
-        if (routingMode && onMapClick) 
-          {
-            onMapClick({ lng: event.lngLat.lng, lat: event.lngLat.lat });
-          }
-      });
+      // map.current.on("click", (event: maplibregl.MapMouseEvent) => {
+      //   if (routingMode && onMapClick) 
+      //     {
+      //       onMapClick({ lng: event.lngLat.lng, lat: event.lngLat.lat });
+      //     }
+      // });
       setMapStatus("Map created, waiting for load...");
     } 
     catch (error) 

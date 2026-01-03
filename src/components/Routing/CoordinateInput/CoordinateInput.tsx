@@ -19,23 +19,19 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
 }) => {
   return (
     <div className="flex items-start gap-4 !p-2 bg-white rounded-2xl shadow-sm border justify-center border-gray-100">
-      {/* Color Swatch */}
       <div
         className="w-18 h-18 rounded-full shadow-inner flex-shrink-0 relative overflow-hidden self-center"
         style={{ backgroundColor: markerColor }}
       >
-        {/* <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent" /> */}
         <label className="flex items-end justify-center h-[80%] w-full">
           <img src={pathIcon} alt="Not found" width="40" height="40" />
         </label>
       </div>
 
-      {/* Content */}
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-gray-900 mb-4">{label}</p>
 
         <div className="grid gap-3">
-          {/* Latitude Input */}
           <label className="block">
             <span className="sr-only">Latitude</span>
             <input
@@ -55,7 +51,6 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
             />
           </label>
 
-          {/* Longitude Input */}
           <label className="block">
             <span className="sr-only">Longitude</span>
             <input
@@ -80,4 +75,3 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
   );
 };
 
-// focus:ring-2  focus:ring-blue-500/20 vrgerhe
