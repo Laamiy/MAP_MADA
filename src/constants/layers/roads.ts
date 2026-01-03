@@ -39,7 +39,7 @@ const roadWidth = [
 const roadColor = [
   "match", ["get", "class"],
   "motorway", "#E892A2",
-  "major", "#BFCEDB",
+  "major", "#DBDFEA",
   "minor", "#C6D0DB",
   "residential", "#C6D0DB",
   "service", "#f0f0f0",

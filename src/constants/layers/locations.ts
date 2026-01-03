@@ -9,7 +9,7 @@ export const locations = [
     maxzoom: 20,
     filter: ["has", "name"],
     layout: {
-      "icon-image": "aerodrome",
+      "icon-image": "gp_889",
       "icon-size": 1.6,
     //   "icon-anchor": "top",
       "icon-allow-overlap": false,
@@ -34,7 +34,7 @@ export const locations = [
       "text-allow-overlap": false,
     },
     paint: {
-      "text-color": "#B60071",
+      "text-color": "#5E53EE",
       "text-halo-color": "rgba(255, 250, 250, 0.8)", // Dark, semi-transparent
       "text-halo-width": 2.5,
       "text-halo-blur": 1,

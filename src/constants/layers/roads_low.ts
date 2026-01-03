@@ -14,7 +14,7 @@ export const roads_low = [
       "line-join": "round",
     },
     paint: {
-      "line-color": "rgba(139, 165, 193, 1)",
+      "line-color": "#9DB2BF",
       "line-width": [
         "interpolate",
         ["linear"],

@@ -43,11 +43,12 @@ export const useMapLibre = ({
         style: mapStyle as StyleSpecification,
         center: [center.lng, center.lat],
         zoom,
+        refreshExpiredTiles : true ,
         minZoom: MAP_CONFIG.minZoom,
         maxZoom: MAP_CONFIG.maxZoom,
       });
 
-      (window as any).map = map.current;
+      (window as any).map = map.current; // search ??
       
       map.current.on("load", () => {
         setMapStatus("Map loaded");
@@ -57,32 +58,35 @@ export const useMapLibre = ({
         console.log("Layers:", style.layers.map((l) => l.id));
         onMapLoad?.();
       });
-
       map.current.on("error", (event: ErrorEvent) => {
         console.error("[ERROR] : Map error:", event);
-        setMapStatus(`Error: ${event.error?.message || "Unknown error"}`);
+        setMapStatus(`[ERROR]: ${event.error?.message || "Unknown error"}`);
       });
 
       map.current.on("zoom", () => {
-        if (map.current) onZoomChange(Math.round(map.current.getZoom()));
+        if (map.current) 
+          onZoomChange(Math.round(map.current.getZoom()));
       });
-
+// !!  Potentially removed in future commits
       map.current.on("click", (event: maplibregl.MapMouseEvent) => {
-        if (routingMode && onMapClick) {
-          onMapClick({ lng: event.lngLat.lng, lat: event.lngLat.lat });
-        }
+        if (routingMode && onMapClick) 
+          {
+            onMapClick({ lng: event.lngLat.lng, lat: event.lngLat.lat });
+          }
       });
-
       setMapStatus("Map created, waiting for load...");
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       console.error("[ERROR] : Error creating map:", error);
       setMapStatus(`Init error: ${error}`);
     }
 
-    return () => {
-      map.current?.remove();
-      map.current = null;
-    };
+    return () => 
+      {
+        map.current?.remove();
+        map.current = null;
+      };
   }, []);
 
   // Update center
@@ -112,31 +116,41 @@ export const useMapLibre = ({
     }
   };
 
-  const bustTiles = () => 
-  {
-    if (!map.current) 
-      return;
-    try 
-    {
+  const bustTiles = () => {
+    if (!map.current) return;
+
+    try {
+      // 1. Get the current style object
       const style = map.current.getStyle();
-      Object.keys(style.sources).forEach((sourceName) => 
-        {
-          const src = map.current!.getSource(sourceName) as any;
-          if (src?.tiles) 
-            {
-              src.tiles = src.tiles.map(
-                  (t: string) => `${t.split("?")[0]}?v=${Date.now()}`
-              );
-              const cache = (map.current as any).style?.sourceCaches?.[sourceName];
-              cache?.clearTiles();
-            }
-        } 
-    );
-        map.current.triggerRepaint();
-        console.log("[INFO] : Tiles refreshed");
-    } 
-    catch (err) 
-    {
+
+      if (!style || !style.sources) 
+        return;
+
+      // 2. Update the tile URLs in the style object itself
+      Object.keys(style.sources).forEach(
+        (sourceName) => {
+                          const source = style.sources[sourceName] as any;
+                          
+                          // Only target vector or raster sources that use tiles
+                          if (source && source.tiles && Array.isArray(source.tiles)) {
+                            source.tiles = source.tiles.map((url: string) => {
+                              // Remove any existing version query and attach a fresh timestamp
+                              const baseUrl = url.split("?")[0];
+                              return `${baseUrl}?v=${Date.now()}`;
+                            });
+                          }
+                        });
+
+      // 3. NUCLEAR OPTION: Re-apply the modified style.
+      // diff: false is CRITICAL. It tells MapLibre to tear down the old 
+      // render state and build a new one, preventing the "black screen."
+      map.current.setStyle(style, { diff: false });
+
+      // 4. Force an immediate frame draw
+      map.current.triggerRepaint();
+      
+      console.log("[INFO] : Map hard-refreshed. New tile versions applied.");
+    } catch (err) {
       console.error("[ERROR] : Tile bust error:", err);
     }
   };
@@ -154,7 +168,7 @@ return {
   handleZoomOut,
   handleNavigationClick,
   bustTiles,
-  flyToFeature, // <-- new
+  flyToFeature,
 };
 
 };

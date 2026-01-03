@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import type { TagDict, inputType, editorPoi } from "../../../components/Editor/Editor.type"
 import apiClient from '../../../api/main'
+import {useQuery , useQueryClient} from '@tanstack/react-query'
 
 const API_ENDPOINT  = `/api/poi`;
 

@@ -11,13 +11,13 @@ export const road_arrows = [
       "symbol-placement": "line",
       "symbol-spacing": 300, 
       "icon-image": "way", // your arrow icon id
-      "icon-size": 1.5,
+      "icon-size": 1.2,
       "icon-keep-upright": false, // flip if upside-down
       "icon-allow-overlap": false,
       "icon-rotation-alignment": "map", // align to line tangent
     },
     paint: {
-      "icon-opacity": 0.7,
+      "icon-opacity": 0.6,
     },
   },
 ]

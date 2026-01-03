@@ -27,7 +27,7 @@ export const building = [
     },
     paint: {
       "line-color": "rgba(170, 185, 201, 0.7)",
-      "line-width": 3,
+      "line-width": 1,
       "line-opacity": [
         "interpolate",
         ["linear"],
@@ -65,7 +65,7 @@ export const building = [
     source: "buildings",
     "source-layer": "buildings",
     paint: {
-      "fill-color": "rgba(232,233,237,1)"
+      "fill-color": "#7895B23B"
       ,
     },
   },

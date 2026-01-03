@@ -25,7 +25,7 @@ const App: React.FC = () => {
     setSelectedPlace,
     setStartPoint,
     setEndPoint,
-    setMapCenter, // ← already here
+    setMapCenter, 
     toggleSidebar,
     closeSidebar,
     closeSelectedPlace,

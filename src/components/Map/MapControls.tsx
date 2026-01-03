@@ -18,12 +18,12 @@ export const MapControls: React.FC<MapControlsProps> = ({
   maxZoom,
   onZoomIn,
   onZoomOut,
-  onLayersClick,
+  // onLayersClick,
   onNavigationClick,
 }) => {
   const Wrapper = 'bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden';
 
-  const googleBtn =
+  const mapBtn =
     'w-11 h-11 grid place-content-center text-gray-700 ' +
     'hover:bg-gray-100 active:bg-gray-200 transition ' +
     'disabled:opacity-40 disabled:pointer-events-none';
@@ -34,7 +34,7 @@ export const MapControls: React.FC<MapControlsProps> = ({
         <button
           onClick={onZoomIn}
           disabled={zoom >= maxZoom}
-          className={`${buttonStyles.mapControl} ${googleBtn} rounded-t-2xl`}
+          className={`${buttonStyles.mapControl} ${mapBtn} rounded-t-2xl`}
           aria-label="Zoom in"
         >
           <Plus className="w-5 h-5" />
@@ -43,23 +43,23 @@ export const MapControls: React.FC<MapControlsProps> = ({
         <button
           onClick={onZoomOut}
           disabled={zoom <= minZoom}
-          className={`${buttonStyles.mapControl} ${googleBtn} rounded-b-2xl`}
+          className={`${buttonStyles.mapControl} ${mapBtn} rounded-b-2xl`}
           aria-label="Zoom out"
         >
           <Minus className="w-5 h-5" />
         </button>
       </div>
-      <button
+      {/* <button
         onClick={onLayersClick}
-        className={`${buttonStyles.mapControl} ${Wrapper} ${googleBtn}`}
+        className={`${buttonStyles.mapControl} ${Wrapper} ${mapBtn}`}
         aria-label="Toggle layers"
       >
         <Layers className="w-5 h-5" />
-      </button>
+      </button> */}
 
       <button
         onClick={onNavigationClick}
-        className={`${buttonStyles.mapControl} ${Wrapper} ${googleBtn}`}
+        className={`${buttonStyles.mapControl} ${Wrapper} ${mapBtn}`}
         aria-label="Center map"
       >
         <Navigation className="w-5 h-5" />

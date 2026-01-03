@@ -85,6 +85,7 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
                 <option value="">Select amenity type...</option>
                 <option value="restaurant">Restaurant</option>
                 <option value="cafe">Cafe</option>
+                <option value="place_of_worship"> place_of_worship</option>
                 <option value="fuel">Fuel Station</option>
                 <option value="hospital">Hospital</option>
                 <option value="school">School</option>

@@ -35,36 +35,32 @@ import {
 
 import { MAP_CONFIG } from "../config/map.config";
 
-/* ----------  skip empty tiles  ---------- */
-const MAD_BBOX = { w: 43.2, e: 50.5, s: -25.6, n: -12 };
-function insideMadagascar(z: number, x: number, y: number): boolean {
-  const n = 1 << z;
-  const lon = (x / n) * 360 - 180;
-  const lat =
-    (Math.atan(Math.sinh(Math.PI * (1 - (2 * y) / n))) * 180) / Math.PI;
-  return (
-    lon >= MAD_BBOX.w &&
-    lon <= MAD_BBOX.e &&
-    lat >= MAD_BBOX.s &&
-    lat <= MAD_BBOX.n
-  );
-}
+// type tileCoord = { z: number; x: number; y: number }
 
-function src(
-  name: string,
-  min: number,
-  max: number,
-  keepFields: string[] = [],
-) {
+
+// const MAD_BBOX = { w: 43.2, e: 50.5, s: -25.6, n: -12 };
+
+// function insideMadagascar(z: number, x: number, y: number): boolean {
+//   const n = 1 << z;
+//   const lon = (x / n) * 360 - 180;
+//   const lat =
+//     (Math.atan(Math.sinh(Math.PI * (1 - (2 * y) / n))) * 180) / Math.PI;
+//   return (
+//     lon >= MAD_BBOX.w &&
+//     lon <= MAD_BBOX.e &&
+//     lat >= MAD_BBOX.s &&
+//     lat <= MAD_BBOX.n
+//   );
+// }
+
+function src( name: string, min: number, max: number, keepFields: string[] = []) 
+{
   return {
-    type: "vector" as const,
+    type: "vector",
     tiles: [`${MAP_CONFIG.baseUrl}/${name}/{z}/{x}/{y}.pbf`],
     minzoom: min,
     maxzoom: max,
     layers: [{ id: name, fields: keepFields }],
-    // drop everything else
-    tileUrlFunction: (p: { z: number; x: number; y: number }) =>
-      insideMadagascar(p.z, p.x, p.y) ? `${MAP_CONFIG.baseUrl}/${name}/${p.z}/${p.x}/${p.y}.pbf` : null,
   };
 }
 
@@ -222,7 +218,8 @@ const sources = {
   locations: src(
     "locations",
     4,
-    20
+    20,
+    ["id", "name", "city", "amenity", "photo_filename"]
   ),
   mada: citiesGeoJSON.mada,
   antananarivo: citiesGeoJSON.tana,
@@ -278,6 +275,7 @@ const mapStyle: style = {
   glyphs: `${MAP_CONFIG.glyphUrl}/{fontstack}/{range}.pbf`,
   sources,
   layers,
+  
 };
 
 export default mapStyle;

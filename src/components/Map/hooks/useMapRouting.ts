@@ -1,13 +1,13 @@
 import { useEffect, useRef, type MutableRefObject } from "react";
 import maplibregl from "maplibre-gl";
 import type { OSRMCoordinate } from "../../../types/osrm.types";
-
+import type { OSRMRoute } from "../../../types/osrm.types";
 interface UseMapRoutingProps {
   map: MutableRefObject<maplibregl.Map | null>;
   routingMode: boolean;
   startPoint: OSRMCoordinate | null;
   endPoint: OSRMCoordinate | null;
-  route: any | null;
+  route: OSRMRoute | null;
   onStartChange?: (c: OSRMCoordinate) => void;
   onEndChange?: (c: OSRMCoordinate) => void;
 }
