@@ -8,6 +8,7 @@ import { useMapState } from "./hooks/useMapState";
 import { useOSRMRoute } from "./hooks/useOSRMRoute";
 import { SAVED_PLACES, RECENT_PLACES } from "./constants/places.constants";
 import { layoutStyles } from "./styles";
+// import { useRouting } from "./components/Routing/hooks/useRouting";
 
 const App: React.FC = () => {
   const {
@@ -16,30 +17,16 @@ const App: React.FC = () => {
     mapCenter,
     zoom,
     selectedPlace,
-    routingMode,
-    startPoint,
-    endPoint,
     setSearchQuery,
     setZoom,
     setSelectedPlace,
-    setStartPoint,
-    setEndPoint,
     setMapCenter, 
     toggleSidebar,
     closeSidebar,
     closeSelectedPlace,
-    enableRoutingMode,
-    disableRoutingMode,
-    clearRoute: clearRoutePoints,
   } = useMapState();
 
-  const { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting} = useOSRMRoute(
-    {
-        startPoint , endPoint ,
-        routingMode , clearRoutePoints , 
-        enableRoutingMode , disableRoutingMode
-    }
-  );
+  const { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting ,handleChangeStart, handleChangeEnd, startPoint  , endPoint, routingOn} = useOSRMRoute();
 
   // 1-liner: fly map to search result
 const handleFlyTo = (lng: number, lat: number) => {
@@ -55,7 +42,7 @@ const handleFlyTo = (lng: number, lat: number) => {
         onSearchChange={setSearchQuery}
         onMenuToggle={toggleSidebar}
         onRouteToggle={handleRouteToggle}
-        isRoutingMode={routingMode}
+        isRoutingMode={routingOn}
       />
 
       <div className={layoutStyles.mainContent}>
@@ -71,37 +58,25 @@ const handleFlyTo = (lng: number, lat: number) => {
           center={mapCenter}
           zoom={zoom}
           selectedPlace={selectedPlace}
-          routingMode={routingMode}
+          routingOn={routingOn}
           startPoint={startPoint}
           endPoint={endPoint}
           route={route}
           onZoomChange={setZoom}
           onPlaceClose={closeSelectedPlace}
-          onStartChange={setStartPoint}
-          onEndChange={setEndPoint}
-          // onMapClick={(coord: OSRMCoordinate) => {
-          //   if (routingMode) {
-          //     if (!startPoint) {
-          //       setStartPoint(coord);
-          //     } else if (!endPoint) {
-          //       setEndPoint(coord);
-          //     } else {
-          //       setStartPoint(coord);
-          //       setEndPoint(null);
-          //     }
-          //   }
-          // }}
+          onStartChange={handleChangeStart}
+          onEndChange={handleChangeEnd}
         />
 
         <RoutingPanel
-          isActive={routingMode}
+          isActive={routingOn}
           startPoint={startPoint}
           endPoint={endPoint}
           route={route}
           loading={loading}
           error={error}
-          onStartPointChange={setStartPoint}
-          onEndPointChange={setEndPoint}
+          onStartPointChange={handleChangeStart}
+          onEndPointChange={handleChangeEnd}
           onGetRoute={handleGetRoute}
           onClear={handleClearRoute}
           onClose={handleCloseRouting}

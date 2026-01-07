@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import type { TagDict, inputType, editorPoi } from "../../../components/Editor/Editor.type"
 import apiClient from '../../../api/main'
-import {useQuery , useQueryClient} from '@tanstack/react-query'
+// import {useQuery , useQueryClient} from '@tanstack/react-query'
 
 const API_ENDPOINT  = `/api/poi`;
 
@@ -29,9 +29,9 @@ export default function useEditor(poi: editorPoi | null, onDone: () => void) {
   if (!poi)
     return null;
 
-  const [tags, setTags] = useState<TagDict>(() => ensureObject(poi?.tags));
+  const [tags, setTags] = useState<TagDict>(() => ensureObject(poi.tags));
   const [comment, setComment] = useState('');
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
  

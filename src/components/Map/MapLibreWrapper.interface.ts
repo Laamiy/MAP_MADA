@@ -5,7 +5,7 @@ export interface MapLibreWrapperProps
   center: Coordinates;
   zoom: number;
   selectedPlace: Place | null;
-  routingMode?: boolean;
+  routingOn?: boolean|null;
   startPoint?: OSRMCoordinate | null;
   endPoint?: OSRMCoordinate | null;
   route?: OSRMRoute | null;

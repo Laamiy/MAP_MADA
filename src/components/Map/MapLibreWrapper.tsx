@@ -10,8 +10,8 @@ import Editor from "../Editor/Editor";
 import "../Editor/Editor.css";
 import type { MapLibreWrapperProps } from "./MapLibreWrapper.interface";
 import { useMapLibre } from "./hooks/useMapLibre";
-import { useMapEditor } from "./hooks/useMapEditor";
-import { useMapRouting } from "./hooks/useMapRouting";
+import { useMapEditor } from "../Editor/hooks/useMapEditor";
+import { useMapRouting } from "../Routing/hooks/useMapRouting";
 import { useMapPhotos } from "../../hooks/useMapPhoto";
 import { PhotoViewer } from "../Photo/PhotoViewer.";
 
@@ -20,7 +20,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
     center,
     zoom,
     selectedPlace,
-    routingMode = false,
+    routingOn = false,
     startPoint = null,
     endPoint = null,
     route = null,
@@ -48,25 +48,25 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
     {
       center,
       zoom,
-      routingMode,
       onZoomChange,
-      // onMapClick,
-      onMapLoad: () => {
-        attachPhotoInteractions();
-        if (editorEnabled) {
+      onMapLoad: () => 
+        {
+          attachPhotoInteractions();
           attachEditorInteractions();
-        }
-      },
+        },
+          // if (editorEnabled) {
+          // attachEditorInteractions();
+        // }
     }
   );
 
-  const { selectedPhoto, setSelectedPhoto, attachPhotoInteractions } = useMapPhotos(map);
-  const { selPoi, setSelPoi, attachEditorInteractions } = useMapEditor({ map, editorEnabled });
+const { selectedPhoto, setSelectedPhoto, attachPhotoInteractions }    = useMapPhotos(map);
+const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEditor({ map, editorEnabled });
 
   useMapRouting(
     {
       map,
-      routingMode,
+      routingOn,
       startPoint,
       endPoint,
       route,
@@ -156,7 +156,7 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
         onNavigationClick={handleNavigationClick}
       />
 
-      {selectedPlace && !routingMode && (
+      {selectedPlace && !routingOn && (
         <PlaceCard place={selectedPlace} onClose={onPlaceClose} />
       )}
 

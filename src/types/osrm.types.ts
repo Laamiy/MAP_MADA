@@ -45,21 +45,29 @@ export interface RouteOptions
   overview?: 'full' | 'simplified' | 'false';
   annotations?: boolean;
 }
-export interface OSRMRouteResult 
-{
+export interface OSRMRouteResult {
   route: OSRMRoute | null;
   loading: boolean;
   error: string | null;
+  startPoint: OSRMCoordinate | null;
+  endPoint: OSRMCoordinate | null;
+  routingOn: boolean; // Changed from boolean | null
+  
+  // Update these two lines:
+  handleChangeStart: (point: OSRMCoordinate | null) => void;
+  handleChangeEnd: (point: OSRMCoordinate | null) => void;
+  
+  handleGetRoute: () => void;
+  handleClearRoute: () => void;
+  handleRouteToggle: () => void;
+  handleCloseRouting: () => void;
+  handleSwapPoints?: () => void; // Optional: if you want to use the swap feature
   fetchRoute?: (coordinates: OSRMCoordinate[], options?: RouteOptions) => Promise<void>;
   clearRoute?: () => void;
-  handleGetRoute:() => void  ; 
-  handleClearRoute:()=> void ; 
-  handleRouteToggle:()=>void ; 
-  handleCloseRouting:()=>void; 
 }
 export interface RoutingPanelProps 
 {
-  isActive: boolean;
+  isActive: boolean|null;
   startPoint: OSRMCoordinate | null;
   endPoint: OSRMCoordinate | null;
   route: OSRMRoute | null;

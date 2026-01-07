@@ -8,7 +8,7 @@ interface HeaderProps {
   onSearchChange: (value: string) => void;
   onMenuToggle: () => void;
   onRouteToggle?: () => void;
-  isRoutingMode?: boolean;
+  isRoutingMode?: boolean |null;
   onFlyTo?: (lng: number, lat: number) => void; // <-- add this line
 }
 
@@ -19,23 +19,25 @@ export const Header: React.FC<HeaderProps> = ({
   onRouteToggle,
   isRoutingMode = false,
 }) => {
-  const [editorActive, setEditorActive] = useState(() =>
-    window.location.search.includes('editor=1')
-  );
+  const [editorActive, setEditorActive] = useState(() =>window.location.search.includes('editor=1'));
 
-  useEffect(() => {
-    const handler = () =>
-      setEditorActive(window.location.search.includes('editor=1'));
+  useEffect(() => 
+{
+    const handler = () => setEditorActive(window.location.search.includes('editor=1'));
     window.addEventListener('popstate', handler);
     return () => window.removeEventListener('popstate', handler);
-  }, []);
+}, []);
 
-  const toggleEditor = () => {
+  const toggleEditor = () => 
+  {
     const next = !editorActive;
     setEditorActive(next);
     const url = new URL(window.location.href);
-    if (next) url.searchParams.set('editor', '1');
-    else url.searchParams.delete('editor');
+    if (next) 
+      url.searchParams.set('editor', '1');
+    else 
+      url.searchParams.delete('editor');
+
     window.history.replaceState({}, '', url.toString());
     window.dispatchEvent(new Event('editor-toggle'));
   };

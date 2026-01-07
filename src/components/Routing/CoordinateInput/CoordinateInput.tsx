@@ -36,7 +36,7 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
             <span className="sr-only">Latitude</span>
             <input
               type="number"
-              step="0.0001"
+              step="0.01"
               value={coordinate.lat}
               onChange={(e) =>
                 onChange({ ...coordinate, lat: parseFloat(e.target.value) })
@@ -55,7 +55,7 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
             <span className="sr-only">Longitude</span>
             <input
               type="number"
-              step="0.0001"
+              step="0.01"
               value={coordinate.lng}
               onChange={(e) =>
                 onChange({ ...coordinate, lng: parseFloat(e.target.value) })

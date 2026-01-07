@@ -53,6 +53,13 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
           markerColor="#10b981"
           pathIcon={start}
         />
+           <CoordinateInput
+          label="End Point 1"
+          coordinate={safeStartPoint}
+          onChange={onStartPointChange}
+          markerColor="#106db9ff"
+          pathIcon={end}
+        />
 
         {/* End Point */}
         <CoordinateInput

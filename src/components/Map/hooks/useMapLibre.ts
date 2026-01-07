@@ -7,7 +7,6 @@ import mapStyle from "../../../constants/maps.style";
 interface UseMapLibreProps {
   center: Coordinates;
   zoom: number;
-  routingMode: boolean;
   onZoomChange: (zoom: number) => void;
   onMapClick?: (coords: Coordinates) => void;
   onMapLoad?: () => void;
@@ -16,7 +15,6 @@ interface UseMapLibreProps {
 export const useMapLibre = ({
   center,
   zoom,
-  routingMode,
   onZoomChange,
   // onMapClick,
   onMapLoad,
@@ -69,7 +67,7 @@ export const useMapLibre = ({
       });
 // !!  Potentially removed in future commits
       // map.current.on("click", (event: maplibregl.MapMouseEvent) => {
-      //   if (routingMode && onMapClick) 
+      //   if (routingOn && onMapClick) 
       //     {
       //       onMapClick({ lng: event.lngLat.lng, lat: event.lngLat.lat });
       //     }
