@@ -1,5 +1,5 @@
-import type { Coordinates , Place } from "../../types/map.types";
-import type { OSRMCoordinate , OSRMRoute } from "../../types/osrm.types";
+import type { Coordinates , Place } from "../types/map.types";
+import type { OSRMCoordinate , OSRMRoute } from "../types/osrm.types";
 export interface MapLibreWrapperProps 
 {
   center: Coordinates;

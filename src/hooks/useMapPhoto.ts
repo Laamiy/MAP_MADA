@@ -50,11 +50,12 @@ export const useMapPhotos = (map: React.MutableRefObject<maplibregl.Map | null>)
 });
     // Change on hover
     mapInstance.on('mouseenter', PHOTO_LAYER, () => {
-      mapInstance.getCanvas().style.cursor = 'pointer';
-    });
+                                                      mapInstance.getCanvas().style.cursor = 'pointer';
+                                                    });
+                                                    
     mapInstance.on('mouseleave', PHOTO_LAYER, () => {
-      mapInstance.getCanvas().style.cursor = '';
-    });
+                                                      mapInstance.getCanvas().style.cursor = '';
+                                                    });
   }, [map]);
 
   return { selectedPhoto, setSelectedPhoto, attachPhotoInteractions };

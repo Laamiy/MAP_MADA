@@ -1,19 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+
 import { MapControls } from "./MapControls";
 import { PlaceCard } from "./PlaceCard";
 import { MAP_CONFIG } from "../../config/map.config";
 import { layoutStyles } from "../../styles";
+
 import Editor from "../Editor/Editor";
 import "../Editor/Editor.css";
-import type { MapLibreWrapperProps } from "./MapLibreWrapper.interface";
-import { useMapLibre } from "./hooks/useMapLibre";
-import { useMapEditor } from "../Editor/hooks/useMapEditor";
-import { useMapRouting } from "../Routing/hooks/useMapRouting";
-import { useMapPhotos } from "../../hooks/useMapPhoto";
-import { PhotoViewer } from "../Photo/PhotoViewer.";
+
+import { useMapLibre } from "@/hooks/Map/useMapLibre";
+import { useMapEditor } from "@/hooks/Editor/useMapEditor";
+import { useMapRouting } from "@/hooks/Route/useMapRouting";
+import { useMapPhotos } from "@/hooks/useMapPhoto";
+
+import { PhotoViewer } from "@/components/Photo/PhotoViewer.";
+
+import type { MapLibreWrapperProps } from "@/interfaces/MapLibreWrapper.interface";
 
 export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
   {
@@ -37,28 +43,25 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
   const editorEnabled = window.location.search.includes("editor=1");
 
   const {
-    mapContainer,
-    map,
-    mapStatus,
-    handleZoomIn,
-    handleZoomOut,
-    handleNavigationClick,
-    bustTiles,
-  } = useMapLibre(
-    {
-      center,
-      zoom,
-      onZoomChange,
-      onMapLoad: () => 
-        {
-          attachPhotoInteractions();
-          attachEditorInteractions();
-        },
-          // if (editorEnabled) {
-          // attachEditorInteractions();
-        // }
-    }
-  );
+          mapContainer,
+          map,
+          mapStatus,
+          handleZoomIn,
+          handleZoomOut,
+          handleNavigationClick,
+          bustTiles,
+        } = useMapLibre(
+                        {
+                          center,
+                          zoom,
+                          onZoomChange,
+                          onMapLoad: () => 
+                            {
+                              attachPhotoInteractions();
+                              attachEditorInteractions();
+                            },
+                        }
+                      );
 
 const { selectedPhoto, setSelectedPhoto, attachPhotoInteractions }    = useMapPhotos(map);
 const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEditor({ map, editorEnabled });
@@ -114,9 +117,10 @@ const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEd
         </div>
       )}
 
-      <button
+      {/* <button
         onClick={() => setDebugMode(!debugMode)}
-        className="
+        className=" flex-1
+        !justify-center  !item-center
                 !absolute !top-2.5 !left-2.5 !z-[1000]
                 !px-3 !py-1.5 !text-[12px] !font-medium
                 !bg-white !text-gray-700 !border !border-gray-300 !rounded
@@ -127,9 +131,9 @@ const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEd
                 !cursor-pointer
               "
       >
-        <div className={`!w-2 !h-2 !rounded-full ${debugMode ? "!bg-red-500 !animate-pulse" : "!bg-gray-400"}`} />
+        <div className={`!w-2 !h-2  !rounded-full ${debugMode ? "!bg-red-500 !animate-pulse" : "!bg-gray-400"}`} />
         DEBUG: {debugMode ? "Hide" : "Show"} Debug
-      </button>
+      </button> */}
 
       <div
         ref={mapContainer}

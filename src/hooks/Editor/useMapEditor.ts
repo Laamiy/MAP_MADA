@@ -10,20 +10,20 @@ interface UseMapEditorProps {
 }
 
 interface PoiRow {
-  osm_id: string;
-  name: string | null;
-  amenity: string | null;
-  tourism: string | null;
-  shop: string | null;
-  man_made: string | null;
-  leisure: string | null;
-  natural: string | null;
-  tags: PoiTags;
-  version: number;
-  lng: number;
-  lat: number;
-  public_transport: string | null;
-}
+                osm_id: string;
+                name: string | null;
+                amenity: string | null;
+                tourism: string | null;
+                shop: string | null;
+                man_made: string | null;
+                leisure: string | null;
+                natural: string | null;
+                tags: PoiTags;
+                version: number;
+                lng: number;
+                lat: number;
+                public_transport: string | null;
+              }
 
 export interface PoiTags {
   name?: string;
@@ -37,7 +37,8 @@ export interface PoiTags {
   [key: string]: string | undefined;
 }
 
-export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => {
+export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => 
+  {
   const [selPoi, setSelPoi] = useState<editorPoi | null>(null);
 
   const handlePoiClick = async (feature: maplibregl.MapGeoJSONFeature, lngLat: Coordinates) => {
@@ -51,32 +52,38 @@ export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => {
     {
       const tags = typeof raw === "string" ? JSON.parse(raw) : raw;
       return Object.fromEntries(
-        Object.entries(tags || {}).filter(([k]) => {
-          return !k.startsWith("mapbox") && !k.startsWith("osm_") && !["version", "icon_class"].includes(k);
-        })
-      ) as TagDict;
+                                Object.entries(tags || {}).filter(([k]) => {
+                                                                              return !k.startsWith("mapbox") && 
+                                                                              !k.startsWith("osm_") && 
+                                                                              !["version", "icon_class"].includes(k);
+                                                                            })
+                              ) as TagDict;
     };
 
     const parsedTags = cleantTags(rawProps.tags || rawProps);
 
-    try {
-      const API_BASE = `${import.meta.env.VITE_EDITOR_API}:4004` || "http://localhost:4004";
-      const { data } = await axios.get<PoiRow>(`${API_BASE}/api/poi/${osm_id}`);
+    try 
+    {
+            const API_BASE = `${import.meta.env.VITE_EDITOR_API}:4004` || "http://localhost:4004";
+            const { data } = await axios.get<PoiRow>(`${API_BASE}/api/poi/${osm_id}`);
+            setSelPoi({
+                        id: Number(osm_id),
+                        version: data.version,
+                        lng: data.lng,
+                        lat: data.lat,
+                        tags: data.tags as unknown as TagDict,
+                      });
+    } 
+    catch (err) 
+    {
       setSelPoi({
-        id: Number(osm_id),
-        version: data.version,
-        lng: data.lng,
-        lat: data.lat,
-        tags: data.tags as unknown as TagDict,
-      });
-    } catch (err) {
-      setSelPoi({
-        id: Number(osm_id),
-        version: Number(rawProps.version ?? 1),
-        lng: lngLat.lng,
-        lat: lngLat.lat,
-        tags: parsedTags,
-      });
+                  id: Number(osm_id),
+                  version: Number(rawProps.version ?? 1),
+                  lng: lngLat.lng,
+                  lat: lngLat.lat,
+                  tags: parsedTags,
+                }
+              );
     }
   };
 

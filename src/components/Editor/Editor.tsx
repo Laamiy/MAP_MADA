@@ -1,6 +1,6 @@
 import Modal from "../Custom/Modal"; // Assuming this is your modal path
 import type  {editorProps} from "./Editor.type"
-import useEditor from './hooks/useEditor';
+import useEditor from '@/hooks/Editor/useEditor';
 
 
 

@@ -1,7 +1,5 @@
-// src/components/Map/MapControls.tsx
 import React from 'react';
-import { Layers, Navigation, Plus, Minus } from 'lucide-react';
-import { buttonStyles } from '../../styles';
+import { Navigation, Plus, Minus } from 'lucide-react';
 
 interface MapControlsProps {
   zoom: number;
@@ -12,57 +10,51 @@ interface MapControlsProps {
   onLayersClick?: () => void;
   onNavigationClick?: () => void;
 }
+
 export const MapControls: React.FC<MapControlsProps> = ({
   zoom,
   minZoom,
   maxZoom,
   onZoomIn,
   onZoomOut,
-  // onLayersClick,
   onNavigationClick,
 }) => {
-  const Wrapper = 'bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden';
-
-  const mapBtn =
-    'w-11 h-11 grid place-content-center text-gray-700 ' +
-    'hover:bg-gray-100 active:bg-gray-200 transition ' +
-    'disabled:opacity-40 disabled:pointer-events-none';
+  const mapBtnClass = 
+    "w-12 h-12 flex items-center justify-center text-foreground/80 bg-background/70 backdrop-blur-md transition-all \
+    duration-200 outline-none hover:bg-muted hover:text-foreground active:scale-95 disabled:opacity-30 disabled:pointer-events-none";
 
   return (
-    <div className="absolute top-4 right-4 flex flex-col gap-2">
-      <div className={Wrapper}>
+    <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-[100] pointer-events-auto overflow-visible">
+      {/* Zoom Control Group */}
+      <div className="flex flex-col bg-background/70 border border-border rounded-2xl shadow-xl overflow-hidden backdrop-blur-md">
         <button
           onClick={onZoomIn}
           disabled={zoom >= maxZoom}
-          className={`${buttonStyles.mapControl} ${mapBtn} rounded-t-2xl`}
+          className={`${mapBtnClass} border-none`}
           aria-label="Zoom in"
         >
           <Plus className="w-5 h-5" />
         </button>
-        <div className="border-t border-gray-200" />
+        
+        <div className="h-[1px] w-full bg-border" />
+        
         <button
           onClick={onZoomOut}
           disabled={zoom <= minZoom}
-          className={`${buttonStyles.mapControl} ${mapBtn} rounded-b-2xl`}
+          className={`${mapBtnClass} border-none`}
           aria-label="Zoom out"
         >
           <Minus className="w-5 h-5" />
         </button>
       </div>
-      {/* <button
-        onClick={onLayersClick}
-        className={`${buttonStyles.mapControl} ${Wrapper} ${mapBtn}`}
-        aria-label="Toggle layers"
-      >
-        <Layers className="w-5 h-5" />
-      </button> */}
 
+      {/* Recenter Navigation Button */}
       <button
         onClick={onNavigationClick}
-        className={`${buttonStyles.mapControl} ${Wrapper} ${mapBtn}`}
+        className={`${mapBtnClass} border border-border rounded-2xl shadow-xl`}
         aria-label="Center map"
       >
-        <Navigation className="w-5 h-5" />
+        <Navigation className="w-5 h-5 fill-current text-foreground/70" />
       </button>
     </div>
   );

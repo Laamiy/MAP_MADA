@@ -1,31 +1,35 @@
 import type { OSRMCoordinate, OSRMResponse, RouteOptions } from '../types/osrm.types';
 import axios from 'axios'
 const LOCAL_IP = import.meta.env.VITE_LOCAL_IP;
-export class OSRMService {
+const PORT = import.meta.env.VITE_ORSM_PORT ; 
+
+export class OSRMService 
+{
   private baseUrl: string;
 
-  constructor(baseUrl: string = `${LOCAL_IP}:5001`) 
+  constructor(baseUrl: string = `${LOCAL_IP}:${PORT}`) 
   {
     this.baseUrl = baseUrl.trim();
   }
-  async getRoute(coordinates: OSRMCoordinate[], options: RouteOptions = {}): Promise<OSRMResponse> {
+  async getRoute(coordinates: OSRMCoordinate[], options: RouteOptions = {}): Promise<OSRMResponse> 
+  {
     const {
-      steps = true,
-      geometries = 'geojson',
-      overview = 'full',
-      annotations = false,
-    } = options;
+                      steps = true,
+                      geometries = 'geojson',
+                      overview = 'full',
+                      annotations = false,
+          } = options;
 
     const coords = coordinates
-      .map((coord) => `${coord.lng},${coord.lat}`)
-      .join(';');
+                              .map((coord) => `${coord.lng},${coord.lat}`)
+                              .join(';');
 
     const params = new URLSearchParams({
-      steps: steps.toString(),
-      geometries,
-      overview,
-      annotations: annotations.toString(),
-    });
+                                          steps: steps.toString(),
+                                          geometries,
+                                          overview,
+                                          annotations: annotations.toString(),
+                                        });
 
     const url = `${this.baseUrl}/route/v1/driving/${coords}?${params}`;
     const {data} = await axios.get<OSRMResponse>(url);
@@ -35,6 +39,7 @@ export class OSRMService {
     {
       throw new Error(`[ERROR] : OSRM routing failed: ${data.code}`);
     }
+    
     // if (!response.ok) {
     //   throw new Error(`[ERROR] : OSRM API error: ${response.statusText}`);
     // }

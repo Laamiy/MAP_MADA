@@ -1,28 +1,28 @@
 // App.tsx
 import React from "react";
 import { Header } from "./components/Header/Header";
-import { Sidebar } from "./components/Sidebar/Sidebar";
-import { MapLibreWrapper } from "./components/Map/MapLibreWrapper";
-import { RoutingPanel } from "./components/Routing/RoutingPanel";
-import { useMapState } from "./hooks/useMapState";
-import { useOSRMRoute } from "./hooks/useOSRMRoute";
-import { SAVED_PLACES, RECENT_PLACES } from "./constants/places.constants";
+import { MapLibreWrapper } from "@/components/Map/MapLibreWrapper";
+import { RoutingPanel } from "@/components/Routing/RoutingPanel";
+import { useMapState } from "@/hooks/Map/useMapState";
+import { useOSRMRoute } from "@/hooks/Route/useOSRMRoute";
 import { layoutStyles } from "./styles";
+// import { Sidebar } from "./components/Sidebar/Sidebar";
+// import { SAVED_PLACES, RECENT_PLACES } from "./constants/places.constants";
 // import { useRouting } from "./components/Routing/hooks/useRouting";
 
 const App: React.FC = () => {
   const {
-    sidebarOpen,
+    // sidebarOpen,
     searchQuery,
     mapCenter,
     zoom,
     selectedPlace,
     setSearchQuery,
     setZoom,
-    setSelectedPlace,
+    // setSelectedPlace,
     setMapCenter, 
     toggleSidebar,
-    closeSidebar,
+    // closeSidebar,
     closeSelectedPlace,
   } = useMapState();
 
@@ -46,13 +46,13 @@ const handleFlyTo = (lng: number, lat: number) => {
       />
 
       <div className={layoutStyles.mainContent}>
-        <Sidebar
+        {/* <Sidebar
           isOpen={sidebarOpen}
           savedPlaces={SAVED_PLACES}
           recentPlaces={RECENT_PLACES}
           onClose={closeSidebar}
           onPlaceClick={setSelectedPlace}
-        />
+        /> */}
 
         <MapLibreWrapper
           center={mapCenter}

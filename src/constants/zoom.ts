@@ -9,9 +9,9 @@ export const INC: number = 3
 // world ocean 110m
 export const world_ocean_110m_zoom: zoom_range = { min: 0, max: 20 }
 // world countries 110m
-export const world_countries_110m_zoom: zoom_range = { min: 1, max: 4 }
+export const world_countries_110m_zoom: zoom_range = { min: 0, max: 5 }
 // world countries 50m
-export const world_countries_50m_zoom: zoom_range = { min: 3, max: 10 }
+export const world_countries_50m_zoom: zoom_range = { min: 4, max: 20 }
 // boundaries coarse
 export const boundaries_coarse_zoom: zoom_range = { min: 4, max: 20 }
 // boundaries coarse name
@@ -21,7 +21,7 @@ export const boundaries_zoom: zoom_range = { min: 9, max: 20 }
 // boundaries coarse labels
 export const boundaries_coarse_label_zoom: zoom_range = { min: 4, max: 20 }
 // water polygons
-export const water_polygons_zoom: zoom_range = { min: 5, max: 20 }
+export const water_polygons_zoom: zoom_range = { min: 7, max: 20 }
 // waterways
 export const waterways_zoom: zoom_range = { min: 15, max: 20 }
 // landuse
