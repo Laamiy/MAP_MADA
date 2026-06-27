@@ -24,7 +24,7 @@ export const MapControls: React.FC<MapControlsProps> = ({
     duration-200 outline-none hover:bg-muted hover:text-foreground active:scale-95 disabled:opacity-30 disabled:pointer-events-none";
 
   return (
-    <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-[100] pointer-events-auto overflow-visible">
+    <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-100 pointer-events-auto overflow-visible">
       {/* Zoom Control Group */}
       <div className="flex flex-col bg-background/70 border border-border rounded-2xl shadow-xl overflow-hidden backdrop-blur-md">
         <button
@@ -36,7 +36,7 @@ export const MapControls: React.FC<MapControlsProps> = ({
           <Plus className="w-5 h-5" />
         </button>
         
-        <div className="h-[1px] w-full bg-border" />
+        <div className="h-px w-full bg-border" />
         
         <button
           onClick={onZoomOut}

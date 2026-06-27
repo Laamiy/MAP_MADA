@@ -17,8 +17,8 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
   onSave,
 }) => {
   return (
-    <div className={`${cardStyles.placeCard} !p-5 `}>
-      <div className="flex items-start justify-between !mb-4">
+    <div className={`${cardStyles.placeCard} p-5 `}>
+      <div className="flex items-start justify-between mb-4">
         <div className="flex-1 pr-2">
           <h4 className="font-semibold text-gray-900 text-lg mb-1">
             {place.name}
@@ -51,13 +51,13 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
       <div className="flex flex-col gap-2 mt-4 justify-centerr">
         <button
           onClick={() => onDirections?.(place)}
-          className={`${buttonStyles.primary} !py-1 cursor-pointer`}
+          className={`${buttonStyles.primary} py-1 cursor-pointer`}
         >
           Directions
         </button>
         <button
           onClick={() => onSave?.(place)}
-          className={`${buttonStyles.secondary} !py-1 cursor-pointer`}
+          className={`${buttonStyles.secondary} py-1 cursor-pointer`}
         >
           Save
         </button>

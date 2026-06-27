@@ -8,7 +8,7 @@ export const world_countries_50m = [
     source: "world_countries_50m",
     "source-layer": "world_countries_50m",
     paint: {
-      "fill-color": "#F5F0E5", //#F6F5F5",
+      "fill-color": "#FEFEFE", //#F6F5F5",
       "fill-opacity": [
         "interpolate",
         ["linear"],

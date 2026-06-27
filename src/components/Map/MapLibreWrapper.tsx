@@ -105,35 +105,39 @@ const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEd
 
   return (
     <main className={layoutStyles.mapContainer}>
-      {debugMode && (
-        <div className="absolute top-20 left-4 bg-white !p-4 rounded-lg shadow-lg z-50 max-w-xs">
-          <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
-          <p className="text-xs mb-1">Status: {mapStatus}</p>
-          <p className="text-xs mb-1">Editor: {editorEnabled ? "ON" : "OFF"}</p>
-          <p className="text-xs mb-1">
-            Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}
-          </p>
-          <p className="text-xs mb-1">Zoom: {zoom}</p>
-        </div>
-      )}
-
-      {/* <button
+    <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col items-start gap-2">
+   <button
         onClick={() => setDebugMode(!debugMode)}
-        className=" flex-1
-        !justify-center  !item-center
-                !absolute !top-2.5 !left-2.5 !z-[1000]
-                !px-3 !py-1.5 !text-[12px] !font-medium
-                !bg-white !text-gray-700 !border !border-gray-300 !rounded
-                !transition-all !duration-200 !ease-in-out
-                hover:!bg-gray-50 hover:!border-gray-400 hover:!shadow-sm
-                active:!scale-95 active:!ring-4 active:!ring-gray-100
-                !flex !items-center !gap-2
-                !cursor-pointer
-              "
+        className="
+          px-3 py-1.5 text-[12px] font-medium
+          bg-white text-gray-700 border border-gray-300 rounded
+          transition-all duration-200 ease-in-out
+          hover:bg-gray-50 hover:border-gray-400 hover:shadow-sm
+          active:scale-95 active:ring-4 active:ring-gray-100
+          flex items-center gap-2 cursor-pointer
+        "
       >
-        <div className={`!w-2 !h-2  !rounded-full ${debugMode ? "!bg-red-500 !animate-pulse" : "!bg-gray-400"}`} />
+        <div
+          className={`w-2 h-2 rounded-full ${
+            debugMode ? "bg-red-500 animate-pulse" : "bg-gray-400"
+          }`}
+        />
         DEBUG: {debugMode ? "Hide" : "Show"} Debug
-      </button> */}
+      </button>
+
+        {debugMode && (
+          <div className="bg-white p-4 rounded-lg shadow-lg max-w-xs">
+            <h3 className="font-bold text-sm mb-2">Map Debug Info:</h3>
+            <p className="text-xs mb-1">Status: {mapStatus}</p>
+            <p className="text-xs mb-1">Editor: {editorEnabled ? "ON" : "OFF"}</p>
+            <p className="text-xs mb-1">
+              Center: {center.lat.toFixed(4)}, {center.lng.toFixed(4)}
+            </p>
+            <p className="text-xs mb-1">Zoom: {zoom}</p>
+          </div>
+        )}
+
+    </div>
 
       <div
         ref={mapContainer}
