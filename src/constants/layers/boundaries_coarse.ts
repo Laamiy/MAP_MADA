@@ -4,7 +4,6 @@ export const boundaries_coarse = [
   {
     id: "boundaries-low-zoom-fill",
     type: "fill",
-    source: "boundaries_coarse",
     "source-layer": "boundaries_coarse",
     filter: [
       "all",
@@ -112,7 +111,6 @@ export const boundaries_coarse = [
   {
     id: "boundaries-high-zoom-fill-districts",
     type: "fill",
-    source: "boundaries_coarse",
     "source-layer": "boundaries_coarse",
     filter: ["all", ["==", "admin_level", "6"], ["has", "name"]],
     minzoom: 12,

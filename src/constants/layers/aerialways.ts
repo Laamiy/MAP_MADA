@@ -4,7 +4,6 @@ export const aerialways = [
   {
     id: "aerialways-line",
     type: "line",
-    source: "aerialways",
     "source-layer": "aerialways",
     layout: {
       "line-cap": "round",

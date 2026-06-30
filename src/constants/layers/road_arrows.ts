@@ -4,7 +4,6 @@ export const road_arrows = [
   {
     id: "road-arrows-symbol",
     type: "symbol",
-    source: "road_arrows", 
     "source-layer": "road_arrows",
     minzoom: road_arrows_zoom.min,
     layout: {

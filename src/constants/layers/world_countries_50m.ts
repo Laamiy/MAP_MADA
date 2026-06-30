@@ -5,7 +5,7 @@ export const world_countries_50m = [
     type: "fill",
     minzoom: world_countries_50m_zoom.min,
     maxzoom: world_countries_50m_zoom.max,
-    source: "world_countries_50m",
+    source: "osm",
     "source-layer": "world_countries_50m",
     paint: {
       "fill-color": "#FEFEFE", //#F6F5F5",
@@ -29,7 +29,6 @@ export const world_countries_50m = [
     type: "line",
     minzoom: world_countries_50m_zoom.min,
     maxzoom: world_countries_50m_zoom.max,
-    source: "world_countries_50m",
     "source-layer": "world_countries_50m",
     paint: {
       "line-color": "rgba(156, 162, 155, 0.4)",

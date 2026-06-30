@@ -30,6 +30,7 @@ import {
   esa_vegetation_100m_zoom,
   esa_vegetation_30m_zoom,
   water_polygons_labels_zoom,
+  world_countries_name_zoom
 
 } from "./zoom";
 
@@ -53,6 +54,11 @@ const sources = {
                       "world_ocean_110m",
                       world_ocean_110m_zoom.min,
                       world_ocean_110m_zoom.max
+                    ),
+                    world_countries_name: src(
+                      "world_countries_name",
+                      world_countries_name_zoom.min,
+                      world_countries_name_zoom.max
                     ),
                     world_countries_110m: src(
                       "world_countries_110m",
@@ -218,6 +224,7 @@ const layers: AnyLayer[] = [
                             ...layers_imp.background,
                             // ...withSource(layers_imp.world_ocean_110m, "world_water_polygons"),
                             ...withSource(layers_imp.world_countries_110m, "world_countries_110m"),
+                            ...withSource(layers_imp.world_countries_name, "world_countries_name"),
                             ...withSource(layers_imp.world_countries_50m, "world_countries_50m"),
                             ...withSource(layers_imp.boundaries_coarse, "boundaries_coarse"),
                             ...withSource(layers_imp.fokontany, "fokontany"),

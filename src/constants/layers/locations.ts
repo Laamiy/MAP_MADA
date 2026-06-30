@@ -3,7 +3,7 @@ export const locations = [
   {
     id: "locations-symbol",
     type: "symbol",
-    source: "locations",
+    source: "osm",
     "source-layer": "locations",
     minzoom: 4,
     maxzoom: 20,

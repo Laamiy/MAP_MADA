@@ -2,24 +2,9 @@ import { buildings_zoom } from "../zoom"
 
 export const building = [
 
-  // 3D extrusion  : 
-  // {
-  //   id: "buildings-3d",
-  //   type: "fill-extrusion",
-  //   source: "buildings",
-  //   "source-layer": "buildings",
-  //   minzoom: 16,
-  //   paint: {
-  //     "fill-extrusion-color": "#d0d0d0",
-  //     "fill-extrusion-height": 10,
-  //     "fill-extrusion-opacity": 0.85
-  //   }
-  // },
-
   {
     id: "buildings-line",
     type: "line",
-    source: "buildings",
     "source-layer": "buildings",
     layout: {
       "line-cap": "round",

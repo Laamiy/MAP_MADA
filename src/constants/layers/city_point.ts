@@ -114,11 +114,11 @@ const madagascarLayers: AnyLayer[] = [
     layout: {
       "text-field": "Madagascar",
       "text-font": ["Noto Sans Regular"],
-      "text-size": ["interpolate", ["linear"], ["zoom"], 0, 0, 3, 12, 5, 16],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 0, 0, 3, 10, 5, 16],
       "text-transform": "uppercase",
     },
     paint: {
-      "text-color": "#FF0066",
+      "text-color": "#0000AF",
       "text-halo-color": "rgba(255, 250, 250, 0.8)",
       "text-halo-width": 1,
     },

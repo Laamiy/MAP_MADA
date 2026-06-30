@@ -4,7 +4,6 @@ export const regions = [
   {
     id: "boundaries-coarse-name-region",
     type: "symbol",
-    source: "boundaries_coarse_name",
     "source-layer": "boundaries_coarse_name",
     filter: ["all", ["==", "admin_level", "4"], ["has", "name"]],
     minzoom: boundaries_coarse_name_zoom.min,

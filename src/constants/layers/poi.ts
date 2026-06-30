@@ -19,7 +19,6 @@ const poiSymbol = (p: PoiDef) => (
     {
     id: `pois-${p.id}-symbol`,
     type: "symbol",
-    source: "pois",
     "source-layer": "pois",
     minzoom: p.min,
     maxzoom: poiName.max,
@@ -31,11 +30,11 @@ const poiSymbol = (p: PoiDef) => (
                 "icon-allow-overlap": false,
 
                 "text-field": [
-                "concat",
-                ["upcase", ["slice", ["get", "name"], 0, 1]],
-                ["downcase", ["slice", ["get", "name"], 1, 25]],
-                ["case", [">", ["length", ["get", "name"]], 25], "…", ""],
-                ],
+                                "concat",
+                                ["upcase", ["slice", ["get", "name"], 0, 1]],
+                                ["downcase", ["slice", ["get", "name"], 1, 25]],
+                                ["case", [">", ["length", ["get", "name"]], 25], "…", ""],
+                             ],
                 // "text-field": ["upcase", ["get", "name"]],
                 "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
                 "text-size": p.fontSize,
@@ -62,16 +61,6 @@ const poiSymbol = (p: PoiDef) => (
 })
 
 const poiDefs: PoiDef[] = [
-    // {
-    // id: "assurance",
-    // min: pois_zoom.min + 7.5,
-    // size: 1,
-    // icon: "assurance",
-    // color: "#00f",
-    // fontSize: 11,
-    // textMinZoom: pois_zoom.min + 9,
-    // },
-
     {
         id: "fast_food",
         min: pois_zoom.min + 14.5,
@@ -330,7 +319,6 @@ export const poi = [
 {
     id: "poi-icons-symbol",
     type: "symbol",
-    source: "pois",
     "source-layer": "pois",
     minzoom: pois_zoom.min + 14.5,
     maxzoom: pois_zoom.max,
