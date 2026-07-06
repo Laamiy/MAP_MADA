@@ -315,7 +315,7 @@ const poiDefs: PoiDef[] = [
     }
 ]
 
-export const poi = [
+export const pois = [
 {
     id: "poi-icons-symbol",
     type: "symbol",

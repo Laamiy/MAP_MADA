@@ -8,7 +8,7 @@ export const world_countries_110m = [
     maxzoom: world_countries_110m_zoom.max,
     "source-layer": "world_countries_110m",
     paint: {
-      "fill-color": "#FEFEFE",
+      "fill-color": "#FFF8F0",
       "fill-opacity": 1,
     },
   },

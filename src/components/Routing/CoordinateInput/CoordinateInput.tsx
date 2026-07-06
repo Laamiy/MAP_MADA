@@ -1,5 +1,5 @@
 import React from 'react';
-import type { OSRMCoordinate } from '../../../types/osrm.types';
+import type { OSRMCoordinate } from '@/types/osrm.types';
 interface CoordinateInputProps {
   label: string;
   coordinate: OSRMCoordinate;
@@ -10,17 +10,17 @@ interface CoordinateInputProps {
 }
 
 export const CoordinateInput: React.FC<CoordinateInputProps> = ({
-  label,
-  coordinate,
-  onChange,
-  markerColor = '#ff0000',
-  disabled = false,
-  pathIcon,
-}) => {
+                                                                    label,
+                                                                    coordinate,
+                                                                    onChange,
+                                                                    markerColor = '#ff0000',
+                                                                    disabled = false,
+                                                                    pathIcon,
+                                                                  }) => {
   return (
-    <div className="flex items-start gap-4 !p-2 bg-white rounded-2xl shadow-sm border justify-center border-gray-100">
+    <div className="flex items-start gap-4 p-2 bg-white rounded-2xl shadow-sm border justify-center border-gray-100">
       <div
-        className="w-18 h-18 rounded-full shadow-inner flex-shrink-0 relative overflow-hidden self-center"
+        className="w-18 h-18 rounded-full shadow-inner shrink-0 relative overflow-hidden self-center"
         style={{ backgroundColor: markerColor }}
       >
         <label className="flex items-end justify-center h-[80%] w-full">
@@ -34,16 +34,15 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
         <div className="grid gap-3">
           <label className="block">
             <span className="sr-only">Latitude</span>
+
             <input
               type="number"
               step="0.01"
               value={coordinate.lat}
-              onChange={(e) =>
-                onChange({ ...coordinate, lat: parseFloat(e.target.value) })
-              }
+              onChange={(e) =>onChange({ ...coordinate, lat: parseFloat(e.target.value) })}
               placeholder="Latitude"
               disabled={disabled}
-              className="w-full !px-2 py-3 text-sm bg-gray-100  rounded-xl
+              className="w-full px-2 py-3 text-sm bg-gray-100  rounded-xl
                      placeholder:text-gray-400 text-gray-900
                      hover:border-gray-300 focus:border-blue-500 
                      disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed
@@ -57,12 +56,10 @@ export const CoordinateInput: React.FC<CoordinateInputProps> = ({
               type="number"
               step="0.01"
               value={coordinate.lng}
-              onChange={(e) =>
-                onChange({ ...coordinate, lng: parseFloat(e.target.value) })
-              }
+              onChange={(e) => onChange({ ...coordinate, lng: parseFloat(e.target.value) })}
               placeholder="Longitude"
               disabled={disabled}
-              className="w-full !px-2 py-3 text-sm bg-gray-100  rounded-xl
+              className="w-full px-2 py-3 text-sm bg-gray-100  rounded-xl
                      placeholder:text-gray-400 text-gray-900
                      hover:border-gray-300 focus:border-blue-500  focus:ring-blue-500/20
                      disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed

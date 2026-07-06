@@ -26,9 +26,9 @@ export * from "./waterways"
 export * from "./world_countries_110m"
 export * from "./world_countries_50m"
 export * from "./world_ocean_110m"
-export * from "./extra_vege"
-export * from './extra_vege_100m'
-export * from './extra_vege_30m'
+export * from "./esa_vegetation_raw"
+// export * from './extra_vege_100m'
+// export * from './extra_vege_30m'
 export * from './city_point'
 export * from './regions'
 export * from './water_polygons_labels'
@@ -37,3 +37,4 @@ export * from './landuse_labels'
 export * from './buildings3d'
 export * from './locations'
 export * from './world_countries_name'
+export * from './sky'

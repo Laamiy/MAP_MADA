@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+
 import maplibregl from "maplibre-gl";
-import type { StyleSpecification ,  SourceSpecification } from "maplibre-gl";
+import type { StyleSpecification   } from "maplibre-gl";
 
 import type { Coordinates } from "@/types/map.types";
 import { MAP_CONFIG } from "@/config/map.config";
@@ -13,9 +14,7 @@ interface UseMapLibreProps {
                             onMapClick?: (coords: Coordinates) => void;
                             onMapLoad?: () => void;
                           }
-type customSource = SourceSpecification & {
-  tiles : string[]
-}
+
 export const useMapLibre = ({
                                 center,
                                 zoom,
@@ -53,10 +52,18 @@ export const useMapLibre = ({
                                                 refreshExpiredTiles : true ,
                                                 minZoom: MAP_CONFIG.minZoom,
                                                 maxZoom: MAP_CONFIG.maxZoom,
+                                                maxPitch: 80,
+                                                pitch: 70,
+                                                canvasContextAttributes: { antialias: true },
                                               });
 
             (window as any).map = map.current; // search ??
             
+            map.current.on("style.load", () => {
+                                                  map.current!.setProjection({
+                                                    type: "globe",
+                                                  });
+                                                });
             map.current.on("load", () => {
                                             setMapStatus("Map loaded");
                                             const style = map.current!.getStyle();
@@ -109,72 +116,11 @@ export const useMapLibre = ({
         }
   }, [zoom]);
 
-  const handleZoomIn = () => map.current?.zoomIn();
-  const handleZoomOut = () => map.current?.zoomOut();
-  const handleNavigationClick = () => {
-    if (map.current) {
-      map.current.flyTo({
-        center: [center.lng, center.lat],
-        zoom,
-        duration: 1000,
-      });
-    }
-  };
-
-  const bustTiles = () => {
-                            if (!map.current) 
-                              return;
-
-                            try {
-                                  const style = map.current.getStyle();
-
-                                  if (!style || !style.sources) 
-                                    return;
-                                  // Update the tile URLs in the style object itself
-                                  Object.keys(style.sources).forEach(
-                                                                      (sourceName) => {
-                                                                                        const source = style.sources[sourceName] as customSource;
-                                                                                        
-                                                                                        // Only target vector or raster sources that use tiles
-                                                                                        if (source && source.tiles && Array.isArray(source.tiles)) 
-                                                                                          {
-                                                                                              source.tiles = source.tiles.map((url: string) => {
-                                                                                                // Remove any existing version query and attach a fresh timestamp
-                                                                                                const baseUrl = url.split("?")[0];
-                                                                                                return `${baseUrl}?v=${Date.now()}`;
-                                                                                              }
-                                                                                            );
-                                                                                        }
-                                                                                      });
-
-                                  // Re-apply the modified style.
-                                  // diff: false is CRITICAL. It tells MapLibre to tear down the old 
-                                  // render state and build a new one, preventing the "black screen."
-                                  map.current.setStyle(style, { diff: false });
-                                  // immediate frame draw
-                                  map.current.triggerRepaint();
-                                  console.log("[INFO] : Map hard-refreshed. New tile versions applied.");
-                                } 
-                                catch (err) 
-                                {
-                                  console.error("[ERROR] : Tile bust error:", err);
-                                }
-                          };
-                          const flyToFeature = (coords: [number, number], zoom = 16) => 
-                            {
-                              if (!map.current) 
-                                return;
-                              map.current.flyTo({ center: coords, zoom, duration: 1200 });
-                            };
+                
                         return {
                           mapContainer,
                           map,
                           mapStatus,
-                          handleZoomIn,
-                          handleZoomOut,
-                          handleNavigationClick,
-                          bustTiles,
-                          flyToFeature,
                         };
 
 };

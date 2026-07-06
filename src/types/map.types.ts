@@ -3,23 +3,9 @@ export interface Coordinates {
   lng: number;
 }
 
-// convert to MapLibre format [lng, lat]
 export const toMapLibreCoords = (coords: Coordinates): [number, number] => {
   return [coords.lng, coords.lat];
 };
-
-export interface Place {
-  id: number;
-  name: string;
-  address: string;
-  type?: string;
-  rating?: number;
-  reviews?: number;
-}
-
-export interface SavedPlace extends Place {
-  icon: React.ComponentType<{ className?: string }>;
-}
 
 export interface MapConfig {
   baseUrl: string;
@@ -37,7 +23,20 @@ export type style =
     glyphs: string;
     sources: object;
     layers: AnyLayer
+    projection?: { type: "globe" | "mercator" };
+     sky?: {
+    "sky-color"?: string;
+    "horizon-color"?: string;
+    "fog-color"?: string;
+    "sky-horizon-blend"?: number;
+    "horizon-fog-blend"?: number;
+    "fog-ground-blend"?: number;
+    "atmosphere-blend"?: number | unknown[];
+  };
+  light?: {
+    anchor: "map" | "viewport";
+    position: [number, number, number];
+  };
   }
 
-  
 export type AnyLayer = Record<string, any>;

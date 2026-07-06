@@ -1,9 +1,8 @@
 import { INC, places_zoom } from "../zoom"
-export const place = [
+export const places = [
   {
     id: "places-name-symbol",
     type: "symbol",
-    source: "osm",
     "source-layer": "places",
     minzoom: places_zoom.min,
     maxzoom: places_zoom.max,

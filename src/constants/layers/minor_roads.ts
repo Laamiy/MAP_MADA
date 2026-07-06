@@ -4,7 +4,6 @@ export const minor_roads = [
   {
     id: "minor-roads-line",
     type: "line",
-    source: "osm",
     "source-layer": "minor_roads",
     paint: {
       "line-color": "#F5F0E5",

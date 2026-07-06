@@ -1,6 +1,5 @@
 import { roads_zoom } from "../zoom";
 const INC = 2 ; 
-/* ---------- width & colour helpers ------------------------------------ */
 const roadWidth = [
   "interpolate", ["linear"], ["zoom"],
   roads_zoom.min, 0.8,
@@ -48,7 +47,6 @@ const roadColor = [
   "#8ba5c19c" // other
 ];
 
-/* ---------- white "stairs" dash layer --------------------------------- */
 const pathStepsLayer = {
   id: "roads-path-steps",
   type: "line",
@@ -73,9 +71,7 @@ const pathStepsLayer = {
   },
 };
 
-/* ----------------------------------------------------------------------- */
 export const roads = [
-  /* 1.  grey casing for every class */
   {
     id: "roads-line",
     type: "line",
@@ -98,6 +94,5 @@ export const roads = [
     },
   },
 
-  /* 2.  white stair dashes on top of paths */
   pathStepsLayer,
 ];

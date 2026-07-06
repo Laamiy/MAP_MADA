@@ -6,8 +6,8 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { MapControls } from "./MapControls";
 import { PlaceCard } from "./PlaceCard";
-import { MAP_CONFIG } from "../../config/map.config";
-import { layoutStyles } from "../../styles";
+import { MAP_CONFIG } from "@/config/map.config";
+import { layoutStyles } from "@/styles";
 
 import Editor from "../Editor/Editor";
 import "../Editor/Editor.css";
@@ -16,7 +16,7 @@ import { useMapLibre } from "@/hooks/Map/useMapLibre";
 import { useMapEditor } from "@/hooks/Editor/useMapEditor";
 import { useMapRouting } from "@/hooks/Route/useMapRouting";
 import { useMapPhotos } from "@/hooks/useMapPhoto";
-
+import { bustTiles , handleZoomIn , handleZoomOut , handleNavigationClick } from "@/utils/map.utils";
 import { PhotoViewer } from "@/components/Photo/PhotoViewer.";
 
 import type { MapLibreWrapperProps } from "@/interfaces/MapLibreWrapper.interface";
@@ -32,7 +32,6 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
     route = null,
     onZoomChange,
     onPlaceClose,
-    // onMapClick,
     onStartChange,
     onEndChange,
   }
@@ -42,66 +41,54 @@ export const MapLibreWrapper: React.FC<MapLibreWrapperProps> = (
   const popupRef = useRef<maplibregl.Popup | null>(null);
   const editorEnabled = window.location.search.includes("editor=1");
 
-  const {
-          mapContainer,
-          map,
-          mapStatus,
-          handleZoomIn,
-          handleZoomOut,
-          handleNavigationClick,
-          bustTiles,
-        } = useMapLibre(
-                        {
-                          center,
-                          zoom,
-                          onZoomChange,
-                          onMapLoad: () => 
-                            {
-                              attachPhotoInteractions();
-                              attachEditorInteractions();
-                            },
-                        }
-                      );
+  const { mapContainer, map, mapStatus } = useMapLibre({ center, zoom, onZoomChange,
+                                                                                    onMapLoad: () => 
+                                                                                      {
+                                                                                        attachPhotoInteractions();
+                                                                                        attachEditorInteractions();
+                                                                                      },
+                                                                                  });
 
-const { selectedPhoto, setSelectedPhoto, attachPhotoInteractions }    = useMapPhotos(map);
-const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEditor({ map, editorEnabled });
+  const { selectedPhoto, setSelectedPhoto, attachPhotoInteractions }    = useMapPhotos(map);
+  const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEditor({ map, editorEnabled });
 
-  useMapRouting(
-    {
-      map,
-      routingOn,
-      startPoint,
-      endPoint,
-      route,
-      onStartChange,
-      onEndChange,
-    }
-  );
+    useMapRouting(
+      {
+        map,
+        routingOn,
+        startPoint,
+        endPoint,
+        route,
+        onStartChange,
+        onEndChange,
+      }
+    );
 
-  useEffect(() => {
-    if (!map.current || !selectedPhoto) {
-      popupRef.current?.remove();
-      return;
-    }
+    useEffect(() => {
+      if (!map.current || !selectedPhoto) 
+        {
+          popupRef.current?.remove();
+          return;
+        }
 
-    const container = document.createElement("div");
-    const popup = new maplibregl.Popup({
-      offset: 25,
-      closeButton: false,
-      maxWidth: "none",
-    })
-      .setLngLat(selectedPhoto.lngLat)
-      .setDOMContent(container)
-      .addTo(map.current);
+      const container = document.createElement("div");
+      const popup = new maplibregl.Popup({
+                                            offset: 25,
+                                            closeButton: false,
+                                            maxWidth: "none",
+                                          })
+        .setLngLat(selectedPhoto.lngLat)
+        .setDOMContent(container)
+        .addTo(map.current);
 
-    popup.on("close", () => setSelectedPhoto(null));
-    popupRef.current = popup;
-    setPopupContainer(container);
+      popup.on("close", () => setSelectedPhoto(null));
+      popupRef.current = popup;
+      setPopupContainer(container);
 
-    return () => {
-      popup.remove();
-    };
-  }, [selectedPhoto, map]);
+      return () => {
+        popup.remove();
+      };
+    }, [selectedPhoto, map]);
 
   return (
     <main className={layoutStyles.mapContainer}>
@@ -159,10 +146,14 @@ const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEd
         zoom={zoom}
         minZoom={MAP_CONFIG.minZoom}
         maxZoom={MAP_CONFIG.maxZoom}
-        onZoomIn={handleZoomIn}
-        onZoomOut={handleZoomOut}
-        onNavigationClick={handleNavigationClick}
-      />
+        onZoomIn={()=>handleZoomIn}
+        onZoomOut={()=>handleZoomOut}
+        onNavigationClick={()=>{
+                                  if (map.current)
+                                    handleNavigationClick(map.current , center =center ,zoom = zoom)
+                                }
+                          }
+          />
 
       {selectedPlace && !routingOn && (
         <PlaceCard place={selectedPlace} onClose={onPlaceClose} />
@@ -174,7 +165,8 @@ const { selPoi, setSelPoi, attachEditorInteractions }                 = useMapEd
           onClose={() => setSelPoi(null)}
           onDone={() => {
             setSelPoi(null);
-            bustTiles();
+            if (map.current)
+              bustTiles(map.current);
           }}
         />
       )}

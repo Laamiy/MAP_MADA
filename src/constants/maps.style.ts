@@ -2,41 +2,29 @@ import * as layers_imp from "../constants/layers";
 import { citiesGeoJSON, citiesLayers } from "./layers/city_point";
 import type { style, AnyLayer } from "../types/map.types"
 import {
-  aerialways_zoom,
-  // boundaries_coarse_district_zoom,
-  boundaries_coarse_label_zoom,
-  boundaries_coarse_name_zoom,
-  boundaries_coarse_zoom,
-  // boundaries_zoom,
-  buildings_zoom,
-  ferry_routes_zoom,
-  fokontany_labels_zoom,
-  fokontany_zoom,
-  landuse_zoom,
-  minor_roads_zoom,
-  places_zoom,
-  pois_zoom,
-  railways_zoom,
-  road_arrows_zoom,
-  roads_low_name_zoom,
-  roads_low_zoom,
-  roads_zoom,
-  water_polygons_zoom,
-  waterways_zoom,
-  world_countries_110m_zoom,
-  world_countries_50m_zoom,
-  world_ocean_110m_zoom,
-  esa_vegetation_raw_zoom,
-  esa_vegetation_100m_zoom,
-  esa_vegetation_30m_zoom,
-  water_polygons_labels_zoom,
-  world_countries_name_zoom
+          aerialways_zoom,
+          boundaries_coarse_label_zoom,
+          boundaries_coarse_name_zoom,
+          boundaries_coarse_zoom,
+          buildings_zoom,
+          ferry_routes_zoom,
+          fokontany_labels_zoom,
+          minor_roads_zoom,
+          places_zoom,
+          pois_zoom,
+          railways_zoom,
+          road_arrows_zoom,
+          roads_low_name_zoom,
+          roads_low_zoom,
+          roads_zoom,
+          // waterways_zoom,
+          world_ocean_110m_zoom,
+          water_polygons_labels_zoom,
+          world_countries_name_zoom
 
-} from "./zoom";
+        } from "./zoom";
 
 import { MAP_CONFIG } from "../config/map.config";
-
-
 
 function src( name: string, min: number, max: number, keepFields: string[] = []) 
 {
@@ -55,21 +43,18 @@ const sources = {
                       world_ocean_110m_zoom.min,
                       world_ocean_110m_zoom.max
                     ),
+                    world_countries_50m: {
+                    type: "vector",
+                    tiles: ["http://localhost:3000/world_land_polygons/{z}/{x}/{y}"],
+                      minzoom: 0,
+                      maxzoom: 12,
+                    },
                     world_countries_name: src(
                       "world_countries_name",
                       world_countries_name_zoom.min,
                       world_countries_name_zoom.max
                     ),
-                    world_countries_110m: src(
-                      "world_countries_110m",
-                      world_countries_110m_zoom.min,
-                      world_countries_110m_zoom.max
-                    ),
-                    world_countries_50m: src(
-                      "world_countries_50m",
-                      world_countries_50m_zoom.min,
-                      world_countries_50m_zoom.max
-                    ),
+           
                     boundaries_coarse: src(
                       "boundaries_coarse",
                       boundaries_coarse_zoom.min,
@@ -87,41 +72,42 @@ const sources = {
                       boundaries_coarse_label_zoom.max,
                       ["name", "admin_level"]
                     ),
-                    water_polygons: src(
-                      "water_polygons",
-                      water_polygons_zoom.min,
-                      water_polygons_zoom.max,
-                      ["name"]
-                    ),
+                    water_polygons: {
+                    type: "vector",
+                    tiles: ["http://localhost:3000/water_polygons/{z}/{x}/{y}"],
+                      minzoom: 7,
+                      maxzoom: 16,
+                    },
+
                     water_polygons_labels: src(
                       "water_polygons_labels",
                       water_polygons_labels_zoom.min,
                       water_polygons_labels_zoom.max
                     ),
-                    waterways: src(
-                      "waterways",
-                      waterways_zoom.min,
-                      waterways_zoom.max,
-                      ["name"]
-                    ),
-                    landuse: src(
-                      "landuse",
-                      landuse_zoom.min,
-                      landuse_zoom.max,
-                      ["name"]
-                    ),
-                    roads_low: src(
-                      "roads_low",
-                      roads_low_zoom.min,
-                      roads_low_zoom.max,
-                      ["highway", "ref"]
-                    ),
-                    roads: src(
-                      "roads",
-                      roads_zoom.min,
-                      roads_zoom.max,
-                      ["highway"]
-                    ),
+                    waterways: {
+                      type: "vector",
+                      tiles: ["http://localhost:3000/waterways/{z}/{x}/{y}"],
+                        minzoom: 11,
+                        maxzoom: 17,
+                    },
+                     landuse: {
+                    type: "vector",
+                    tiles: ["http://localhost:3000/landuse/{z}/{x}/{y}"],
+                      minzoom: 10,
+                      maxzoom: 17,
+                    },
+                    roads_low: {
+                      type : "vector",
+                      tiles: ["http://localhost:3000/roads_low/{z}/{x}/{y}"],
+                      minzoom:3,
+                      maxzoom:18
+                    },
+                    roads: {
+                      type : "vector",
+                      tiles: ["http://localhost:3000/roads/{z}/{x}/{y}"],
+                      minzoom:12,
+                      maxzoom:17
+                    },
                     roads_low_name: src(
                       "roads_low_name",
                       roads_low_name_zoom.min,
@@ -162,7 +148,12 @@ const sources = {
                       buildings_zoom.min,
                       buildings_zoom.max
                     ),
-                    buildings3d: src("buildings3d", 16, 20, ["height", "levels"]),
+                    buildings3d: src(
+                      "buildings3d", 
+                      16, 
+                      20, 
+                      ["height", "levels"]
+                    ),
                     places: src(
                       "places",
                       places_zoom.min,
@@ -180,38 +171,23 @@ const sources = {
                       boundaries_coarse_name_zoom.min,
                       boundaries_coarse_name_zoom.max
                     ),
-                    fokontany: src(
-                      "fokontany",
-                      fokontany_zoom.min,
-                      fokontany_zoom.max
-                    ),
                     fokontany_labels: src(
                       "fokontany_labels",
                       fokontany_labels_zoom.min,
                       fokontany_labels_zoom.max
                     ),
-                    esa_vegetation_raw: src(
-                      "esa_vegetation_raw",
-                      esa_vegetation_raw_zoom.min,
-                      esa_vegetation_raw_zoom.max
-                    ),
-                    esa_vegetation_100m: src(
-                      "esa_vegetation_100m",
-                      esa_vegetation_100m_zoom.min,
-                      esa_vegetation_100m_zoom.max
-                    ),
-                    esa_vegetation_30m: src(
-                      "esa_vegetation_30m",
-                      esa_vegetation_30m_zoom.min,
-                      esa_vegetation_30m_zoom.max
-                    ),
+                    esa_vegetation_raw: {
+                    type: "vector",
+                    tiles: ["http://localhost:3000/daylight_veg/{z}/{x}/{y}"],
+                      minzoom: 0,
+                      maxzoom: 8,
+                    },
                     locations: src(
                       "locations",
                       4,
                       20,
                       ["id", "name", "city", "amenity", "photo_filename"]
                     ),
-                    mada: citiesGeoJSON.mada,
                     antananarivo: citiesGeoJSON.tana,
                     toamasina: citiesGeoJSON.toamasina,
                     mahajanga: citiesGeoJSON.mahajanga,
@@ -221,43 +197,35 @@ const sources = {
 const withSource = (layers: AnyLayer[], src: string): AnyLayer[] => layers.map((l) => ({ ...l, source: src }));
 
 const layers: AnyLayer[] = [
+                            // ...layers_imp.sky, 
                             ...layers_imp.background,
-                            // ...withSource(layers_imp.world_ocean_110m, "world_water_polygons"),
-                            ...withSource(layers_imp.world_countries_110m, "world_countries_110m"),
-                            ...withSource(layers_imp.world_countries_name, "world_countries_name"),
                             ...withSource(layers_imp.world_countries_50m, "world_countries_50m"),
-                            ...withSource(layers_imp.boundaries_coarse, "boundaries_coarse"),
-                            ...withSource(layers_imp.fokontany, "fokontany"),
-                            // ...withSource(layers_imp.boundaries, "boundaries"),
-                            ...withSource(layers_imp.railways, "railways"),
-                            ...withSource(layers_imp.ferry_routes, "ferry_routes"),
+                            ...withSource(layers_imp.esa_vegetation_raw, "esa_vegetation_raw"),
+                            // ...withSource(layers_imp.world_countries_name, "world_countries_name"),
+                            // ...withSource(layers_imp.boundaries_coarse, "boundaries_coarse"),
+                            // ...withSource(layers_imp.railways, "railways"),
+                            // ...withSource(layers_imp.ferry_routes, "ferry_routes"),
                             ...withSource(layers_imp.landuse, "landuse"),
-                            // ...withSource(layers_imp.aerialways, "aerialways"),
-                            // ...withSource(layers_imp.boundaries_coarse_label, "boundaries_coarse_label"),
-                            // ...withSource(layers_imp.district, "boundaries_coarse"),
-                            ...withSource(layers_imp.extraVegetation, "esa_vegetation_raw"),
-                            // ...withSource(layers_imp.extraVegLayers100m, "esa_vegetation_100m"),
-                            // ...withSource(layers_imp.extraVegLayers30m, "esa_vegetation_30m"),
                             ...withSource(layers_imp.water_polygon, "water_polygons"),
-                            ...withSource(layers_imp.waterways, "waterways"),
-                            ...withSource(layers_imp.minor_roads, "minor_roads"),
+                            // ...withSource(layers_imp.minor_roads, "minor_roads"),
                             ...withSource(layers_imp.roads, "roads"),
                             ...withSource(layers_imp.roads_low, "roads_low"),
-                            ...withSource(layers_imp.building, "buildings"),
-                            ...withSource(layers_imp.road_arrows, "road_arrows"),
-                            ...withSource(layers_imp.roads_low_name, "roads_low_name"),
-                            ...withSource(layers_imp.place, "places"),
-                            ...withSource(layers_imp.poi, "pois"),
-                            ...withSource(layers_imp.fokontany_labels, "fokontany_labels"),
-                            ...withSource(layers_imp.regions, "boundaries_coarse_name"),
-                            ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),
-                            ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
-                            ...withSource(layers_imp.waterways_labels, "waterways"),
-                            ...withSource(layers_imp.landuse_labels, "landuse"),
-                            ...withSource(layers_imp.buildings3d, "buildings3d"),
-                            ...withSource(layers_imp.locations, "locations"),
+                            // ...withSource(layers_imp.buildings, "buildings"),
+                            // ...withSource(layers_imp.road_arrows, "road_arrows"),
+                            // ...withSource(layers_imp.roads_low_name, "roads_low_name"),
+                            // ...withSource(layers_imp.places, "places"),
+                            // ...withSource(layers_imp.pois, "pois"),
+                            // ...withSource(layers_imp.fokontany_labels, "fokontany_labels"),
+                            ...withSource(layers_imp.waterways, "waterways"),
+                            // ...withSource(layers_imp.regions, "boundaries_coarse_name"),
+                            // ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),
+                            // ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
+                            // ...withSource(layers_imp.waterways_labels, "waterways"),
+                            // ...withSource(layers_imp.landuse_labels, "landuse"),
+                            // ...withSource(layers_imp.buildings3d, "buildings3d"),
+                            // ...withSource(layers_imp.locations, "locations"),
                             ...citiesLayers,
-                          ];
+];
 
 
 const mapStyle: style = {

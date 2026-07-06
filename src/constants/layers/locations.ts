@@ -3,14 +3,13 @@ export const locations = [
   {
     id: "locations-symbol",
     type: "symbol",
-    source: "osm",
     "source-layer": "locations",
     minzoom: 4,
     maxzoom: 20,
     filter: ["has", "name"],
     layout: {
       "icon-image": "gp_889",
-      "icon-size": 1.6,
+      "icon-size": 1,
     //   "icon-anchor": "top",
       "icon-allow-overlap": false,
       "text-field": ["upcase", ["get", "name"]],

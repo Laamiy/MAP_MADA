@@ -1,31 +1,8 @@
-import { useEffect, useState, useMemo} from 'react';
-import searchClient from '../api/search'; 
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { searchPelias, flyToFeature } from '@/utils/search.utils';
+import type { GeoFeature } from '@/types/pelias.types';
 
-export interface GeoFeature {
-  type: 'Feature';
-  geometry: {
-    type: 'Point';
-    coordinates: [number, number]; // [lng, lat]
-  };
-  properties: {
-    id: string;
-    gid: string;
-    layer: string;
-    source: string;
-    name: string;
-    country?: string;
-    region?: string;
-    county?: string;
-    locality?: string;
-    label: string;
-    addendum?: Record<string, unknown>;
-  };
-}
 
-interface PeliasResponse {
-  type: 'FeatureCollection';
-  features: GeoFeature[];
-}
 
 interface UseSearchParams {
   query: string;
@@ -39,74 +16,55 @@ export function useSearch({
   query,
   mapRef,
   limit = 10,
-  peliasUrl = '/v1/autocomplete', 
+  peliasUrl = '/v1/autocomplete',
   boundaryCountry = 'MDG',
 }: UseSearchParams) {
   const [features, setFeatures] = useState<GeoFeature[]>([]);
   const [loading, setLoading] = useState(false);
-  // debounce query (500 ms) 
-  const debounced = useMemo(() => {
-    if (!query.trim()) return '';
-    return query.trim();
-  }, [query]);
+
+  const debouncedQuery = useMemo(() => query.trim(), [query]);
 
   useEffect(() => {
-    if (!debounced) {
+    if (!debouncedQuery) {
       setFeatures([]);
       return;
     }
+
     const controller = new AbortController();
 
-    async function fetchResults() {
+    const timeoutId = setTimeout(async () => {
       setLoading(true);
       try {
-        const { data } = await searchClient.get<PeliasResponse>(peliasUrl, {
-          params: {
-            text: debounced,
-            size: limit,
-            'boundary.country': boundaryCountry,
-          },
+        const results = await searchPelias(debouncedQuery, {
+          limit,
+          peliasUrl,
+          boundaryCountry,
           signal: controller.signal,
         });
-        setFeatures(data.features);
-      } catch (e) {
-        if (!controller.signal.aborted) setFeatures([]);
+        setFeatures(results);
+      } catch {
+        if (!controller.signal.aborted) {
+          setFeatures([]);
+        }
       } finally {
         setLoading(false);
       }
-    }
+    }, 500);
 
-    const t = setTimeout(() => fetchResults(), 500);
     return () => {
-      clearTimeout(t);
+      clearTimeout(timeoutId);
       controller.abort();
     };
-  }, [debounced, limit, peliasUrl, boundaryCountry]);
+  }, [debouncedQuery, limit, peliasUrl, boundaryCountry]);
 
-  const handleFlyTo = (index: number) => {
-    const feature = features[index];
-    if (!feature) 
-      return;
-    // Look for the map instance in the ref OR on the global window object
-    const activeMap = mapRef?.current || (window as any).map;
+  const handleFlyTo = useCallback(
+    (index: number) => {
+      const feature = features[index];
+      const map = mapRef?.current || (window as any).map;
+      flyToFeature(map, feature);
+    },
+    [features, mapRef]
+  );
 
-    if (activeMap) 
-      {
-        activeMap.flyTo({
-          center: [
-            feature.geometry.coordinates[0], 
-            feature.geometry.coordinates[1]
-          ],
-          zoom: 18,
-          duration: 1500, // Slightly longer for a smoother feel
-          essential: true,
-      });
-    } 
-    else 
-      {
-        console.error("Map instance not found! Make sure (window as any).map = map.current is in useMapLibre");
-      }
-  };
-
-  return { features, loading ,handleFlyTo};
+  return { features, loading, handleFlyTo };
 }

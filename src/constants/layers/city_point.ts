@@ -103,27 +103,27 @@ const antananarivoLayers: AnyLayer[] = [
   },
 ]
 
-// Layers pour Madagascar
-const madagascarLayers: AnyLayer[] = [
-  {
-    id: "madagascar-label",
-    type: "symbol",
-    source: "antananarivo",
-    minzoom: 1, //zoom.min,
-    maxzoom: 5,
-    layout: {
-      "text-field": "Madagascar",
-      "text-font": ["Noto Sans Regular"],
-      "text-size": ["interpolate", ["linear"], ["zoom"], 0, 0, 3, 10, 5, 16],
-      "text-transform": "uppercase",
-    },
-    paint: {
-      "text-color": "#0000AF",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)",
-      "text-halo-width": 1,
-    },
-  },
-]
+// // Layers pour Madagascar
+// const madagascarLayers: AnyLayer[] = [
+//   {
+//     id: "madagascar-label",
+//     type: "symbol",
+//     source: "antananarivo",
+//     minzoom: 1, //zoom.min,
+//     maxzoom: 5,
+//     layout: {
+//       "text-field": "Madagascar",
+//       "text-font": ["Noto Sans Regular"],
+//       "text-size": ["interpolate", ["linear"], ["zoom"], 0, 0, 3, 10, 5, 16],
+//       "text-transform": "uppercase",
+//     },
+//     paint: {
+//       "text-color": "#0000AF",
+//       "text-halo-color": "rgba(255, 250, 250, 0.8)",
+//       "text-halo-width": 1,
+//     },
+//   },
+// ]
 
 // Layers pour Toamasina
 const toamasinaLayers: AnyLayer[] = [
@@ -323,7 +323,7 @@ const tolagnaroLayers: AnyLayer[] = [
   }
 ]
 export const citiesLayers = [...antananarivoLayers,
-...madagascarLayers,
+// ...madagascarLayers,
 ...toamasinaLayers,
 ...mahajangaLayers,
 ...antsirananaLayers,

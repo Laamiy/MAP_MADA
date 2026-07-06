@@ -5,7 +5,6 @@ import { water_polygons_labels_zoom } from "../zoom"
     {
     id: "water-name",
     type: "symbol",
-    source: "osm",     
     "source-layer": "water_polygons_labels", 
     minzoom: water_polygons_labels_zoom.min ,
     filter: ["has", "name"],

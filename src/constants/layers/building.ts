@@ -1,6 +1,6 @@
 import { buildings_zoom } from "../zoom"
 
-export const building = [
+export const buildings = [
 
   {
     id: "buildings-line",
