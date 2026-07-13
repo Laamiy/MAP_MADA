@@ -1,35 +1,30 @@
-  import React from 'react';
+  import  { useContext } from 'react';
   import { Search, MapPin, X } from 'lucide-react';
   import { useSearch } from '@/hooks/useSearch';
   import { Skeleton } from '@/components/ui/skeleton';
   import { motion, AnimatePresence } from 'framer-motion';
+import { mapContext } from '@/context/mapContext';
 
-  interface Props {
+  interface SearchBarProps {
     value: string;    
     onChange: (value: string) => void;
-    onFlyTo?: (lng: number, lat: number) => void;
     placeholder?: string;
   }
-
-  export const SearchBarWithResults: React.FC<Props> = ({
+ 
+  export const SearchBarWithResults =   ({
     value,
     onChange,
-    onFlyTo,
     placeholder = 'Search for places...',
-  }) => {
-    const { features, loading, handleFlyTo } = useSearch({ query: value });
+  } : SearchBarProps) => {
+    const map = useContext(mapContext)
+    const { features, loading, handleFlyTo } = useSearch({ query: value , map });
 
-    const handleSelectPlace = (index: number) => {
+    const handleSelectPlace = (index: number) => {  
+      console.log(`index ${index} selected`);
       const feature = features[index];
-      if (!feature) return;
-
+      if (!feature) 
+        return;
       handleFlyTo(index);
-
-      if (onFlyTo) {
-        const [lng, lat] = feature.geometry.coordinates;
-        onFlyTo(lng, lat);
-      }
-
       onChange('');
     };
 

@@ -8,7 +8,6 @@ interface HeaderProps {
                           onMenuToggle: () => void;
                           onRouteToggle?: () => void;
                           isRoutingMode?: boolean | null;
-                          onFlyTo?: (lng: number, lat: number) => void; 
                       }
 
 export const Header = ({
@@ -17,7 +16,6 @@ export const Header = ({
                         onMenuToggle,
                         onRouteToggle,
                         isRoutingMode = false,
-                        onFlyTo,
                       } : HeaderProps
                       ) => 
                 {
@@ -70,7 +68,6 @@ export const Header = ({
                           <SearchBarWithResults 
                             value={searchQuery} 
                             onChange={onSearchChange} 
-                            onFlyTo={onFlyTo}
                           />
                         </div>
 

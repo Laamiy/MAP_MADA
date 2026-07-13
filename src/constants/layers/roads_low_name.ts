@@ -77,7 +77,7 @@ export const roads_low_name = [
                     15 * 0.055       // 0.825
                   ],
     "icon-text-fit": "both",
-    "icon-text-fit-padding": [3, 10, 3, 5],
+    "icon-text-fit-padding": [4, 4, 4, 4],
     "icon-rotation-alignment": "viewport",
     "icon-keep-upright": true
   },

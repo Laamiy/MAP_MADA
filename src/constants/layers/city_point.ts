@@ -1,9 +1,9 @@
-import type { AnyLayer } from "../../types/map.types"
-const zoom = { min: 4, max: 14 }
+import type { AnyLayer } from "@/types/map.types"
+const zoom = { min: 5, max: 14 }
 const INC = 3;
 // Coordonnées
 const tanaCoords: [number, number] = [47.5214, -18.8967]
-const madaCoords: [number, number] = [45.8, -21.0]
+// const madaCoords: [number, number] = [45.8, -21.0]
 const toamasina: [number, number] = [49.4023, -18.1492]
 const mahajanga: [number, number] = [46.3167, -15.7167]
 const antsiranana: [number, number] = [49.2921, -12.3065]
@@ -26,7 +26,7 @@ export const createGeoJSON = (coords: [number, number]) => ({
 
 // Sources GeoJSON
 const antananarivoGeoJSON = createGeoJSON(tanaCoords)
-const madagascarGeoJSON = createGeoJSON(madaCoords)
+// const madagascarGeoJSON = createGeoJSON(madaCoords)
 const toamasinaGeoJSON = createGeoJSON(toamasina)
 const mahajangaGeoJSON = createGeoJSON(mahajanga)
 const antsirananaGeoJSON = createGeoJSON(antsiranana)
@@ -34,7 +34,7 @@ const tolagnaroGeoJSON = createGeoJSON(tolagnaro)
 
 export const citiesGeoJSON = {
   tana: antananarivoGeoJSON,
-  mada: madagascarGeoJSON,
+  // mada: madagascarGeoJSON,
   toamasina: toamasinaGeoJSON,
   mahajanga: mahajangaGeoJSON,
   antsiranana: antsirananaGeoJSON,
@@ -85,11 +85,11 @@ const antananarivoLayers: AnyLayer[] = [
         0,
         0,
         zoom.min,
-        20,
+        15,
         zoom.min + INC,
-        19,
+        16,
         zoom.max - 1,
-        30
+        20
       ],
       "text-transform": "uppercase",
       "text-anchor": "center",

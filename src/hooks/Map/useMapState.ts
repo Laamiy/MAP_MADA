@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Coordinates, Place } from '@/types/map.types';
+import type { Coordinates } from '@/types/map.types';
 import { MAP_CONFIG } from '@/config/map.config';
 
 export const useMapState = () => 
@@ -8,11 +8,11 @@ export const useMapState = () =>
     const [searchQuery, setSearchQuery] = useState('');
     const [mapCenter, setMapCenter]     = useState<Coordinates>(MAP_CONFIG.defaultCenter);
     const [zoom, setZoom]               = useState(MAP_CONFIG.defaultZoom);
-    const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+    // const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
     const toggleSidebar      = () => setSidebarOpen((prev: boolean) => !prev);
     const closeSidebar       = () => setSidebarOpen(false);
-    const closeSelectedPlace = () => setSelectedPlace(null);
+    // const closeSelectedPlace = () => setSelectedPlace(null);
 
 
     return {
@@ -20,14 +20,14 @@ export const useMapState = () =>
               searchQuery,
               mapCenter,
               zoom,
-              selectedPlace,
+              // selectedPlace,
               setSidebarOpen,
               setSearchQuery,
               setMapCenter,
               setZoom,
-              setSelectedPlace,
+              // setSelectedPlace,
               toggleSidebar,
               closeSidebar,
-              closeSelectedPlace,
+              // closeSelectedPlace,
             };
   };

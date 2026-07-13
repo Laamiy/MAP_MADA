@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import maplibregl from "maplibre-gl";
 import type { StyleSpecification   } from "maplibre-gl";
@@ -25,23 +25,23 @@ export const useMapLibre = ({
   {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
-  const [mapStatus, setMapStatus] = useState<string>("Initializing...");
+  // const [mapStatus, setMapStatus] = useState<string>("Initializing...");
 
   // Initialize map
   useEffect(() => {
     if (!mapContainer.current) 
       {
-        setMapStatus("Container not found");
+        // setMapStatus("Container not found");
         return;
       }
 
     if (map.current) 
     {
-      setMapStatus("Map already initialized");
+      // setMapStatus("Map already initialized");
       return;
     }
 
-    setMapStatus("Creating map instance...");
+    // setMapStatus("Creating map instance...");
 
     try {
             map.current = new maplibregl.Map({
@@ -57,7 +57,6 @@ export const useMapLibre = ({
                                                 canvasContextAttributes: { antialias: true },
                                               });
 
-            (window as any).map = map.current; // search ??
             
             map.current.on("style.load", () => {
                                                   map.current!.setProjection({
@@ -65,7 +64,7 @@ export const useMapLibre = ({
                                                   });
                                                 });
             map.current.on("load", () => {
-                                            setMapStatus("Map loaded");
+                                            // setMapStatus("Map loaded");
                                             const style = map.current!.getStyle();
 
                                             console.log("MAP LOADED");
@@ -77,20 +76,27 @@ export const useMapLibre = ({
 
             map.current.on("error", (event: ErrorEvent) => {
                                                               console.error("[ERROR] : Map error:", event);
-                                                              setMapStatus(`[ERROR]: ${event.error?.message || "Unknown error"}`);
+                                                              // setMapStatus(`[ERROR]: ${event.error?.message || "Unknown error"}`);
                                                             });
 
-            map.current.on("zoom", () => {
-                                            if (map.current) 
-                                              onZoomChange(Math.round(map.current.getZoom()));
-                                          });
+            map.current.on("zoomend", () => {
+                if (map.current) {
+                    // Drop Math.round() so React stores the true floating point position
+                    onZoomChange(map.current.getZoom());
+                }
+            });
 
-            setMapStatus("Map created, waiting for load...");
+            // map.current.on("zoom", () => {
+            //                                 if (map.current) 
+            //                                   onZoomChange(Math.round(map.current.getZoom()));
+            //                               });
+
+            // setMapStatus("Map created, waiting for load...");
         } 
         catch (error) 
         {
           console.error("[ERROR] : Error creating map:", error);
-          setMapStatus(`Init error: ${error}`);
+          // setMapStatus(`Init error: ${error}`);
         }
 
         return () => 
@@ -103,14 +109,14 @@ export const useMapLibre = ({
   // Update center
   useEffect(() => 
     {
-      if (map.current) 
+      if (map.current && !map.current.isMoving()) 
         map.current.setCenter([center.lng, center.lat]);
     }, [center.lng, center.lat]);
 
   // Update zoom
   useEffect(() => 
     {
-      if (map.current && Math.abs(map.current.getZoom() - zoom) > 0.1) 
+      if (map.current && !map.current.isMoving() && Math.abs(map.current.getZoom() - zoom) > 0.1) 
         {
           map.current.setZoom(zoom);
         }
@@ -120,7 +126,7 @@ export const useMapLibre = ({
                         return {
                           mapContainer,
                           map,
-                          mapStatus,
+                          // mapStatus,
                         };
 
 };

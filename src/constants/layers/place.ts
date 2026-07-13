@@ -8,8 +8,8 @@ export const places = [
     maxzoom: places_zoom.max,
     filter: ["has", "name"],
     layout: {
-      "icon-image": "place",
-      "icon-size": 1.1,
+      "icon-image": "tree",
+      "icon-size": 1.5,
       "icon-anchor": "top",
       "icon-allow-overlap": false,
       "text-field": ["upcase", ["get", "name"]],

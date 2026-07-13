@@ -1,9 +1,12 @@
-import { useEffect, useRef, type MutableRefObject } from "react";
+import { useEffect, useRef} from "react";
 import maplibregl from "maplibre-gl";
-import type { OSRMCoordinate } from "../../../types/osrm.types";
-import type { OSRMRoute } from "../../../types/osrm.types";
+import type { OSRMCoordinate } from "@/types/osrm.types";
+import type { OSRMRoute } from "@/types/osrm.types";
+
+
+
 interface UseMapRoutingProps {
-  map: MutableRefObject<maplibregl.Map | null>;
+  map: maplibregl.Map|  null;
   routingOn: boolean | null;
   startPoint: OSRMCoordinate | null;
   endPoint: OSRMCoordinate | null;
@@ -38,8 +41,8 @@ export const useMapRouting = ({
   const animationFrameRef = useRef<number | null>(null);
   // Handle route display
   useEffect(() => {
-    if (!map.current || !routingOn) return;
-    const mapInstance = map.current;
+    if (!map|| !routingOn) return;
+    const mapInstance = map;
 
     if (mapInstance.getLayer("route")) 
       mapInstance.removeLayer("route");
@@ -160,7 +163,7 @@ export const useMapRouting = ({
   }, [route, routingOn]);
   // Handle routing markers
   useEffect(() => {
-    if (!map.current) return;
+    if (!map) return;
 
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
@@ -184,7 +187,7 @@ export const useMapRouting = ({
         .setPopup(
           new maplibregl.Popup({ offset: 25 }).setHTML(`<strong>${title}</strong>`)
         )
-        .addTo(map.current!);
+        .addTo(map);
 
       marker.on("dragend", () => {
         const { lng, lat } = marker.getLngLat();

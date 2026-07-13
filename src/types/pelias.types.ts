@@ -19,3 +19,8 @@
       addendum?: Record<string, unknown>;
     };
   }
+  export type PeliasGeometry = 
+  {
+    type : string , 
+    coordinates : [number ,number]
+  }

@@ -6,7 +6,7 @@ export interface zoom_range {
 }
 
 export const INC: number = 3
-export const world_countries_name_zoom : zoom_range = {min: 4, max :20 }
+export const world_countries_name_zoom : zoom_range = {min: 1, max : 8 }
 // world ocean 110m
 export const world_ocean_110m_zoom: zoom_range = { min: 0, max: 20 }
 // world countries 110m
@@ -16,7 +16,7 @@ export const world_countries_50m_zoom: zoom_range = { min: 0, max: 20 }
 // boundaries coarse
 export const boundaries_coarse_zoom: zoom_range = { min: 4, max: 20 }
 // boundaries coarse name
-export const boundaries_coarse_name_zoom: zoom_range = { min: 4, max: 15}
+export const boundaries_coarse_name_zoom: zoom_range = { min: 1, max: 15}
 // boundaries
 export const boundaries_zoom: zoom_range = { min: 9, max: 20 }
 // boundaries coarse labels
@@ -44,7 +44,7 @@ export const ferry_routes_zoom: zoom_range = { min: 16, max: 20 }
 // Aerialways
 export const aerialways_zoom: zoom_range = { min: 18, max: 20 }
 // Buildings
-export const buildings_zoom: zoom_range = { min: 16, max: 20 }
+export const buildings_zoom: zoom_range = { min: 17, max: 20 }
 // Places
 export const places_zoom: zoom_range = { min: 14, max: 17 }
 // POIs
@@ -56,7 +56,7 @@ export const fokontany_labels_zoom: zoom_range = { min: 17, max: 22 }
 // boundaries coarse
 export const boundaries_coarse_district_zoom: zoom_range = { min: 4, max: 8 }
 
-export const esa_vegetation_raw_zoom: zoom_range = { min: 1, max: 12 }
+export const esa_vegetation_raw_zoom: zoom_range = { min: 0, max: 12 }
 
 // export const esa_vegetation_100m_zoom: zoom_range = { min: 8, max: 9.5 }
 // export const esa_vegetation_30m_zoom: zoom_range = { min: 14, max: 20 }

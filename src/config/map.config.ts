@@ -7,7 +7,7 @@ export const MAP_CONFIG: MapConfig = {
                                         spriteUrl: `${LOCAL_IP}:8087/osm-icons`,
                                         glyphUrl: "https://demotiles.maplibre.org/font",
                                         defaultCenter: { lat: -18.8792, lng: 47.5079 }, // Tana
-                                        defaultZoom: 7,
+                                        defaultZoom: 4,
                                         minZoom: 1,
                                         maxZoom: 19.5,
                                       };

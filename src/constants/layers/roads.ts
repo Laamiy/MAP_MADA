@@ -1,51 +1,55 @@
 import { roads_zoom } from "../zoom";
 const INC = 2 ; 
 const roadWidth = [
-  "interpolate", ["linear"], ["zoom"],
-  roads_zoom.min, 0.8,
-  roads_zoom.min + INC + 1,
-  ["match", ["get", "class"],
-    "motorway", 4,
-    "major", 10,
-    "minor", 2.2,
-    "residential", 1.8,
-    "service", 1.2,
-    "path", 0.8,
-    "track", 0.8,
-    1.5],
-  roads_zoom.min + INC + 3,
-  ["match", ["get", "class"],
-    "motorway", 16,
-    "major", 23,
-    "minor", 15,
-    "residential", 17,
-    "service", 5,
-    "path", 3,
-    "track", 3,
-    6],
-  roads_zoom.max ,
-  ["match", ["get", "class"],
-    "motorway", 29,
-    "major", 35,
-    "minor", 35,
-    "residential", 27,
-    "service", 12,
-    "path", 8,
-    "track", 8,
-    15]
-];
+                      "interpolate", ["linear"], ["zoom"],
+                      roads_zoom.min, 0.5,
+                      roads_zoom.min + INC + 1,
+                      ["match", ["get", "class"],
+                        "motorway", 2,
+                        "major", 5,
+                        "minor", 1,
+                        "residential", 0.8,
+                        "service", 0.6,
+                        "path", 0.5,
+                        "track", 0.5,
+                        1],
+
+                      roads_zoom.min + INC + 3,
+
+                      ["match", ["get", "class"],
+                        "motorway", 15,
+                        "major", 23,
+                        "minor", 12,
+                        "residential", 10,
+                        "service", 5,
+                        "path", 3,
+                        "track", 3,
+                        6],
+
+                      roads_zoom.max ,
+
+                      ["match", ["get", "class"],
+                        "motorway", 30,
+                        "major", 30,
+                        "minor", 15,
+                        "residential", 12,
+                        "service", 12,
+                        "path", 8,
+                        "track", 8,
+                        12]
+                  ];
 
 const roadColor = [
-  "match", ["get", "class"],
-  "motorway", "#E892A2",
-  "major", "#DBDFEA",
-  "minor", "#C6D0DB",
-  "residential", "#C6D0DB",
-  "service", "#f0f0f0",
-  "path", "#BFCEDB",
-  "track", "#C6D0DB",
-  "#8ba5c19c" // other
-];
+                      "match", ["get", "class"],
+                      "motorway", "#E892A2",
+                      "major", "#DBDFEA",
+                      "minor", "#C6D0DB",
+                      "residential", "#C6D0DB",
+                      "service", "#f0f0f0",
+                      "path", "#BFCEDB",
+                      "track", "#C6D0DB",
+                      "#8ba5c19c" // other
+                    ];
 
 const pathStepsLayer = {
   id: "roads-path-steps",
@@ -72,6 +76,8 @@ const pathStepsLayer = {
 };
 
 export const roads = [
+
+  pathStepsLayer,
   {
     id: "roads-line",
     type: "line",
@@ -94,5 +100,4 @@ export const roads = [
     },
   },
 
-  pathStepsLayer,
 ];

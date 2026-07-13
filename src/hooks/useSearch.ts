@@ -6,7 +6,7 @@ import type { GeoFeature } from '@/types/pelias.types';
 
 interface UseSearchParams {
   query: string;
-  mapRef?: React.MutableRefObject<maplibregl.Map | null>;
+  map: maplibregl.Map | null;
   limit?: number;
   peliasUrl?: string;
   boundaryCountry?: string;
@@ -14,18 +14,21 @@ interface UseSearchParams {
 
 export function useSearch({
   query,
-  mapRef,
+  map,
   limit = 10,
   peliasUrl = '/v1/autocomplete',
   boundaryCountry = 'MDG',
-}: UseSearchParams) {
+}: UseSearchParams) 
+
+{
   const [features, setFeatures] = useState<GeoFeature[]>([]);
   const [loading, setLoading] = useState(false);
 
   const debouncedQuery = useMemo(() => query.trim(), [query]);
 
   useEffect(() => {
-    if (!debouncedQuery) {
+    if (!debouncedQuery) 
+    {
       setFeatures([]);
       return;
     }
@@ -33,38 +36,49 @@ export function useSearch({
     const controller = new AbortController();
 
     const timeoutId = setTimeout(async () => {
-      setLoading(true);
-      try {
-        const results = await searchPelias(debouncedQuery, {
-          limit,
-          peliasUrl,
-          boundaryCountry,
-          signal: controller.signal,
-        });
-        setFeatures(results);
-      } catch {
-        if (!controller.signal.aborted) {
-          setFeatures([]);
-        }
-      } finally {
-        setLoading(false);
-      }
-    }, 500);
+                                                setLoading(true);
+                                                try {
+                                                      const results = await searchPelias(debouncedQuery, {
+                                                        limit,
+                                                        peliasUrl,
+                                                        boundaryCountry,
+                                                        signal: controller.signal,
+                                                      });
+                                                      setFeatures(results);
+                                                    } 
+                                                catch
+                                                {
+                                                  if (!controller.signal.aborted) 
+                                                    {
+                                                        setFeatures([]);
+                                                    }
+                                                } 
+                                                finally 
+                                                {
+                                                  setLoading(false);
+                                                }
+                                              }, 500);
 
     return () => {
-      clearTimeout(timeoutId);
-      controller.abort();
-    };
+                    clearTimeout(timeoutId);
+                    controller.abort();
+                  };
+
   }, [debouncedQuery, limit, peliasUrl, boundaryCountry]);
 
-  const handleFlyTo = useCallback(
-    (index: number) => {
-      const feature = features[index];
-      const map = mapRef?.current || (window as any).map;
-      flyToFeature(map, feature);
-    },
-    [features, mapRef]
-  );
+  const handleFlyTo = useCallback( (index: number) => {
+                                                        const feature = features[index];
+                                                        
+                                                        if(!map)
+                                                          console.warn('[handleFlyTo] Map reference is not available');
+                                                        if(!feature)
+                                                          console.warn('[handleFlyTo] Feature is not available');
+                                                      
+                                                        flyToFeature(map, feature.geometry,20);
+                                                        console.log(`actual geometry: ${JSON.stringify(feature.geometry)}`);
+                                                      },
+                                                      [features, map]
+                                                    );
 
   return { features, loading, handleFlyTo };
 }

@@ -3,7 +3,7 @@ import { landuse_zoom } from "../zoom"
 const colors = {
   forest: "#a1eebdbb",
   grass: "#A1EEBD",
-  // farmland: "#A1EEBD",
+  farmland: "#00E0BA",
   orchard: "#ffc2c2ff",
   cemetery: "#E0E8E0",
   military: "#F3E8E8",

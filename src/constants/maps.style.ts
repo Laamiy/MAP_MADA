@@ -4,23 +4,21 @@ import type { style, AnyLayer } from "../types/map.types"
 import {
           aerialways_zoom,
           boundaries_coarse_label_zoom,
-          boundaries_coarse_name_zoom,
+          // boundaries_coarse_name_zoom,
           boundaries_coarse_zoom,
           buildings_zoom,
           ferry_routes_zoom,
           fokontany_labels_zoom,
           minor_roads_zoom,
-          places_zoom,
+          // places_zoom,
           pois_zoom,
           railways_zoom,
           road_arrows_zoom,
           roads_low_name_zoom,
-          roads_low_zoom,
-          roads_zoom,
           // waterways_zoom,
           world_ocean_110m_zoom,
-          water_polygons_labels_zoom,
-          world_countries_name_zoom
+          // water_polygons_labels_zoom,
+          // world_countries_name_zoom
 
         } from "./zoom";
 
@@ -49,23 +47,22 @@ const sources = {
                       minzoom: 0,
                       maxzoom: 12,
                     },
-                    world_countries_name: src(
-                      "world_countries_name",
-                      world_countries_name_zoom.min,
-                      world_countries_name_zoom.max
-                    ),
-           
+                   world_countries_name: src("world_countries_name",1,8),
                     boundaries_coarse: src(
                       "boundaries_coarse",
                       boundaries_coarse_zoom.min,
                       boundaries_coarse_zoom.max
                     ),
-                    boundaries_coarse_name: src(
-                      "boundaries_coarse_name",
-                      boundaries_coarse_name_zoom.min,
-                      boundaries_coarse_name_zoom.max,
-                      ["name", "admin_level"]
-                    ),
+                   boundaries_coarse_name : src(
+                      "boundaries_coarse",
+                      4,
+                      15),
+                    // ),{
+                    // type: "vector",
+                    // tiles: ["http://localhost:3000/boundaries_coarse_name/{z}/{x}/{y}"],
+                    //   minzoom: 1,
+                    //   maxzoom: 15,
+                    // }, 
                     boundaries_coarse_label: src(
                       "boundaries_coarse_label",
                       boundaries_coarse_label_zoom.min,
@@ -77,13 +74,13 @@ const sources = {
                     tiles: ["http://localhost:3000/water_polygons/{z}/{x}/{y}"],
                       minzoom: 7,
                       maxzoom: 16,
+                    },  
+                    water_polygons_labels: {
+                    type: "vector",
+                    tiles: ["http://localhost:3000/water_polygons_labels/{z}/{x}/{y}"],
+                      minzoom: 14,
+                      maxzoom: 17,
                     },
-
-                    water_polygons_labels: src(
-                      "water_polygons_labels",
-                      water_polygons_labels_zoom.min,
-                      water_polygons_labels_zoom.max
-                    ),
                     waterways: {
                       type: "vector",
                       tiles: ["http://localhost:3000/waterways/{z}/{x}/{y}"],
@@ -153,24 +150,24 @@ const sources = {
                       16, 
                       20, 
                       ["height", "levels"]
-                    ),
-                    places: src(
-                      "places",
-                      places_zoom.min,
-                      places_zoom.max,
-                      ["name", "osm_id"]
-                    ),
+                    ), places: {
+                    type: "vector",
+                    tiles: ["http://localhost:3000/places/{z}/{x}/{y}"],
+                      minzoom: 4,
+                      maxzoom: 17,
+                    },
                     pois: src(
                       "pois",
                       pois_zoom.min,
                       pois_zoom.max,
                       [] // no attributes
                     ),
-                    regions: src(
-                      "boudaries_coarse_name",
-                      boundaries_coarse_name_zoom.min,
-                      boundaries_coarse_name_zoom.max
-                    ),
+                    regions: {
+                    type: "vector",
+                    tiles: ["http://localhost:3000/boudaries_coarse_name/{z}/{x}/{y}"],
+                      minzoom: 4,
+                      maxzoom: 15,
+                    },
                     fokontany_labels: src(
                       "fokontany_labels",
                       fokontany_labels_zoom.min,
@@ -201,7 +198,7 @@ const layers: AnyLayer[] = [
                             ...layers_imp.background,
                             ...withSource(layers_imp.world_countries_50m, "world_countries_50m"),
                             ...withSource(layers_imp.esa_vegetation_raw, "esa_vegetation_raw"),
-                            // ...withSource(layers_imp.world_countries_name, "world_countries_name"),
+                            ...withSource(layers_imp.world_countries_name, "world_countries_name"),
                             // ...withSource(layers_imp.boundaries_coarse, "boundaries_coarse"),
                             // ...withSource(layers_imp.railways, "railways"),
                             // ...withSource(layers_imp.ferry_routes, "ferry_routes"),
@@ -212,14 +209,14 @@ const layers: AnyLayer[] = [
                             ...withSource(layers_imp.roads_low, "roads_low"),
                             // ...withSource(layers_imp.buildings, "buildings"),
                             // ...withSource(layers_imp.road_arrows, "road_arrows"),
-                            // ...withSource(layers_imp.roads_low_name, "roads_low_name"),
-                            // ...withSource(layers_imp.places, "places"),
-                            // ...withSource(layers_imp.pois, "pois"),
+                            ...withSource(layers_imp.roads_low_name, "roads_low_name"),
                             // ...withSource(layers_imp.fokontany_labels, "fokontany_labels"),
                             ...withSource(layers_imp.waterways, "waterways"),
-                            // ...withSource(layers_imp.regions, "boundaries_coarse_name"),
-                            // ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),
-                            // ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
+                            ...withSource(layers_imp.places, "places"),
+                            ...withSource(layers_imp.pois, "pois"),
+                            ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
+                            ...withSource(layers_imp.regions, "boundaries_coarse_name"),
+                            ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),
                             // ...withSource(layers_imp.waterways_labels, "waterways"),
                             // ...withSource(layers_imp.landuse_labels, "landuse"),
                             // ...withSource(layers_imp.buildings3d, "buildings3d"),
