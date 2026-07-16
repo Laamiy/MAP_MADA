@@ -11,7 +11,6 @@ export * from "./boundaries_coarse_name"
 export * from "./district"
 export * from "./fokontany"
 export * from "./fokontany_labels"
-export * from "./minor_roads"
 export * from "./place"
 export * from "./poi"
 export * from "./railways"
@@ -38,3 +37,4 @@ export * from './buildings3d'
 export * from './locations'
 export * from './world_countries_name'
 export * from './sky'
+export * from './land_cover'

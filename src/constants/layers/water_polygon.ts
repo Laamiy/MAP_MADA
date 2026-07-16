@@ -8,7 +8,7 @@ export const water_polygon = [
     minzoom: water_polygons_zoom.min,
     maxzoom: water_polygons_zoom.max,
     paint: {
-      "fill-color": "rgba(115, 206, 216, 1)",
+      "fill-color": "#53CBF3"//"rgba(115, 206, 216, 1)",
     },
   },
 ]

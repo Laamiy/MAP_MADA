@@ -3,7 +3,7 @@ import { landuse_zoom } from "../zoom"
 const colors = {
   forest: "#a1eebdbb",
   grass: "#A1EEBD",
-  farmland: "#00E0BA",
+  farmland: "#FFF9D2",
   orchard: "#ffc2c2ff",
   cemetery: "#E0E8E0",
   military: "#F3E8E8",
@@ -21,7 +21,7 @@ export const landuse = [
     id: "forest-wood-fill",
     type: "fill",
     "source-layer": "landuse",
-    minzoom: 13,
+    minzoom: 11,
     maxzoom: landuse_zoom.max,
     filter: ["any", ["==", "natural", "wood"], ["==", "landuse", "forest"]],
     paint: {
@@ -33,7 +33,7 @@ export const landuse = [
   //   id: "farmland-fill",
   //   type: "fill",
   //   "source-layer": "landuse",
-  //   minzoom: 13,
+  //   minzoom: 11,
   //   maxzoom: landuse_zoom.max,
   //   filter: ["any", ["==", "landuse", "farmland"], ["==", "landuse", "paddy"], ["==", "landuse", "orchard"], ["==", "landuse", "vineyard"], ["==", "landuse", "plant_nursery"]],
   //   paint: {

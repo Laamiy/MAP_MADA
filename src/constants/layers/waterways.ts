@@ -11,7 +11,7 @@ export const waterways = [
       "line-sort-key": ["get", "gid"],
     },
     paint: {
-      "line-color": "rgba(115, 206, 216, 1)",
+      "line-color": "#53CBF3",//"rgba(115, 206, 216, 1)",
       "line-width": [
                       "interpolate",
                       ["linear"],

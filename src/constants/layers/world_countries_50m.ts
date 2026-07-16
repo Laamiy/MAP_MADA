@@ -7,7 +7,7 @@ export const world_countries_50m = [
     maxzoom: world_countries_50m_zoom.max,
     "source-layer": "world_countries_50m",
     paint: {
-      "fill-color": "#E8EDF2",
+      "fill-color": "#F9FCFD",
       "fill-opacity": [
         "interpolate",
         ["linear"],

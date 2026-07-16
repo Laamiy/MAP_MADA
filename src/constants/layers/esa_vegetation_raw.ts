@@ -36,19 +36,3 @@ export const esa_vegetation_raw = [
   ...smoothVegLayer('snow', '#FFFFFF', 0.3),
   ...smoothVegLayer('urban', '#808080', 0.3),
 ]
-
-
-  // {
-    //   id: `extra-${vegClass}-edge`,
-    //   type: 'line',
-    //   'source-layer': 'esa_vegetation_raw',
-    //   minzoom: esa_vegetation_raw_zoom.min,
-    //   maxzoom: esa_vegetation_raw_zoom.max,
-    //   filter: ['==', ['get', 'class'], vegClass],
-    //   paint: {
-    //     'line-color': color,
-    //     'line-width': 1,
-    //     'line-blur': 2,
-    //     'line-opacity': 0.35
-    //   }
-    // }

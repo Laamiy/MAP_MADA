@@ -12,8 +12,8 @@ export const world_countries_name = [
         ["linear"],
         ["zoom"],
         world_countries_name_zoom.min+1, 2,
-        world_countries_name_zoom.min+3 , 3,
-        world_countries_name_zoom.min+4,2,
+        world_countries_name_zoom.min+2 , 3,
+        world_countries_name_zoom.min+3,2,
         world_countries_name_zoom.max , 0
       ],
       "circle-color": "#FFFFFF",
@@ -40,9 +40,9 @@ export const world_countries_name = [
         "interpolate", 
         ["linear"], 
         ["zoom"], 
-        world_countries_name_zoom.min, 7,   
-        world_countries_name_zoom.min + 2, 10,   
-        world_countries_name_zoom.min + 3, 12,   
+        world_countries_name_zoom.min, 11,   
+        world_countries_name_zoom.min + 2, 12,   
+        world_countries_name_zoom.min + 3, 13,   
         world_countries_name_zoom.max , 0    
       ],
       "symbol-spacing": 250,
