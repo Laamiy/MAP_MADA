@@ -12,7 +12,6 @@ export const land_cover = [
    {
   id: "forest-wood-fill",
   type: "fill",
-  source: "land_cover",
   "source-layer": "land_cover",
   minzoom: land_cover_zoom.min,
   maxzoom: land_cover_zoom.max,
@@ -20,16 +19,15 @@ export const land_cover = [
   paint: {
     "fill-color": colors.forest,
     "fill-opacity": ["interpolate", ["linear"], ["zoom"], 
-    land_cover_zoom.min, 0.3, 
-    land_cover_zoom.min + 2, 0.7, 
-    land_cover_zoom.min + 4, 0.9 , 
+    land_cover_zoom.min, 0.7, 
+    land_cover_zoom.min + 1, 0.8, 
+    land_cover_zoom.min + 2, 0.9 , 
     land_cover_zoom.max, 0.1],
   },
 },
 {
   id: "shrub-grass-fill",
   type: "fill",
-  source: "land_cover",
   "source-layer": "land_cover",
   minzoom: land_cover_zoom.min,
   maxzoom: land_cover_zoom.max,
@@ -37,9 +35,9 @@ export const land_cover = [
   paint: {
     "fill-color": colors.scrub, // give this its own lighter-green token
     "fill-opacity": ["interpolate", ["linear"], ["zoom"], 
-    land_cover_zoom.min, 0.3, 
-    land_cover_zoom.min + 2, 0.7, 
-    land_cover_zoom.min + 4, 0.9 , 
+    land_cover_zoom.min, 0.7, 
+    land_cover_zoom.min + 1, 0.8, 
+    land_cover_zoom.min + 2, 0.9 , 
     land_cover_zoom.max, 0.1],
   },
 },

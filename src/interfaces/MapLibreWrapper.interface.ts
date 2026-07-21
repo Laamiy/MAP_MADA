@@ -11,7 +11,6 @@ export interface MapLibreWrapperProps
   startPoint?: OSRMCoordinate | null;
   endPoint?: OSRMCoordinate | null;
   route?: OSRMRoute | null;
-  onZoomChange: (zoom: number) => void;
   onPlaceClose?: () => void;
   onMapClick?: (coord: OSRMCoordinate) => void;
   onStartChange?: (c: OSRMCoordinate) => void;

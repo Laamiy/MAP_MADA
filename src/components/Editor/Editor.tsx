@@ -1,6 +1,6 @@
-import Modal from "../Custom/Modal"; // Assuming this is your modal path
-import type  {editorProps} from "./Editor.type"
+import Modal from "../Custom/Modal";
 import useEditor from '@/hooks/Editor/useEditor';
+import type  {editorProps} from "@/types/Editor.type"
 
 
 
@@ -16,11 +16,11 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
 
   return (
     <Modal isOpen={!!poi} setIsOpen={onClose}>
-      <div className="  !space-x-6 !space-y-4">
+      <div className="  space-x-6 space-y-4">
         {/* Header */}
-        <div className="!mb-10">
+        <div className="mb-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 rounded-lg bg-linear-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -38,7 +38,7 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
         {/* Error Alert */}
         {error && (
           <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg flex items-start gap-3">
-            <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
             </svg>
             <div>
@@ -178,9 +178,9 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
             </div>
 {/*------------------------------------------------------------*/}
           </div>
-          <details className="group !p-3 ">
-            <summary className="cursor-pointer  bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-all list-none">
-              <div className="flex justify-between !p-4 items-center">
+          <details className="group p-3 ">
+            <summary className="cursor-pointer  bg-linear-to-r from-gray-50 to-gray-100 p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-all list-none">
+              <div className="flex justify-between p-4 items-center">
                 <span className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                   <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -220,31 +220,10 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
             />
           </div>
         </div>
-
-        {/* Footer Info */}
-        {/* {poi?.lng !== undefined && (
-          <div className=" !m-6  !p-2 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
-            <div className="flex flex-wrap gap-4 text-xs">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-gray-700">Version:</span>
-                <span className="px-2 py-1 bg-white rounded-md font-mono text-gray-900 border border-gray-200">
-                  {poi?.version}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-gray-700">Coordinates:</span>
-                <span className="px-2 py-1 bg-white rounded-md font-mono  ">
-                  {poi?.lat?.toFixed(6)}, {poi?.lng?.toFixed(6)}
-                </span>
-              </div>
-            </div>
-          </div>
-        )} */}
-
         {/* Action Buttons */}
         <div className="mt-6 flex gap-12 ">
           <button 
-            className="flex-1 px-6 py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold hover:from-emerald-700 hover:to-teal-700 active:scale-[0.98] transition-all shadow-lg shadow-emerald-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center gap-2"
+            className="flex-1 px-6 py-3 rounded-lg bg-linear-to-r from-emerald-600 to-teal-600 text-white font-semibold hover:from-emerald-700 hover:to-teal-700 active:scale-[0.98] transition-all shadow-lg shadow-emerald-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center gap-2"
             onClick={save} 
             disabled={saving}
           >
@@ -258,7 +237,7 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
               </>
             ) : (
               <>
-                <svg className="w-5 h-5 !m-2 !text-center !text-lg " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 m-2 text-center text-lg " fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
                 Save Changes
@@ -268,7 +247,7 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
 
           {poi?.id !== 0 && (
             <button 
-              className="!p-4 py-3 rounded-lg border-2 border-red-200 text-red-600 font-semibold hover:bg-red-50 hover:border-red-300 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="p-4 py-3 rounded-lg border-2 border-red-200 text-red-600 font-semibold hover:bg-red-50 hover:border-red-300 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               onClick={remove} 
               disabled={saving}
             >
@@ -280,7 +259,7 @@ export default function Editor({ poi, onClose, onDone }: editorProps)
           )}
 
           <button 
-            className="!p-4 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 active:scale-[0.98] transition-all disabled:opacity-50"
+            className="p-4 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 active:scale-[0.98] transition-all disabled:opacity-50"
             onClick={onClose} 
             disabled={saving}
           >

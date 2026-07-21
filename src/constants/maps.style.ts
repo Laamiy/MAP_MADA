@@ -3,6 +3,7 @@ import { citiesGeoJSON, citiesLayers } from "./layers/city_point";
 import type { style, AnyLayer } from "../types/map.types"
 import {
          pois_zoom,
+         road_arrows_zoom,
         } from "./zoom";
 
 import { MAP_CONFIG } from "../config/map.config";
@@ -21,7 +22,7 @@ function martinSrc( srcName : string , min : number , max : number )
 {
   return {
     type : "vector", 
-    tiles: [`http://localhost:3000/${srcName}/{z}/{x}/{y}`],
+    tiles: [`${MAP_CONFIG.martinUrl}/${srcName}/{z}/{x}/{y}`],
     minzoom: min,
     maxzoom: max,
   }
@@ -38,18 +39,15 @@ const sources = {
                     roads_low_name: martinSrc("roads_low_name", 5, 15),
                     buildings: martinSrc("buildings", 16, 17),
                     land_cover: martinSrc("land_cover", 10, 15),
-                    // road_arrows: src(
-                    //   "road_arrows",
-                    //   road_arrows_zoom.min,
-                    //   road_arrows_zoom.max
-                    // ),
+                    land_cover_coarse: martinSrc("land_cover_coarse", 10, 11),
+                    road_arrows: src("road_arrows",road_arrows_zoom.min,road_arrows_zoom.max),
+                    admin_boundaries : martinSrc("admin_boundaries", 4, 12),
                     // railways: src(
                     //   "railways",
                     //   railways_zoom.min,
                     //   railways_zoom.max,
                     //   ["railway"]
-                    // ),
-                    // ferry_routes: src(
+                    // ), // ferry_routes: src(
                     //   "ferry_routes",
                     //   ferry_routes_zoom.min,
                     //   ferry_routes_zoom.max,
@@ -89,23 +87,24 @@ const layers: AnyLayer[] = [
                             ...withSource(layers_imp.world_countries_50m, "world_countries_50m"),
                             ...withSource(layers_imp.esa_vegetation_raw, "esa_vegetation_raw"),
                             ...withSource(layers_imp.world_countries_name, "world_countries_name"),
-                            // ...withSource(layers_imp.boundaries_coarse, "boundaries_coarse"),
                             // ...withSource(layers_imp.railways, "railways"),
                             // ...withSource(layers_imp.ferry_routes, "ferry_routes"),
-                            ...withSource(layers_imp.land_cover, "land_cover"),
+                           ...withSource(layers_imp.land_cover, "land_cover"),
+                           ...withSource(layers_imp.land_cover_coarse, "land_cover_coarse"),
                             ...withSource(layers_imp.water_polygon, "water_polygons"),
                             ...withSource(layers_imp.waterways, "waterways"),
                             ...withSource(layers_imp.roads, "roads"),
                             ...withSource(layers_imp.roads_low, "roads_low"),
-                            ...withSource(layers_imp.buildings, "buildings"),
-                            // ...withSource(layers_imp.road_arrows, "road_arrows"),
+                            ...withSource(layers_imp.road_arrows, "road_arrows"),
                             ...withSource(layers_imp.roads_low_name, "roads_low_name"),
+                            ...withSource(layers_imp.buildings, "buildings"),
                             // ...withSource(layers_imp.fokontany_labels, "fokontany_labels"),
                             ...withSource(layers_imp.places, "places"),
                             ...withSource(layers_imp.pois, "pois"),
                             ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
                             ...withSource(layers_imp.regions, "boundaries_coarse_name"),
                             ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),
+                            ...withSource(layers_imp.admin_boundaries, "admin_boundaries"),
                             // ...withSource(layers_imp.waterways_labels, "waterways"),
                             // ...withSource(layers_imp.locations, "locations"),
                             ...citiesLayers,

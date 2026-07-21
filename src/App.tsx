@@ -1,5 +1,3 @@
-// App.tsx
-import React from "react";
 import { Header } from "./components/Header/Header";
 import { MapLibreWrapper } from "@/components/Map/MapLibreWrapper";
 import { RoutingPanel } from "@/components/Routing/RoutingPanel";
@@ -7,19 +5,11 @@ import { useMapState } from "@/hooks/Map/useMapState";
 import { useOSRMRoute } from "@/hooks/Route/useOSRMRoute";
 import { layoutStyles } from "./styles";
 import { mapContext } from "./context/mapContext";
-// import { flyToFeature } from "./utils/search.utils";
 import { useMapLibre } from "./hooks/Map/useMapLibre";
 
-const App: React.FC = () => {
-  const {
-    searchQuery,
-    mapCenter,
-    zoom,
-    setSearchQuery,
-    setZoom,
-    toggleSidebar,
-  } = useMapState();
+const App = () => {
 
+  const {searchQuery,mapCenter,zoom,setSearchQuery,setZoom,toggleSidebar,} = useMapState();
   const { mapContainer, map} = useMapLibre({ center : mapCenter, zoom: zoom, onZoomChange:  setZoom });
   const { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting ,handleChangeStart, handleChangeEnd, startPoint  , endPoint, routingOn} = useOSRMRoute();
 
@@ -42,7 +32,6 @@ const App: React.FC = () => {
           startPoint={startPoint}
           endPoint={endPoint}
           route={route}
-          onZoomChange={setZoom}
           onStartChange={handleChangeStart}
           onEndChange={handleChangeEnd}
         />

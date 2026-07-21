@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import type { TagDict, inputType, editorPoi } from "@/components/Editor/Editor.type"
+import type { TagDict, inputType, editorPoi } from "@/types/Editor.type"
 import apiClient from '@/api/main'
 
 const API_ENDPOINT  = `/api/poi`;

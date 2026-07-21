@@ -13,14 +13,14 @@ function Modal({
 }: ModalProps) {
   return (
     isOpen && (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+      <div className="fixed inset-0 z-1000 flex items-center justify-center">
         <div
           className="w-full h-full bg-black opacity-50 absolute"
           onClick={() => {
             if (closeOnBlur) setIsOpen(false);
           }}
         />
-        <div className="bg-white rounded-md !p-4 min-w-80 z-50">{children}</div>
+        <div className="bg-white rounded-md p-4 min-w-80 z-50">{children}</div>
       </div>
     )
   );

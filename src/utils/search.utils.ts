@@ -39,7 +39,7 @@ export function flyToFeature( map: maplibregl.Map | null | undefined, peliasGeom
   map.flyTo({
               center: peliasGeometry.coordinates as [number, number],
               zoom: zoom || 17,
-              duration: 1500,
+              duration: 2500,
               essential: true,
              }
             );

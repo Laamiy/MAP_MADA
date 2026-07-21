@@ -9,12 +9,12 @@ export const places = [
     filter: ["has", "name"],
     layout: {
       "icon-image": "tree",
-      "icon-size": 1.5,
+      "icon-size": 1,
       "icon-anchor": "top",
       "icon-allow-overlap": false,
       "text-field": ["upcase", ["get", "name"]],
       "text-justify": "center",
-      "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+      "text-font": ["Noto Sans Regular"],
       "text-size": [
         "interpolate",
         ["linear"],
@@ -33,8 +33,8 @@ export const places = [
     },
     paint: {
       "text-color": "#000000",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)", // Dark, semi-transparent
-      "text-halo-width": 2.5,
+      "text-halo-color": "rgba(255, 255, 255, 1)",
+      "text-halo-width": 1,
       "text-halo-blur": 1,
       "text-opacity": [
         "interpolate",

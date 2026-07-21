@@ -11,6 +11,7 @@ export interface MapConfig {
   baseUrl: string;
   spriteUrl: string;
   glyphUrl: string;
+  martinUrl?: string ; 
   defaultCenter: Coordinates;
   defaultZoom: number;
   minZoom: number;

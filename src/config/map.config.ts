@@ -6,8 +6,9 @@ export const MAP_CONFIG: MapConfig = {
                                         baseUrl: `${LOCAL_IP}:8086/maps/madagascar`,
                                         spriteUrl: `${LOCAL_IP}:8087/osm-icons`,
                                         glyphUrl: `${LOCAL_IP}:3000/font`,
+                                        martinUrl: `${LOCAL_IP}:3000`,
                                         defaultCenter: { lat: -18.8792, lng: 47.5079 }, // Tana
-                                        defaultZoom: 14,
+                                        defaultZoom: 6,
                                         minZoom: 1,
                                         maxZoom: 19.5,
                                       };
