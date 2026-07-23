@@ -6,6 +6,7 @@ import { useOSRMRoute } from "@/hooks/Route/useOSRMRoute";
 import { layoutStyles } from "./styles";
 import { mapContext } from "./context/mapContext";
 import { useMapLibre } from "./hooks/Map/useMapLibre";
+import { EditorProvider } from "./context/editorContext";
 
 const App = () => {
 
@@ -16,6 +17,7 @@ const App = () => {
   return (
     <div className={layoutStyles.container}>
       <mapContext.Provider value={map.current} > 
+      <EditorProvider>
       <Header
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -35,6 +37,9 @@ const App = () => {
           onStartChange={handleChangeStart}
           onEndChange={handleChangeEnd}
         />
+      </div>
+      </EditorProvider>
+
         <RoutingPanel
           isActive={routingOn}
           startPoint={startPoint}
@@ -48,7 +53,6 @@ const App = () => {
           onClear={handleClearRoute}
           onClose={handleCloseRouting}
         />
-      </div>
       </mapContext.Provider>
     </div>
   );

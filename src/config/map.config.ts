@@ -8,7 +8,7 @@ export const MAP_CONFIG: MapConfig = {
                                         glyphUrl: `${LOCAL_IP}:3000/font`,
                                         martinUrl: `${LOCAL_IP}:3000`,
                                         defaultCenter: { lat: -18.8792, lng: 47.5079 }, // Tana
-                                        defaultZoom: 6,
+                                        defaultZoom: 15,
                                         minZoom: 1,
-                                        maxZoom: 19.5,
+                                        maxZoom: 18,
                                       };

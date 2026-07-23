@@ -23,28 +23,4 @@ export const world_countries_50m = [
       ],
     },
   },
-  // {
-  //   id: "world_countries_50m-line",
-  //   type: "line",
-  //   minzoom: world_countries_50m_zoom.min,
-  //   maxzoom: world_countries_50m_zoom.max,
-  //   "source-layer": "world_countries_50m",
-  //   paint: {
-  //     "line-color": "rgba(156, 162, 155, 0.4)",
-  //     "line-width": 1,
-  //     "line-opacity": [
-  //       "interpolate",
-  //       ["linear"],
-  //       ["zoom"],
-  //       world_countries_50m_zoom.min,
-  //       0,
-  //       world_countries_50m_zoom.min + 0.3,
-  //       1,
-  //       world_countries_50m_zoom.max - 0.5,
-  //       0.8,
-  //       world_countries_50m_zoom.max,
-  //       0,
-  //     ],
-  //   },
-  // },
 ];

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
 import { Menu, Settings, User, Route } from 'lucide-react';
 import { SearchBarWithResults } from "./SearchBar";
+import { useEditorContext } from '@/context/editorContext';
 
 interface HeaderProps {
-                          searchQuery: string; // needs a context ?? 
+                          searchQuery: string;
                           onSearchChange: (value: string) => void;
                           onMenuToggle: () => void;
                           onRouteToggle?: () => void;
@@ -19,26 +19,8 @@ export const Header = ({
                       } : HeaderProps
                       ) => 
                 {
-                    const [editorActive, setEditorActive] = useState(() => window.location.search.includes('editor=1'));
-                    
-                    useEffect(() => {
-                                      const handler = () => setEditorActive(window.location.search.includes('editor=1'));
-                                      window.addEventListener('popstate', handler);
-                                      return () => window.removeEventListener('popstate', handler);
-                                    }, []);
-
-                    const toggleEditor = () => {
-                                                  const next = !editorActive;
-                                                  setEditorActive(next);
-                                                  const url = new URL(window.location.href);
-                                                  if (next) 
-                                                    url.searchParams.set('editor', '1');
-                                                  else 
-                                                    url.searchParams.delete('editor');
-
-                                                  window.history.replaceState({}, '', url.toString());
-                                                  window.dispatchEvent(new Event('editor-toggle'));
-                                                };
+                    const { editorEnabled, toggleEditor } = useEditorContext(); 
+                          
 
                     return (
                       <div className="fixed top-0 left-0 right-0 z-110 pointer-events-none flex items-start justify-between p-6 overflow-visible">
@@ -93,12 +75,12 @@ export const Header = ({
                           <button
                             onClick={toggleEditor}
                             className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                              editorActive 
+                              editorEnabled 
                                 ? 'bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/20' 
                                 : 'text-foreground/80 hover:bg-muted'
                             }`}
                             aria-label="Toggle POI editor"
-                            title={editorActive ? 'Exit POI editor' : 'Enter POI editor'}
+                            title={editorEnabled? 'Exit POI editor' : 'Enter POI editor'}
                           >
                             <svg
                               className="w-4 h-4"

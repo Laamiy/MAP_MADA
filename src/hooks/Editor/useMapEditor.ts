@@ -1,123 +1,120 @@
-import { useEffect, useState,  } from "react";
+import { useEffect, useState } from "react";
 import maplibregl from "maplibre-gl";
-import axios from "axios";
+import apiClient from "@/api/main";
+import { getCleanTags } from "@/utils/editor.utils";
 import type { AnyLayer, Coordinates } from "@/types/map.types";
-import type { editorPoi, TagDict , PoiRow } from "@/types/Editor.type";
+import type { editorPoi, TagDict, PoiRow } from "@/types/Editor.type";
 
 interface UseMapEditorProps {
   map: maplibregl.Map | null;
   editorEnabled: boolean;
 }
 
+export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => {
+  const [selPoi, setSelPoi] = useState<editorPoi | null>(null);
 
+  const handlePoiClick = async (feature: maplibregl.MapGeoJSONFeature, lngLat: Coordinates) => {
+    const rawProps = feature.properties || {};
+    const osm_id = rawProps.osm_id;
 
-export const useMapEditor = ({ map, editorEnabled }: UseMapEditorProps) => 
-  {
-    const [selPoi, setSelPoi] = useState<editorPoi | null>(null);
+    if (!osm_id) return;
 
-    const handlePoiClick = async (feature: maplibregl.MapGeoJSONFeature, lngLat: Coordinates) => {
-      const rawProps = feature.properties || {};
-      const osm_id = rawProps.osm_id;
+    try 
+    {
+      const { data } = await apiClient.get<PoiRow>(`/api/poi/${osm_id}`);
+      setSelPoi({
+        id: Number(osm_id),
+        version: data.version,
+        lng: data.lng,
+        lat: data.lat,
+        tags: data.tags as TagDict,
+      });
+    } 
+    catch 
+    {
+      setSelPoi({
+        id: Number(osm_id),
+        version: Number(rawProps.version ?? 1),
+        lng: lngLat.lng,
+        lat: lngLat.lat,
+        tags: getCleanTags(rawProps.tags || rawProps),
+      });
+    }
+  };
 
-      if (!osm_id) 
+  const handleNewPoi = (lngLat: Coordinates) => {
+    setSelPoi({ id: 0, lng: lngLat.lng, lat: lngLat.lat, tags: {}, version: 0 }); ///!! why set ID to 0 could collide .  same for tags , why {}
+    // also where is the click that should just select the current poi data ? 
+  };
+
+  useEffect(() => {
+    console.log("[DEBUG] useMapEditor effect triggered. Editor enabled:", editorEnabled);
+    if (!map || !editorEnabled) 
+    {
+      setSelPoi(null);
+      if (map) 
+        map.getCanvas().style.cursor = "";
+      return;
+    }
+
+    const style = map.getStyle();
+    if (!style) 
+      return;
+
+    console.log(`[INFO] : Simple click on styles ${JSON.stringify(style.sources["pois"])} ` );
+
+    const poiSourceName = style.sources["pois"] ? "pois": Object.keys(style.sources).find(
+      (n) => (style.sources[n] as maplibregl.SourceSpecification)?.type === "vector"
+    );
+
+    if (!poiSourceName) return;
+
+    const poiLayers = style.layers
+                                  .filter((l: AnyLayer) => l.source === poiSourceName)
+                                  .map((l) => l.id);
+
+    const handleClick = async (e: maplibregl.MapMouseEvent) => {
+      if (e.originalEvent.ctrlKey) 
+      {
+        handleNewPoi(e.lngLat);
         return;
+      }
+      console.log(`[INFO] : Simple click on point ${JSON.stringify(poiSourceName)} ` ); 
+      console.log(`[INFO] : Simple click on point ${JSON.stringify(poiLayers)} ` ); 
+      console.log(`[INFO] : Simple click on point ${JSON.stringify(Object.entries(e.point))}` ); 
 
-      const cleantTags = (raw: string | Record<string, any>): TagDict => 
-      {
-        const tags = typeof (raw === "string" ? JSON.parse(raw) : raw);
-        return Object.fromEntries(
-                                  Object.entries(tags).filter(([k]) => {
-                                                                                return !k.startsWith("mapbox") && 
-                                                                                !k.startsWith("osm_") && 
-                                                                                !["version", "icon_class"].includes(k);
-                                                                              })
-                                ) as TagDict;
-      };
+      const features = map.queryRenderedFeatures(e.point, { layers: poiLayers });
 
-      const parsedTags = cleantTags(rawProps.tags || rawProps);
-
-      try 
+        console.log(JSON.stringify(features))
+        console.log(features.length)
+      if (features.length > 0) 
       {
-              const API_BASE = `${import.meta.env.VITE_EDITOR_API}:4004`
-              const { data } = await axios.get<PoiRow>(`${API_BASE}/api/poi/${osm_id}`);
-              setSelPoi({
-                          id: Number(osm_id),
-                          version: data.version,
-                          lng: data.lng,
-                          lat: data.lat,
-                          tags: data.tags as  TagDict,
-                        });
-      } 
-      catch (err) 
-      {
-        setSelPoi({
-                    id: Number(osm_id),
-                    version: Number(rawProps.version ?? 1),
-                    lng: lngLat.lng,
-                    lat: lngLat.lat,
-                    tags: parsedTags,
-                  }
-                );
+        await handlePoiClick(features[0], e.lngLat);
       }
     };
 
-    const handleNewPoi = (lngLat: Coordinates) => {
-      setSelPoi({ id: 0, lng: lngLat.lng, lat: lngLat.lat, tags: {}, version: 0 });
+    const handleMouseEnter = () => {
+      map.getCanvas().style.cursor = "pointer";
     };
 
-    const attachEditorInteractions = () => {
-      if (!map) 
-        return;
-      const style = map.getStyle();
-      const poiSourceName = style.sources["pois"] ||Object.keys(style.sources).find((n) => (style.sources[n]).type === "vector");
-      
-      // const poiSourceName = ["pois", "poi","points"].find((n)=>style.sources[n]) ||
-      //   Object.keys(style.sources).find((n) => (style.sources[n] as maplibregl.SourceSpecification).type === "vector");
+    const handleMouseLeave = () => {
+      map.getCanvas().style.cursor = "";
+    };
 
-      if (!poiSourceName) 
-        return;
+    map.on("click", handleClick);
+    poiLayers.forEach((id) => {
+      map.on("mouseenter", id, handleMouseEnter);
+      map.on("mouseleave", id, handleMouseLeave);
+    });
 
-      const poiLayers = style.layers.filter((l: AnyLayer) => l.source === poiSourceName).map((l) => l.id);
-
-      map.on("click", async (e) => {
-                                      if (!window.location.search.includes("editor=1")) return;
-
-                                      if (e.originalEvent.ctrlKey) 
-                                      {
-                                        handleNewPoi(e.lngLat);
-                                        return;
-                                      }
-
-                                      const features = map.queryRenderedFeatures(e.point, { layers: poiLayers });
-                                      if (features.length > 0) 
-                                      {
-                                        await handlePoiClick(features[0], e.lngLat);
-                                      }
-                                    });
-
-      poiLayers.forEach((id) => 
-      {
-        map.on("mouseenter", id, () => {
-                                          if (window.location.search.includes("editor=1")) {
-                                            map.getCanvas().style.cursor = "pointer";
-                                          }
-                                        });
-        map.on("mouseleave", id, () => {
-                                          map.getCanvas().style.cursor = "";
-                                        });
+    return () => {
+      map.off("click", handleClick);
+      poiLayers.forEach((id) => {
+        map.off("mouseenter", id, handleMouseEnter);
+        map.off("mouseleave", id, handleMouseLeave);
       });
     };
+  }, [map, editorEnabled]);
 
-    useEffect(() => {
-                      if (!editorEnabled) 
-                      {
-                        setSelPoi(null);
-                        if (map) 
-                        {
-                          map.getCanvas().style.cursor = "";
-                        }
-                      }
-                    }, [editorEnabled, map]);
-
-    return { selPoi, setSelPoi,  attachEditorInteractions };
+  return { selPoi, setSelPoi };
 };

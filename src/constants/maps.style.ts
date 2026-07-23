@@ -42,6 +42,7 @@ const sources = {
                     land_cover_coarse: martinSrc("land_cover_coarse", 10, 11),
                     road_arrows: src("road_arrows",road_arrows_zoom.min,road_arrows_zoom.max),
                     admin_boundaries : martinSrc("admin_boundaries", 4, 12),
+                    water_lakes : martinSrc("water_lakes", 0, 12),
                     // railways: src(
                     //   "railways",
                     //   railways_zoom.min,
@@ -78,7 +79,9 @@ const sources = {
                     toamasina: citiesGeoJSON.toamasina,
                     mahajanga: citiesGeoJSON.mahajanga,
                     antsiranana: citiesGeoJSON.antsiranana,
-                    tolagnaro: citiesGeoJSON.tolangnaro
+                    tolagnaro: citiesGeoJSON.tolangnaro,
+                    morondava : citiesGeoJSON.morondava,
+                    fianarantsoa : citiesGeoJSON.fianarantsoa,
                   };
 const withSource = (layers: AnyLayer[], src: string): AnyLayer[] => layers.map((l) => ({ ...l, source: src }));
 
@@ -86,7 +89,6 @@ const layers: AnyLayer[] = [
                             ...layers_imp.background,
                             ...withSource(layers_imp.world_countries_50m, "world_countries_50m"),
                             ...withSource(layers_imp.esa_vegetation_raw, "esa_vegetation_raw"),
-                            ...withSource(layers_imp.world_countries_name, "world_countries_name"),
                             // ...withSource(layers_imp.railways, "railways"),
                             // ...withSource(layers_imp.ferry_routes, "ferry_routes"),
                            ...withSource(layers_imp.land_cover, "land_cover"),
@@ -101,6 +103,8 @@ const layers: AnyLayer[] = [
                             // ...withSource(layers_imp.fokontany_labels, "fokontany_labels"),
                             ...withSource(layers_imp.places, "places"),
                             ...withSource(layers_imp.pois, "pois"),
+                            ...withSource(layers_imp.world_water_lakes, "water_lakes"),
+                            ...withSource(layers_imp.world_countries_name, "world_countries_name"),
                             ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
                             ...withSource(layers_imp.regions, "boundaries_coarse_name"),
                             ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),

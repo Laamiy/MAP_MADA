@@ -5,9 +5,9 @@ type customSource = maplibregl.SourceSpecification &
   tiles: string[];
 };
 
-export const handleZoomIn = (map: maplibregl.Map) => map.zoomIn();
+export const handleZoomIn = (map: maplibregl.Map |null ) => map?.zoomIn();
 
-export const handleZoomOut = (map: maplibregl.Map) => map.zoomOut();
+export const handleZoomOut = (map: maplibregl.Map|null) => map?.zoomOut();
 
 export const handleNavigationClick = ( map: maplibregl.Map, center: { lng: number; lat: number }, zoom: number) => 
     {
