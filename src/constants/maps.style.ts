@@ -8,7 +8,7 @@ import {
 
 import { MAP_CONFIG } from "../config/map.config";
 
-function src( name: string, min: number, max: number, keepFields: string[] = []) 
+function src( name: string, min: number, max: number, keepFields: string[] = [])
 {
   return {
     type: "vector",
@@ -18,10 +18,10 @@ function src( name: string, min: number, max: number, keepFields: string[] = [])
     layers: [{ id: name, fields: keepFields }],
   };
 }
-function martinSrc( srcName : string , min : number , max : number ) 
+function martinSrc( srcName : string , min : number , max : number )
 {
   return {
-    type : "vector", 
+    type : "vector",
     tiles: [`${MAP_CONFIG.martinUrl}/${srcName}/{z}/{x}/{y}`],
     minzoom: min,
     maxzoom: max,
@@ -36,10 +36,11 @@ const sources = {
                     waterways: martinSrc("waterways", 11, 17),
                     roads_low: martinSrc("roads_low", 3, 18),
                     roads: martinSrc("roads", 12, 17),
+                    roads_name: martinSrc("roads_name", 15, 17),
                     roads_low_name: martinSrc("roads_low_name", 5, 15),
                     buildings: martinSrc("buildings", 16, 17),
                     land_cover: martinSrc("land_cover", 10, 15),
-                    land_cover_coarse: martinSrc("land_cover_coarse", 10, 11),
+                    land_cover_coarse: martinSrc("land_cover_coarse_85", 10, 12),
                     road_arrows: src("road_arrows",road_arrows_zoom.min,road_arrows_zoom.max),
                     admin_boundaries : martinSrc("admin_boundaries", 4, 12),
                     water_lakes : martinSrc("water_lakes", 0, 12),
@@ -92,7 +93,7 @@ const layers: AnyLayer[] = [
                             // ...withSource(layers_imp.railways, "railways"),
                             // ...withSource(layers_imp.ferry_routes, "ferry_routes"),
                            ...withSource(layers_imp.land_cover, "land_cover"),
-                           ...withSource(layers_imp.land_cover_coarse, "land_cover_coarse"),
+                           ...withSource(layers_imp.land_cover_coarse, "land_cover"),
                             ...withSource(layers_imp.water_polygon, "water_polygons"),
                             ...withSource(layers_imp.waterways, "waterways"),
                             ...withSource(layers_imp.roads, "roads"),
@@ -102,13 +103,16 @@ const layers: AnyLayer[] = [
                             ...withSource(layers_imp.buildings, "buildings"),
                             // ...withSource(layers_imp.fokontany_labels, "fokontany_labels"),
                             ...withSource(layers_imp.places, "places"),
-                            ...withSource(layers_imp.pois, "pois"),
                             ...withSource(layers_imp.world_water_lakes, "water_lakes"),
                             ...withSource(layers_imp.world_countries_name, "world_countries_name"),
                             ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
                             ...withSource(layers_imp.regions, "boundaries_coarse_name"),
                             ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),
                             ...withSource(layers_imp.admin_boundaries, "admin_boundaries"),
+                            ...withSource(layers_imp.roads_name, "roads_name"),
+                            ...withSource(layers_imp.pois, "pois"),
+
+
                             // ...withSource(layers_imp.waterways_labels, "waterways"),
                             // ...withSource(layers_imp.locations, "locations"),
                             ...citiesLayers,
@@ -121,7 +125,7 @@ const mapStyle: style = {
                             glyphs: `${MAP_CONFIG.glyphUrl}/{fontstack}/{range}`,
                             sources,
                             layers,
-                            
+
                           };
 
 export default mapStyle;

@@ -49,13 +49,13 @@ export const roads_low_name = [
       ["linear"],
       ["zoom"],
       roads_low_name_zoom.min,
-      6,
+      5,
       roads_low_name_zoom.min + INC,
-      8,
+      6,
       roads_low_name_zoom.min + 2*INC,
-      12,
+      7,
       roads_low_name_zoom.max,
-      13
+      9
     ],
     "text-font": ["Noto Sans Bold"],
     "symbol-placement": "line",
@@ -65,12 +65,19 @@ export const roads_low_name = [
     "text-keep-upright": true,
     "text-allow-overlap": false,
     "text-ignore-placement": false,
+    "icon-image": "rectangle", // arrow icon id
+    "icon-size": 1.5,
+    "icon-keep-upright": false, // flip if upside-down
+    "icon-allow-overlap": false,
+    "icon-text-fit": "both",            // Icon stretches to text bounds
+    "icon-text-fit-padding": [1, 1, 1, 1],
+    "icon-rotation-alignment": "viewport", // align to line tangent
 
   },
   paint: {
-            "text-color": "#000",
-            "text-halo-color": "#ffffff",
-            "text-halo-width": 1.5
+            "text-color": "#fff",
+            // "text-halo-color": "#000",
+            "text-halo-width": 1.2
           }
 }
 ]

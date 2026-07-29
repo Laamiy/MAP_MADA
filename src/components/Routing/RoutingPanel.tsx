@@ -1,12 +1,12 @@
-import React from 'react';
 import { X } from 'lucide-react';
 import { CoordinateInput } from './CoordinateInput/CoordinateInput';
 import { RouteInfo } from './RouteInfo/RouteInfo';
-import type { OSRMCoordinate, RoutingPanelProps } from '../../types/osrm.types';
+import type { OSRMCoordinate, RoutingPanelProps } from '@/types/osrm.types';
 import start from '../../assets/images/rocket.png';
 import end from '../../assets/images/end.png';
+import { defaultEndPoint, defaultStartPoint } from '@/constants/routing.constant';
 
-export const RoutingPanel: React.FC<RoutingPanelProps> = ({
+export const RoutingPanel  = ({
   isActive,
   startPoint,
   endPoint,
@@ -18,18 +18,11 @@ export const RoutingPanel: React.FC<RoutingPanelProps> = ({
   onGetRoute,
   onClear,
   onClose,
-}) => {
+} : RoutingPanelProps) => {
   if (!isActive) return null;
 
-  const safeStartPoint: OSRMCoordinate = startPoint || {
-    lat: -18.9137,
-    lng: 47.5214,
-  };
-  const safeEndPoint: OSRMCoordinate = endPoint || {
-    lat: -18.988,
-    lng: 47.5267,
-  };
-
+  const safeStartPoint: OSRMCoordinate = startPoint || defaultStartPoint
+  const safeEndPoint: OSRMCoordinate = endPoint || defaultEndPoint
   return (
     <div className="absolute top-[14vh] right-[1vw] z-20">
       <style>{`

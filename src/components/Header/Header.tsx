@@ -8,6 +8,7 @@ interface HeaderProps {
                           onMenuToggle: () => void;
                           onRouteToggle?: () => void;
                           isRoutingMode?: boolean | null;
+                          onGlobeProjection?: ( ) => void;
                       }
 
 export const Header = ({
@@ -16,20 +17,21 @@ export const Header = ({
                         onMenuToggle,
                         onRouteToggle,
                         isRoutingMode = false,
+                        onGlobeProjection
                       } : HeaderProps
-                      ) => 
+                      ) =>
                 {
-                    const { editorEnabled, toggleEditor } = useEditorContext(); 
-                          
+                    const { editorEnabled, toggleEditor } = useEditorContext();
+
 return (
   <div className="fixed top-0 left-0 right-0 z-50 pointer-events-none flex items-start justify-between p-6 overflow-visible">
-    
+
     {/* Left Action Floating Capsule */}
     <div className="pointer-events-auto flex items-center gap-3 h-14 px-4 bg-white/50 border border-gray-200/60 rounded-2xl shadow-lg backdrop-blur-xl">
       <button
         onClick={onMenuToggle}
-        className="flex h-9 w-9 items-center justify-center rounded-xl bg-transparent 
-                    transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 
+        className="flex h-9 w-9 items-center justify-center rounded-xl bg-transparent
+                    transition-colors hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2
                     focus-visible:ring-emerald-500"
         aria-label="Menu"
       >
@@ -45,23 +47,23 @@ return (
 
     {/* Center Search Container */}
     <div className="pointer-events-auto flex-1 max-w-2xl min-w-0 mx-6 relative overflow-visible shadow-lg rounded-2xl">
-      <SearchBarWithResults 
-        value={searchQuery} 
-        onChange={onSearchChange} 
+      <SearchBarWithResults
+        value={searchQuery}
+        onChange={onSearchChange}
       />
     </div>
 
     {/* Right Action Floating Capsule */}
     <div className="pointer-events-auto flex items-center gap-1.5 h-14 px-3 bg-white/50 border border-gray-200/60 rounded-2xl shadow-lg backdrop-blur-xl shrink-0">
-      
+
       {/* Directions - Icon only, text slides in on hover */}
       {onRouteToggle && (
         <button
           onClick={onRouteToggle}
-          className={`group flex h-10 items-center justify-center rounded-xl transition-all font-medium text-xs 
+          className={`group flex h-10 items-center justify-center rounded-xl transition-all font-medium text-xs
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 overflow-hidden ${
-            isRoutingMode 
-              ? 'bg-emerald-600 text-white shadow-md px-3' 
+            isRoutingMode
+              ? 'bg-emerald-600 text-white shadow-md px-3'
               : 'text-gray-700 hover:bg-black/5 px-3'
           }`}
           aria-label="Toggle routing mode"
@@ -79,8 +81,8 @@ return (
         onClick={toggleEditor}
         className={`group flex h-10 items-center justify-center rounded-xl transition-all overflow-hidden
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
-          editorEnabled 
-            ? 'bg-red-50 text-red-600 border border-red-200/60 hover:bg-red-100 px-3' 
+          editorEnabled
+            ? 'bg-red-50 text-red-600 border border-red-200/60 hover:bg-red-100 px-3'
             : 'text-gray-700 hover:bg-black/5 px-3'
         }`}
         aria-label="Toggle POI editor"
@@ -91,7 +93,7 @@ return (
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
-        > 
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -108,13 +110,13 @@ return (
 
       <button
         className="hidden md:flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-        aria-label="Settings"
+        aria-label="Settings" onClick={onGlobeProjection}
       >
         <Settings className="w-4 h-4" />
       </button>
 
-      <button 
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500" 
+      <button
+        className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
         aria-label="User profile"
       >
         <User className="w-4 h-4" />

@@ -15,6 +15,7 @@ type PoiDef = {
   textPos : "right" | "left"
   textOffset : [number, number]
   textMinZoom: number
+  textOverlap?:boolean
 }
 
 const poiSymbol = (p: PoiDef) => ({
@@ -58,7 +59,7 @@ const poiSymbol = (p: PoiDef) => ({
     "text-anchor": p.textPos,
     "text-offset":p.textOffset,
     "text-optional": true,
-    "text-allow-overlap": false,
+    "text-allow-overlap": p.textOverlap || false,
   },
   paint: {
     "text-color": p.color,
@@ -66,15 +67,7 @@ const poiSymbol = (p: PoiDef) => ({
     "text-halo-width": 1.5,
     "text-halo-blur": 1,
     "text-opacity": 1,
-    // [
-    //   "interpolate",
-    //   ["linear"],
-    //   ["zoom"],
-    //   Math.max(p.textMinZoom - 0.5, 0),
-    //   0,
-    //   p.textMinZoom,
-    //   1,
-    // ],
+
   },
 })
 
@@ -91,6 +84,77 @@ const poiDefs: PoiDef[] = [
     textMinZoom: pois_zoom.min + 9,
   },
   {
+    id: "school",
+    min: pois_zoom.min + 11,
+    size: 1.5,
+    icon: "school",
+    color: "#F95454",
+    fontSize: 12,
+    textPos : "left",
+    textOffset : [1.5, 0],
+    textMinZoom: pois_zoom.min + 11 ,
+  },
+  // {
+  //   id: "tree",
+  //   min: pois_zoom.min + 9,
+  //   size: 1.5,
+  //   icon: "tree",
+  //   color: "#F95454",
+  //   fontSize: 12,
+  //   textPos : "left",
+  //   textOffset : [1.5, 0],
+  //   textMinZoom: pois_zoom.min + 9,
+  //   textOverlap : true,
+  // },
+  {
+    id: "art",
+    min: pois_zoom.min + 8,
+    size: 1.8,
+    icon: "art",
+    color: "#723EC3",
+    fontSize: 12,
+    textPos : "left",
+    textOffset : [1.5, 0],
+
+    textMinZoom: pois_zoom.min + 8,
+  },
+  {
+    id: "sport",
+    min: pois_zoom.min + 8,
+    size: 1.5,
+    icon: "sport",
+    color: "#2C5EAD",
+    fontSize: 12,
+    textPos : "left",
+    textOffset : [1.5, 0],
+
+    textMinZoom: pois_zoom.min + 8,
+  },
+  // {
+  //   id: "stadium",
+  //   min: pois_zoom.min + 5,
+  //   size: 1.5,
+  //   icon: "stadium",
+  //   color: "#723EC3",
+  //   fontSize: 12,
+  //   textPos : "left",
+  //   textOffset : [1.5, 0],
+
+  //   textMinZoom: pois_zoom.min + 5,
+  // },
+  {
+    id: "library",
+    min: pois_zoom.min + 8,
+    size: 1.5,
+    icon: "library",
+    color: "#16C47F",
+    fontSize: 12,
+    textPos : "right",
+    textOffset : [-1.5, 0],
+
+    textMinZoom: pois_zoom.min + 8,
+  },
+  {
     id: "ice_cream",
     min: pois_zoom.min + 8,
     size: 1.5,
@@ -103,11 +167,22 @@ const poiDefs: PoiDef[] = [
     textMinZoom: pois_zoom.min + 9,
   },
   {
-    id: "bbc",
-    min: pois_zoom.min + 10,
+    id: "bbq",
+    min: pois_zoom.min + 4,
     size: 1.5,
-    icon: "bbc",
+    icon: "bbq",
     color: "#F88913",
+    fontSize: 15,
+    textPos : "right",
+    textOffset : [-1.5, 0],
+    textMinZoom: pois_zoom.min + 9,
+  },
+  {
+    id: "ferry",
+    min: pois_zoom.min + 4,
+    size: 1.5,
+    icon: "ferry",
+    color: "#2196F3",
     fontSize: 15,
     textPos : "right",
     textOffset : [-1.5, 0],
@@ -118,6 +193,28 @@ const poiDefs: PoiDef[] = [
     min: pois_zoom.min + 11,
     size: 1.5,
     icon: "cafe",
+    color: "#E2852E",
+    fontSize: 15,
+    textPos : "left",
+    textOffset : [1.5, 0],
+    textMinZoom: pois_zoom.min + 9,
+  },
+  {
+    id: "garden",
+    min: pois_zoom.min + 11,
+    size: 1.5,
+    icon: "garden",
+    color: "#E2852E",
+    fontSize: 15,
+    textPos : "left",
+    textOffset : [1.5, 0],
+    textMinZoom: pois_zoom.min + 9,
+  },
+  {
+    id: "stadium",
+    min: pois_zoom.min + 11,
+    size: 1.5,
+    icon: "stadium",
     color: "#E2852E",
     fontSize: 15,
     textPos : "left",
@@ -150,7 +247,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "pub",
     min: pois_zoom.min + 14,
-    size: 1.5,
+    size: 1.3,
     icon: "pub",
     color: "#BF092F",
     fontSize: 15,
@@ -162,7 +259,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "supermarket",
     min: pois_zoom.min + 14,
-    size: 1.5,
+    size: 1.3,
     icon: "shop",
     color: "#5409DA",
     fontSize: 15,
@@ -174,7 +271,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "bar",
     min: pois_zoom.min + 13,
-    size: 1.2,
+    size: 1.3,
     icon: "bar",
     color: "#FF0B55",
     fontSize: 15,
@@ -186,7 +283,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "fitness",
     min: pois_zoom.min + 7.5,
-    size: 1.2,
+    size: 1.3,
     icon: "fitness",
     color: "#FF2DD1",
     fontSize: 13,
@@ -198,7 +295,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "pool",
     min: pois_zoom.min + 7.5,
-    size: 1.5,
+    size: 1.3,
     icon: "pool",
     color: "#73CED8",
     fontSize: 15,
@@ -208,21 +305,9 @@ const poiDefs: PoiDef[] = [
 
   },
   {
-    id: "bureau_de_change",
-    min: pois_zoom.max - 1,
-    size: 1.2,
-    icon: "bureau_de_change",
-    color: "#219C90",
-    fontSize: 15,
-    textMinZoom: pois_zoom.max,
-    textPos : "left",
-    textOffset : [1.5, 0],
-
-  },
-  {
     id: "hunting_stand",
     min: pois_zoom.min + 7.5,
-    size: 1.5,
+    size: 1.3,
     icon: "hunting_stand",
     color: "#E2852E",
     fontSize: 15,
@@ -234,7 +319,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "atm",
     min: pois_zoom.min + 12.5,
-    size: 1.5,
+    size: 2,
     icon: "atm",
     color: "#219C90",
     fontSize: 15,
@@ -246,7 +331,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "research_institute",
     min: pois_zoom.min + 7.5,
-    size: 1.5,
+    size: 1.3,
     icon: "research_institute",
     color: "#134686",
     fontSize: 15,
@@ -258,7 +343,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "bus",
     min: pois_zoom.min + 8.5,
-    size: 1.2,
+    size: 1.3,
     icon: "bus",
     color: "#00f",
     fontSize: 13,
@@ -272,9 +357,9 @@ const poiDefs: PoiDef[] = [
     min: pois_zoom.min + 12,
     size: 1.2,
     icon: "bus_stop",
-    color: "#FF9B00",
+    color: "#C13383",
     fontSize: 15,
-    textMinZoom: pois_zoom.min + 13.5,
+    textMinZoom: pois_zoom.min -13,
     textPos : "left",
     textOffset : [1.5, 0],
 
@@ -282,7 +367,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "taxi",
     min: pois_zoom.min + 11.5,
-    size: 1.2,
+    size: 1.3,
     icon: "taxi",
     color: "#63C8FF",
     fontSize: 13,
@@ -294,7 +379,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "zoo",
     min: pois_zoom.min,
-    size: 1.2,
+    size: 1.3,
     icon: "zoo",
     color: "#7E5F5F",
     fontSize: 14,
@@ -306,7 +391,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "tourism",
     min: pois_zoom.min + 13,
-    size: 1.2,
+    size: 1.3,
     icon: "tourism",
     color: "#FF0B55",
     fontSize: 15,
@@ -320,7 +405,19 @@ const poiDefs: PoiDef[] = [
     min: pois_zoom.min + 12,
     size: 1.3,
     icon: "pharmacy",
-    color: "#00CC00",
+    color: "#16C47F",
+    fontSize: 15,
+    textPos : "right",
+    textOffset : [-1.5, 0],
+
+    textMinZoom: pois_zoom.min + 13,
+  },
+  {
+    id: "sanitary",
+    min: pois_zoom.min + 12,
+    size: 1.3,
+    icon: "sanitary",
+    color: "#16C47F",
     fontSize: 15,
     textPos : "right",
     textOffset : [-1.5, 0],
@@ -353,6 +450,54 @@ const poiDefs: PoiDef[] = [
     textMinZoom: pois_zoom.min + 13,
   },
   {
+    id: "natural",
+    min: pois_zoom.min ,
+    size: 1.2,
+    icon: "natural",
+    color: "#5DF8D8",
+    fontSize: 15,
+    textPos : "right",
+    textOffset : [-1.5, 0],
+
+    textMinZoom: pois_zoom.min + 1,
+  },
+  {
+    id: "park",
+    min: pois_zoom.min ,
+    size: 1.4,
+    icon: "park",
+    color: "#00E0BA",
+    fontSize: 15,
+    textPos : "right",
+    textOffset : [-1.5, 0],
+
+    textMinZoom: pois_zoom.min + 1,
+  },
+  {
+    id: "bank",
+    min: pois_zoom.min + 12 ,
+    size: 1.5,
+    icon: "bank",
+    color: "#00E0BA",
+    fontSize: 15,
+    textPos : "left",
+    textOffset : [1.5, 0],
+
+    textMinZoom: pois_zoom.min + 13 ,
+  },
+  {
+    id: "justice",
+    min: pois_zoom.min + 10 ,
+    size: 1.5,
+    icon: "justice",
+    color: "#39B1D1",
+    fontSize: 15,
+    textPos : "left",
+    textOffset : [1.5, 0],
+
+    textMinZoom: pois_zoom.min + 11 ,
+  },
+  {
     id: "fuel",
     min: pois_zoom.min + 11.5,
     size: 1.5,
@@ -364,9 +509,21 @@ const poiDefs: PoiDef[] = [
 
     textMinZoom: pois_zoom.min + 13,
   },
+  // {
+  //   id: "hotel",
+  //   min: pois_zoom.min + 11,
+  //   size: 1.5,
+  //   icon: "lodging",
+  //   color: "#F26300",
+  //   fontSize: 15,
+  //   textPos : "left",
+  //   textOffset : [1.5, 0],
+
+  //   textMinZoom: pois_zoom.min + 13.5,
+  // },
   {
-    id: "lodging",
-    min: pois_zoom.min + 13,
+    id: "hotel",
+    min: pois_zoom.min + 12,
     size: 1.5,
     icon: "hotel",
     color: "#F26300",
@@ -379,7 +536,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "aerodrome",
     min: pois_zoom.min + 9,
-    size: 1.2,
+    size: 1.5,
     icon: "aerodrome",
     color: "#2192FF",
     fontSize: 15,
@@ -389,9 +546,21 @@ const poiDefs: PoiDef[] = [
     textMinZoom: pois_zoom.min + 7,
   },
   {
+    id: "army",
+    min: pois_zoom.min + 9,
+    size: 1.5,
+    icon: "army",
+    color: "#FE0000",
+    fontSize: 15,
+    textPos : "left",
+    textOffset : [1.5, 0],
+
+    textMinZoom: pois_zoom.min + 7,
+  },
+  {
     id: "museum",
     min: pois_zoom.min + 5,
-    size: 1.2,
+    size: 1.5,
     icon: "museum",
     color: "#0a15b1ff",
     fontSize: 15,
@@ -424,7 +593,7 @@ export const pois = [
     filter: ["has", "icon_class"],
     layout: {
       "icon-image": ["get", "icon_class"],
-      "icon-size": 1.5,
+      "icon-size": 1.3,
       "icon-offset": [0, -20],
     },
   },

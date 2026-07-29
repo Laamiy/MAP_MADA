@@ -8,9 +8,9 @@ export const road_arrows = [
     minzoom: road_arrows_zoom.min,
     layout: {
       "symbol-placement": "line",
-      "symbol-spacing": 300, 
-      "icon-image": "way", // arrow icon id
-      "icon-size": 0.8,
+      "symbol-spacing": 300,
+      "icon-image": "arrow", // arrow icon id
+      "icon-size": 0.6,
       "icon-keep-upright": false, // flip if upside-down
       "icon-allow-overlap": false,
       "icon-rotation-alignment": "map", // align to line tangent

@@ -7,8 +7,8 @@ export const MAP_CONFIG: MapConfig = {
                                         spriteUrl: `${LOCAL_IP}:8087/osm-icons`,
                                         glyphUrl: `${LOCAL_IP}:3000/font`,
                                         martinUrl: `${LOCAL_IP}:3000`,
-                                        defaultCenter: { lat: -18.8792, lng: 47.5079 }, // Tana
+                                        defaultCenter: { lat:-18.9134573 , lng:47.5225786 }, // Tana
                                         defaultZoom: 15,
                                         minZoom: 1,
-                                        maxZoom: 18,
+                                        maxZoom: 19.5 ,
                                       };

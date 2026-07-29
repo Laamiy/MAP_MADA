@@ -1,5 +1,5 @@
 import { roads_zoom } from "../zoom";
-const INC = 2; 
+const INC = 2;
 
 const roadWidth = [
   "interpolate", ["linear"], ["zoom"],
