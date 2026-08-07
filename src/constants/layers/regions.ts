@@ -1,6 +1,6 @@
 import { boundaries_coarse_name_zoom } from "../zoom"
-
-export const regions = [
+import type {CustomLayer} from "@/types/map.types"
+export const regions  : CustomLayer[]= [
 
   {
     id: "boundaries-coarse-name-region",

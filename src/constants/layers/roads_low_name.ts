@@ -1,6 +1,6 @@
 import { INC, roads_low_name_zoom } from "../zoom"
-
-export const roads_low_name = [
+import type {CustomLayer} from "@/types/map.types"
+export const roads_low_name : CustomLayer[] = [
   {
     id: "roads-low-name-symbol",
     type: "symbol",
@@ -76,7 +76,6 @@ export const roads_low_name = [
   },
   paint: {
             "text-color": "#fff",
-            // "text-halo-color": "#000",
             "text-halo-width": 1.2
           }
 }

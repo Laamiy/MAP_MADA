@@ -1,6 +1,6 @@
 import { world_countries_name_zoom } from "@/constants/zoom"
-
-export const world_countries_name = [
+import type {CustomLayer} from "@/types/map.types"
+export const world_countries_name  : CustomLayer[]= [
   {
     "id": "world_country_dots",
     "type": "circle",
@@ -37,13 +37,13 @@ export const world_countries_name = [
       "text-field": ["get", "name"],
       "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
       "text-size": [
-        "interpolate", 
-        ["linear"], 
-        ["zoom"], 
-        world_countries_name_zoom.min, 11,   
-        world_countries_name_zoom.min + 2, 12,   
-        world_countries_name_zoom.min + 3, 13,   
-        world_countries_name_zoom.max , 0    
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        world_countries_name_zoom.min, 11,
+        world_countries_name_zoom.min + 2, 12,
+        world_countries_name_zoom.min + 3, 13,
+        world_countries_name_zoom.max , 0
       ],
       "symbol-spacing": 250,
       "text-allow-overlap": false,

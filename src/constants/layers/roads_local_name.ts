@@ -1,10 +1,11 @@
-// import { INC, roads_low_name_zoom } from "../zoom"
+import { roads_local_name_zoom } from "../zoom"
+import type { CustomLayer } from "@/types/map.types"
 
-export const roads_name = [
+export const roads_local_name : CustomLayer[]= [
   {
     id: "roads-name-symbol",
     type: "symbol",
-    "source-layer": "roads_name",
+    "source-layer": "roads_local_name",
     filter: ["has", "name"],
     layout: {
               "text-field": ["get", "name"],
@@ -12,9 +13,9 @@ export const roads_name = [
                 "interpolate",
                 ["linear"],
                 ["zoom"],
+                roads_local_name_zoom.min,
                 11,
-                11,
-                17,
+                roads_local_name_zoom.max,
                 17,
               ],
               "symbol-placement": "line",

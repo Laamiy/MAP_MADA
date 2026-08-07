@@ -1,8 +1,8 @@
-export interface Coordinates {
+import maplibregl from 'maplibre-gl'
+export type Coordinates = {
   lat: number;
   lng: number;
-}
-
+  }
 export const toMapLibreCoords = (coords: Coordinates): [number, number] => {
   return [coords.lng, coords.lat];
 };
@@ -11,7 +11,7 @@ export interface MapConfig {
   baseUrl: string;
   spriteUrl: string;
   glyphUrl: string;
-  martinUrl?: string ; 
+  martinUrl?: string ;
   defaultCenter: Coordinates;
   defaultZoom: number;
   minZoom: number;
@@ -23,7 +23,7 @@ export type style =
     sprite: string;
     glyphs: string;
     sources: object;
-    layers: AnyLayer
+    layers: CustomLayer | CustomLayer[] | maplibregl.LayerSpecification
     projection?: { type: "globe" | "mercator" };
      sky?: {
     "sky-color"?: string;
@@ -40,4 +40,21 @@ export type style =
   };
   }
 
-export type AnyLayer = Record<string, any>;
+// Layer :
+export type  CustomLayer  = {
+  id: string;
+  type : "symbol"|"line"|"fill" |"circle"
+  source?: string;
+  "source-layer"?: string;
+  minzoom?: number;
+  maxzoom?: number;
+  filter?: maplibregl.FilterSpecification;
+  layout?: { [key: string]: unknown }
+  paint?: { [key: string]: unknown }
+}
+// Events :
+export type ClickEvent = maplibregl.MapMouseEvent & {
+  features?: maplibregl.MapGeoJSONFeature[];
+};
+// Feature :
+export type FeatureProperties = Record<string, unknown>;

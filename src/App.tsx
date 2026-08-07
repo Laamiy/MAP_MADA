@@ -3,20 +3,32 @@ import { MapLibreWrapper } from "@/components/Map/MapLibreWrapper";
 import { RoutingPanel } from "@/components/Routing/RoutingPanel";
 import { useMapState } from "@/hooks/Map/useMapState";
 import { useOSRMRoute } from "@/hooks/Route/useOSRMRoute";
-import { layoutStyles } from "./styles";
-import { mapContext } from "./context/mapContext";
-import { useMapLibre } from "./hooks/Map/useMapLibre";
-import { EditorProvider } from "./context/editorContext";
-import {useState } from "react"
-export type projectionType = "mercator" | "globe"
+import { layoutStyles } from "@/styles";
+import { mapContext } from "@/context/mapContext";
+import { useMapLibre } from "@/hooks/Map/useMapLibre";
+import { EditorProvider } from "@/context/editorContext";
+import { useState } from "react"
+import { useMapInteractivity } from "@/hooks/Map/useMapInteractivity";
 
 const App = () => {
 
   const {searchQuery,mapCenter,zoom,setSearchQuery,setZoom,toggleSidebar,} = useMapState();
   const { mapContainer, map} = useMapLibre({ center : mapCenter, zoom: zoom, onZoomChange:  setZoom });
   const { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting ,handleChangeStart, handleChangeEnd, startPoint  , endPoint, routingOn} = useOSRMRoute();
-  const [projection, setProjection] = useState(false)
-
+  const [projection, setProjection] = useState(true)
+  useMapInteractivity({
+      map : map.current,
+      config: {
+        poiSourceLayers: ["pois"],
+        areaSourceLayers: ["boundaries_coarse_name", "places"],
+      },
+      onSelectPoi: (props) => {
+        console.log("POI selected:", props.name, props);
+      },
+      onSelectArea: (props) => {
+        console.log("Flying to area/place:", props.name, props);
+      },
+    });
   const handleGlobeToggle = () => {
     setProjection((prev) => {
       const nextState = !prev;

@@ -1,6 +1,6 @@
 import { water_polygons_zoom } from "../zoom"
-
-export const water_polygon = [
+import type {CustomLayer} from "@/types/map.types"
+export const water_polygon : CustomLayer[] = [
   {
     id: "water-polygons-fill",
     type: "fill",

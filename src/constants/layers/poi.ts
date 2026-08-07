@@ -1,5 +1,5 @@
 import { pois_zoom } from "../zoom"
-
+import type {CustomLayer} from "@/types/map.types"
 export const poiName = {
   min: pois_zoom.min + 13.5,
   max: pois_zoom.max,
@@ -18,7 +18,7 @@ type PoiDef = {
   textOverlap?:boolean
 }
 
-const poiSymbol = (p: PoiDef) => ({
+const poiSymbol = (p: PoiDef)  : CustomLayer=> ({
   id: `pois-${p.id}-symbol`,
   type: "symbol" as const,
   "source-layer": "pois",
@@ -157,7 +157,7 @@ const poiDefs: PoiDef[] = [
   {
     id: "ice_cream",
     min: pois_zoom.min + 8,
-    size: 1.5,
+    size: 1.7,
     icon: "ice_cream",
     color: "#F95454",
     fontSize: 15,
@@ -179,7 +179,7 @@ const poiDefs: PoiDef[] = [
   },
   {
     id: "ferry",
-    min: pois_zoom.min + 4,
+    min: pois_zoom.min + 8,
     size: 1.5,
     icon: "ferry",
     color: "#2196F3",
@@ -236,7 +236,7 @@ const poiDefs: PoiDef[] = [
     id: "restaurant",
     min: pois_zoom.min + 5.5,
     size: 1.5,
-    icon: "food",
+    icon: "restaurant",
     color: "#B77466",
     fontSize: 15,
     textPos : "left",
@@ -244,18 +244,18 @@ const poiDefs: PoiDef[] = [
 
     textMinZoom: pois_zoom.min + 9,
   },
-  {
-    id: "pub",
-    min: pois_zoom.min + 14,
-    size: 1.3,
-    icon: "pub",
-    color: "#BF092F",
-    fontSize: 15,
-    textPos : "right",
-    textOffset : [-1.5, 0],
+  // {
+  //   id: "pub",
+  //   min: pois_zoom.min + 14,
+  //   size: 1.3,
+  //   icon: "pub",
+  //   color: "#BF092F",
+  //   fontSize: 15,
+  //   textPos : "right",
+  //   textOffset : [-1.5, 0],
 
-    textMinZoom: pois_zoom.max,
-  },
+  //   textMinZoom: pois_zoom.max,
+  // },
   {
     id: "supermarket",
     min: pois_zoom.min + 14,
@@ -464,9 +464,9 @@ const poiDefs: PoiDef[] = [
   {
     id: "park",
     min: pois_zoom.min ,
-    size: 1.4,
+    size: 1.3,
     icon: "park",
-    color: "#00E0BA",
+    color: "#249D8F",
     fontSize: 15,
     textPos : "right",
     textOffset : [-1.5, 0],
@@ -583,7 +583,7 @@ const poiDefs: PoiDef[] = [
   },
 ]
 
-export const pois = [
+export const pois  : CustomLayer[] =  [
   {
     id: "poi-icons-symbol",
     type: "symbol" as const,

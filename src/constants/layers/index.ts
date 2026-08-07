@@ -1,11 +1,9 @@
-// Must match the file names :
 export * from "./aerialways"
 export * from "./background"
 export * from "./boundaries"
 export * from "./boundaries_coarse"
 export * from "./building"
 export * from "./ferry_routes"
-export * from "./boundaries_coarse_label"
 export * from "./boundaries_coarse_name"
 export * from "./district"
 export * from "./fokontany"
@@ -18,19 +16,16 @@ export * from "./road_arrows"
 export * from "./roads"
 export * from "./roads_low"
 export * from "./roads_low_name"
-//export * from "./state_province"
 export * from "./water_polygon"
 export * from "./waterways"
 export * from "./world_countries_110m"
 export * from "./world_countries_50m"
 export * from "./world_water_lakes"
 export * from "./esa_vegetation_raw"
-// export * from './extra_vege_100m'
-// export * from './extra_vege_30m'
 export * from './city_point'
 export * from './regions'
 export * from './water_polygons_labels'
-export * from './waterways_labels'
+export * from './waterways_name'
 export * from './landuse_labels'
 export * from './buildings3d'
 export * from './locations'
@@ -38,4 +33,4 @@ export * from './world_countries_name'
 export * from './sky'
 export * from './land_cover'
 export * from './land_cover_coarse'
-export * from './roads_name'
+export * from './roads_local_name'

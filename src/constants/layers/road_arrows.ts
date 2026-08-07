@@ -1,6 +1,6 @@
 import { road_arrows_zoom } from "../zoom"
-
-export const road_arrows = [
+import type {CustomLayer} from "@/types/map.types"
+export const road_arrows  : CustomLayer[]= [
   {
     id: "road-arrows-symbol",
     type: "symbol",

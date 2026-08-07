@@ -1,5 +1,6 @@
 import { INC, places_zoom } from "../zoom"
-export const places = [
+import type {CustomLayer} from "@/types/map.types"
+export const places : CustomLayer[] = [
   {
     id: "places-name-symbol",
     type: "symbol",

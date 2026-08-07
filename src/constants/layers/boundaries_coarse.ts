@@ -1,6 +1,6 @@
 import { boundaries_coarse_zoom, INC } from "../zoom";
-
-export const admin_boundaries = [
+import type {CustomLayer} from "@/types/map.types"
+export const admin_boundaries  : CustomLayer[]= [
   {
     id: "boundaries-coarse-line-district",
     type: "line",
@@ -21,7 +21,7 @@ export const admin_boundaries = [
         boundaries_coarse_zoom.max,
         0.5,
       ],
-      "line-dasharray": [0.5, 4],
+      "line-dasharray": [0.5, 7],
     },
   },
  {
@@ -32,10 +32,10 @@ export const admin_boundaries = [
     layout: {
       "symbol-placement": "line",
       "text-field": ["get", "name"],
-      
+
       // [x, y] in em units. // y = 1.2 shifts the text perpendicular to the line on the RIGHT side.// (Negative y = -1.2 would shift to the LEFT side)
       "text-offset": [0, -1.2],
-      
+
       "text-keep-upright": true,
       "text-max-angle": 45,
       "symbol-spacing": 350,
@@ -53,6 +53,17 @@ export const admin_boundaries = [
       "text-color": "#000000",
       "text-halo-color": "#ffffff",
       "text-halo-width": 1.5,
+      "text-opacity": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        boundaries_coarse_zoom.min,
+        1,
+        boundaries_coarse_zoom.min + INC,
+        1,
+        boundaries_coarse_zoom.max,
+        0.5,
+      ],
     },
   },
 ];

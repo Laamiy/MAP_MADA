@@ -1,14 +1,14 @@
 import { land_cover_zoom } from "@/constants/zoom"
-
+import type { CustomLayer } from "@/types/map.types"
 const colors = {
   forest: "#a1eebb",
   scrub: "#C3F1D5",
   wetland: "#C3F1D5",
 }
-export const land_cover = [
+export const land_cover : CustomLayer[] = [
 
 
-    
+
    {
   id: "forest-wood-fill",
   type: "fill",
@@ -18,10 +18,10 @@ export const land_cover = [
   filter: ["==", ["get", "subtype"], "forest"],
   paint: {
     "fill-color": colors.forest,
-    "fill-opacity": ["interpolate", ["linear"], ["zoom"], 
-    land_cover_zoom.min, 0.7, 
-    land_cover_zoom.min + 1, 0.8, 
-    land_cover_zoom.min + 2, 0.9 , 
+    "fill-opacity": ["interpolate", ["linear"], ["zoom"],
+    land_cover_zoom.min, 0.7,
+    land_cover_zoom.min + 1, 0.8,
+    land_cover_zoom.min + 2, 0.9 ,
     land_cover_zoom.max, 0.1],
   },
 },
@@ -34,10 +34,10 @@ export const land_cover = [
   filter: ["any", ["==", ["get", "subtype"], "shrub"], ["==", ["get", "subtype"], "grass"]],
   paint: {
     "fill-color": colors.scrub, // give this its own lighter-green token
-    "fill-opacity": ["interpolate", ["linear"], ["zoom"], 
-    land_cover_zoom.min, 0.7, 
-    land_cover_zoom.min + 1, 0.8, 
-    land_cover_zoom.min + 2, 0.9 , 
+    "fill-opacity": ["interpolate", ["linear"], ["zoom"],
+    land_cover_zoom.min, 0.7,
+    land_cover_zoom.min + 1, 0.8,
+    land_cover_zoom.min + 2, 0.9 ,
     land_cover_zoom.max, 0.1],
   },
 },

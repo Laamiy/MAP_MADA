@@ -1,4 +1,5 @@
 import { roads_zoom } from "../zoom";
+import type {CustomLayer} from "@/types/map.types"
 const INC = 2;
 
 const roadWidth = [
@@ -48,35 +49,31 @@ const roadColor = [
   "#8ba5c19c" // other
 ];
 
-const pathStepsLayer = {
-  id: "roads-path-steps",
-  type: "line",
-  source: "roads",
-  "source-layer": "roads",
-  filter: ["==", ["get", "class"], "path"],
-  layout: {
-    "line-cap": "butt",
-    "line-join": "miter",
-  },
-  paint: {
-    "line-color": "white",
-    "line-width": [
-      "interpolate", ["linear"], ["zoom"],
-      roads_zoom.min, 0.8,
-      roads_zoom.min + INC, 1.2,
-      roads_zoom.min + INC + 1, 4,
-      roads_zoom.max - 1, 10
-    ],
-    "line-dasharray": [1, 1], // square stairs
-    "line-opacity": 1,
-  },
-};
 
-export const roads = [
-  // 1. Path steps drawn on the very bottom
-  pathStepsLayer,
-
-  // 2. Minor roads drawn in the middle
+export const roads  : CustomLayer[]= [
+  {
+    id: "roads-path-steps",
+    type: "line",
+    source: "roads",
+    "source-layer": "roads",
+    filter: ["==", ["get", "class"], "path"],
+    layout: {
+      "line-cap": "butt",
+      "line-join": "miter",
+    },
+    paint: {
+      "line-color": "white",
+      "line-width": [
+        "interpolate", ["linear"], ["zoom"],
+        roads_zoom.min, 0.8,
+        roads_zoom.min + INC, 1.2,
+        roads_zoom.min + INC + 1, 4,
+        roads_zoom.max - 1, 10
+      ],
+      "line-dasharray": [1, 1], // square stairs
+      "line-opacity": 1,
+    },
+  },
   {
     id: "roads-minor-line",
     type: "line",
@@ -103,8 +100,6 @@ export const roads = [
       ],
     },
   },
-
-  // 3. Major and Motorway drawn on top
   {
     id: "roads-major-line",
     type: "line",

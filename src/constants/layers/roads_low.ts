@@ -1,6 +1,7 @@
 import { INC, roads_low_zoom } from "../zoom";
+import type { CustomLayer } from "@/types/map.types"
 
-export const roads_low = [
+export const roads_low  :  CustomLayer[]= [
   {
     id: "roads-low-primary",
     type: "line",
@@ -28,4 +29,3 @@ export const roads_low = [
           },
   },
 ]
- 

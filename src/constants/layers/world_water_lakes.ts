@@ -1,4 +1,5 @@
-export const world_water_lakes = [
+import type {CustomLayer} from "@/types/map.types"
+export const world_water_lakes  : CustomLayer[]= [
   {
     "id": "world_water_lakes-fill",
     "type": "fill",

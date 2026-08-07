@@ -1,4 +1,4 @@
-import { Menu, Settings, User, Route } from 'lucide-react';
+import { Menu, Globe, Route  , Moon, Sun } from 'lucide-react';
 import { SearchBarWithResults } from "./SearchBar";
 import { useEditorContext } from '@/context/editorContext';
 
@@ -8,7 +8,8 @@ interface HeaderProps {
                           onMenuToggle: () => void;
                           onRouteToggle?: () => void;
                           isRoutingMode?: boolean | null;
-                          onGlobeProjection?: ( ) => void;
+                          onGlobeProjection?: () => void;
+                          onThemeToggle?: () => void;
                       }
 
 export const Header = ({
@@ -110,16 +111,18 @@ return (
 
       <button
         className="hidden md:flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-        aria-label="Settings" onClick={onGlobeProjection}
+        aria-label="Toggle globe projection"
+        title="Toggle projection"
+        onClick={onGlobeProjection}
       >
-        <Settings className="w-4 h-4" />
+        <Globe className="w-4 h-4" />
       </button>
 
       <button
         className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
         aria-label="User profile"
       >
-        <User className="w-4 h-4" />
+        <Sun className="w-4 h-4" />
       </button>
     </div>
 

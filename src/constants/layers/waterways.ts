@@ -1,6 +1,6 @@
 import { waterways_zoom } from "../zoom"
-
-export const waterways = [
+import type {CustomLayer} from "@/types/map.types"
+export const waterways  : CustomLayer[]= [
   {
     id: "waterways-line",
     type: "line",

@@ -1,5 +1,6 @@
 import { world_countries_50m_zoom } from "../zoom";
-export const world_countries_50m = [
+import type { CustomLayer } from "@/types/map.types";
+export const world_countries_50m  : CustomLayer []= [
   {
     id: "world_countries_50m-fill",
     type: "fill",

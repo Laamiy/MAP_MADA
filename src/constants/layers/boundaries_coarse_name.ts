@@ -1,6 +1,6 @@
 import { boundaries_coarse_name_zoom } from "../zoom"
-
-export const boundaries_coarse_name = [
+import type {CustomLayer} from "@/types/map.types"
+export const boundaries_coarse_name  : CustomLayer[]= [
 
   {
     "id": "boundaries_coarse_name_circles",
@@ -8,7 +8,7 @@ export const boundaries_coarse_name = [
     "source-layer": "boundaries_coarse_name",
     "filter": ["all", ["==", "admin_level", "6"], ["has", "name"]],
     "paint": {
-      "circle-radius":  
+      "circle-radius":
        [
         "interpolate",
         ["linear"],
@@ -21,7 +21,7 @@ export const boundaries_coarse_name = [
       "circle-color": "#FFFFFF",
       "circle-stroke-color": "#000000",
       "circle-stroke-width": 0.6,
-      "circle-opacity":  
+      "circle-opacity":
       [
         "interpolate",
         ["linear"],
@@ -30,22 +30,22 @@ export const boundaries_coarse_name = [
         boundaries_coarse_name_zoom.max , 0
       ]
     }
-  },                   
-  
-  { 
+  },
+
+  {
     id: "boundaries-coarse-name-district",
     type: "symbol",
     "source-layer": "boundaries_coarse_name",
     filter: ["all", ["==", "admin_level", "6"], ["has", "name"]],
     minzoom: boundaries_coarse_name_zoom.min,
     maxzoom: boundaries_coarse_name_zoom.max,
-    layout: {    
+    layout: {
               "text-anchor": "bottom",
               "text-offset": [0, -0.6],
               "icon-allow-overlap": false,
               "text-allow-overlap": false,
               "text-field": ["get", "name"],
-              "text-size":  
+              "text-size":
               [
                 "interpolate",
                 ["linear"],
@@ -53,7 +53,7 @@ export const boundaries_coarse_name = [
                 boundaries_coarse_name_zoom.min ,
                 7,
                 boundaries_coarse_name_zoom.min +2,
-                12,  
+                12,
                 boundaries_coarse_name_zoom.max,
                 14,
               ],
@@ -67,7 +67,7 @@ export const boundaries_coarse_name = [
             "text-color": "#000000",
             "text-halo-color": "rgba(255, 250, 250, 0.8)",
             "text-halo-width": 1.5,
-            "text-opacity": 
+            "text-opacity":
             [
               "interpolate",
               ["linear"],

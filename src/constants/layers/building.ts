@@ -1,9 +1,9 @@
-
-export const buildings = [
+import type {CustomLayer} from "@/types/map.types"
+export const buildings : CustomLayer[] = [
 
   {
     id: "buildings-fill",
-    type: "fill", // fill-extrusion for 3d buildings 
+    type: "fill", // fill-extrusion for 3d buildings
     source: "buildings",
     "source-layer": "buildings",
     paint: {
