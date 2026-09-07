@@ -1,5 +1,13 @@
 import { INC, places_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
+
 export const places : CustomLayer[] = [
   {
     id: "places-name-symbol",
@@ -33,8 +41,8 @@ export const places : CustomLayer[] = [
       "text-allow-overlap": false,
     },
     paint: {
-      "text-color": "#8ba5c1",
-      "text-halo-color": "#ffffff",
+      "text-color": scheme.places["text-color"],
+      "text-halo-color": scheme.places["text-halo-color"],
       "text-halo-width": 1.7,
       "text-opacity": 1,
 

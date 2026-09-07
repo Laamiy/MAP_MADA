@@ -1,5 +1,11 @@
 import { water_polygons_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 export const water_polygon : CustomLayer[] = [
   {
     id: "water-polygons-fill",
@@ -8,7 +14,7 @@ export const water_polygon : CustomLayer[] = [
     minzoom: water_polygons_zoom.min,
     maxzoom: water_polygons_zoom.max,
     paint: {
-      "fill-color": "#53CBF3"//"rgba(115, 206, 216, 1)",
+      "fill-color": scheme.waterway.fill,
     },
   },
 ]

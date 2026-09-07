@@ -5,7 +5,6 @@ export * from "./boundaries_coarse"
 export * from "./building"
 export * from "./ferry_routes"
 export * from "./boundaries_coarse_name"
-export * from "./district"
 export * from "./fokontany"
 export * from "./fokontany_labels"
 export * from "./place"
@@ -26,11 +25,12 @@ export * from './city_point'
 export * from './regions'
 export * from './water_polygons_labels'
 export * from './waterways_name'
-export * from './landuse_labels'
+// export * from './landuse_labels'
 export * from './buildings3d'
 export * from './locations'
 export * from './world_countries_name'
 export * from './sky'
-export * from './land_cover'
 export * from './land_cover_coarse'
 export * from './roads_local_name'
+export * from './admin_polygons'
+export * from './satellite_view'

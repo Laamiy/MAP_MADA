@@ -1,6 +1,11 @@
 import { roads_local_name_zoom } from "../zoom"
 import type { CustomLayer } from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
 
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 export const roads_local_name : CustomLayer[]= [
   {
     id: "roads-name-symbol",
@@ -28,8 +33,8 @@ export const roads_local_name : CustomLayer[]= [
               "text-ignore-placement": false,
             },
     paint: {
-              "text-color": "#ffffff",
-              "text-halo-color": "#8ba5c1",
+              "text-color": scheme.roads_local_name["text-color"],
+              "text-halo-color": scheme.roads_local_name['text-halo-color'],
               "text-halo-width": 1.5,
             },
   },

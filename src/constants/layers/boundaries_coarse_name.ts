@@ -1,5 +1,12 @@
 import { boundaries_coarse_name_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
+
 export const boundaries_coarse_name  : CustomLayer[]= [
 
   {
@@ -18,8 +25,8 @@ export const boundaries_coarse_name  : CustomLayer[]= [
         boundaries_coarse_name_zoom.min+5,2,
         boundaries_coarse_name_zoom.max , 0
       ],
-      "circle-color": "#FFFFFF",
-      "circle-stroke-color": "#000000",
+      "circle-color": scheme.boundaries_coarse_name["circle-color"],
+      "circle-stroke-color": scheme.boundaries_coarse_name["circle-stroke-color"],
       "circle-stroke-width": 0.6,
       "circle-opacity":
       [
@@ -59,13 +66,12 @@ export const boundaries_coarse_name  : CustomLayer[]= [
               ],
               "symbol-placement": "point",
               "text-justify": "center",
-
               // "text-offset": [0, -2.3],
               "text-font": ["Noto Sans Regular"],
             },
     paint: {
-            "text-color": "#000000",
-            "text-halo-color": "rgba(255, 250, 250, 0.8)",
+      "text-color": scheme['text-color'],
+            "text-halo-color": scheme['text-halo-color'],
             "text-halo-width": 1.5,
             "text-opacity":
             [

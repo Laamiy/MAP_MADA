@@ -1,4 +1,10 @@
 import { world_countries_110m_zoom } from "../zoom"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 
 export const world_countries_110m = [
   {
@@ -8,7 +14,7 @@ export const world_countries_110m = [
     maxzoom: world_countries_110m_zoom.max,
     "source-layer": "world_countries_110m",
     paint: {
-      "fill-color": "#FFF8F0",
+      "fill-color": scheme.world_countries_110.fill,
       "fill-opacity": 1,
     },
   },
@@ -21,7 +27,7 @@ export const world_countries_110m = [
     maxzoom: world_countries_110m_zoom.max,
     "source-layer": "world_countries_110m",
     paint: {
-      "line-color": "rgba(156, 162, 155, 0.4)",
+      "line-color": scheme.world_countries_110.line,
       "line-width": 1,
     },
   },

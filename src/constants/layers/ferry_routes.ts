@@ -1,5 +1,11 @@
 import { ferry_routes_zoom, INC } from "../zoom"
+import { DARK_COLOR_SCHEME } from "./colors";
 
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
 export const ferry_routes = [
   {
     id: "ferry-routes-line",
@@ -11,7 +17,7 @@ export const ferry_routes = [
       "line-join": "round",
     },
     paint: {
-      "line-color": "rgba(53, 50, 49, 1)",
+      "line-color": scheme.ferry_routes.line ,
       "line-width": [
         "interpolate",
         ["linear"],

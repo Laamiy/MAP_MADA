@@ -1,4 +1,11 @@
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
+
 export const world_water_lakes  : CustomLayer[]= [
   {
     "id": "world_water_lakes-fill",
@@ -7,7 +14,7 @@ export const world_water_lakes  : CustomLayer[]= [
     "maxzoom": 12,
     "source-layer": "water_lakes",
     "paint": {
-      "fill-color": "#53CBF3"//"rgba(28, 200, 223, 0.93)"
+      "fill-color": scheme.waterway.fill,  // later on should have it's own color ?
     }
   },
 ]

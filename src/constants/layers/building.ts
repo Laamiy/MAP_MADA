@@ -1,4 +1,11 @@
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
+
 export const buildings : CustomLayer[] = [
 
   {
@@ -7,8 +14,8 @@ export const buildings : CustomLayer[] = [
     source: "buildings",
     "source-layer": "buildings",
     paint: {
-      "fill-color": "#7895B23B"
-      ,
+      "fill-color": scheme.building.fill,
+      // "fill-outline-color": "#475569",
     },
   },
 ]

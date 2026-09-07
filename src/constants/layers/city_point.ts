@@ -1,10 +1,16 @@
-import type { AnyLayer } from "@/types/map.types"
-import { 
+import type { CustomLayer} from "@/types/map.types"
+import {
         tanaCoords,antsirananaCoords,
         fianarantsoaCoords ,mahajangaCoords,
         morondavaCoords,toamasinaCoords,
-        tolagnaroCoords 
+        tolagnaroCoords
       } from "../city.coords";
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
 
 const zoom = { min: 5, max: 14 }
 const INC = 3;
@@ -34,7 +40,7 @@ export const citiesGeoJSON = {
   fianarantsoa: createGeoJSON(fianarantsoaCoords, "Fianarantsoa"),
 }
 
-const createCityLayers = (sourceId: string, name: string, isCapital = false): AnyLayer[] => [
+const createCityLayers = (sourceId: string, name: string, isCapital = false): CustomLayer[] => [
   {
     id: `${sourceId}-outer`,
     type: "circle",
@@ -43,7 +49,7 @@ const createCityLayers = (sourceId: string, name: string, isCapital = false): An
     maxzoom: zoom.max,
     paint: {
       "circle-radius": isCapital ? 12 : 5,
-      "circle-color": "#0080ff",
+      "circle-color": scheme.cityPoints["outer-circle-color"],
       "circle-opacity": 0.25,
       "circle-stroke-width": 0,
     },
@@ -56,9 +62,9 @@ const createCityLayers = (sourceId: string, name: string, isCapital = false): An
     maxzoom: zoom.max,
     paint: {
       "circle-radius": isCapital ? 5 : 2,
-      "circle-color": "#ffffff",
-      "circle-stroke-color": "#0080ff",
-      "circle-stroke-width": isCapital ? 2 : 1,
+      "circle-color": scheme.cityPoints["inner-circle-color"],
+      "circle-stroke-color": scheme.cityPoints['outer-circle-stroke-color'],
+      "circle-stroke-width": isCapital ? 3 : 1,
     },
   },
   {
@@ -90,14 +96,14 @@ const createCityLayers = (sourceId: string, name: string, isCapital = false): An
       "text-variable-anchor-offset": ["center", [0, -1.2]],
     },
     paint: {
-      "text-color": "rgba(2, 42, 48, 1)",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)",
+      "text-color": scheme['text-color'],
+      "text-halo-color": scheme['text-halo-color'],
       "text-halo-width": 1,
     },
   },
 ]
 
-export const citiesLayers: AnyLayer[] = [
+export const citiesLayers: CustomLayer[] = [
   ...createCityLayers("antananarivo", "Antananarivo", true),
   ...createCityLayers("toamasina", "Toamasina"),
   ...createCityLayers("mahajanga", "Mahajanga"),

@@ -1,6 +1,13 @@
 
 import { water_polygons_labels_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
+
  export const water_polygons_labels  : CustomLayer[]= [
     {
     id: "water-name",
@@ -25,8 +32,8 @@ import type {CustomLayer} from "@/types/map.types"
       "text-ignore-placement": false,
     },
     paint: {
-      "text-color": "#2196F3",
-      "text-halo-color": "#ffffff",
+      "text-color": scheme.waterways_name["text-color"],
+      "text-halo-color": scheme.waterways_name['text-halo-color'],
       "text-halo-width": 2.5,
       "text-opacity": [
                         "interpolate",

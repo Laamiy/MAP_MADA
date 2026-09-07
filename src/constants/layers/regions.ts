@@ -1,5 +1,13 @@
 import { boundaries_coarse_name_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
+
 export const regions  : CustomLayer[]= [
 
   {
@@ -28,8 +36,8 @@ export const regions  : CustomLayer[]= [
     },
     paint: {
 
-      "text-color": "#000000",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)", // Dark, semi-transparent
+      "text-color": scheme["text-color"],
+      "text-halo-color": scheme["text-halo-color"],
       "text-halo-width": 1.5,
       "text-opacity": [
         "interpolate",
@@ -47,14 +55,3 @@ export const regions  : CustomLayer[]= [
     },
   },
 ]
-
-      // "icon-image": "region",
-      // "icon-size": [
-      //   "interpolate",
-      //   ["linear"],
-      //   ["zoom"],
-      //   boundaries_coarse_name_zoom.min + 2,
-      //   0.8,
-      // ],
-      // "icon-anchor": "bottom",
-      // "icon-allow-overlap": false,

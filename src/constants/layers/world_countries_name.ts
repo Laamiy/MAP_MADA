@@ -1,5 +1,12 @@
 import { world_countries_name_zoom } from "@/constants/zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
+
 export const world_countries_name  : CustomLayer[]= [
   {
     "id": "world_country_dots",
@@ -16,8 +23,8 @@ export const world_countries_name  : CustomLayer[]= [
         world_countries_name_zoom.min+3,2,
         world_countries_name_zoom.max , 0
       ],
-      "circle-color": "#FFFFFF",
-      "circle-stroke-color": "#000000",
+      "circle-color": scheme.world_countries_name['circle-color'],
+      "circle-stroke-color": scheme.world_countries_name['circle-stroke-color'],
       "circle-stroke-width": 0.8,
       "circle-opacity": [
         "interpolate",
@@ -41,7 +48,7 @@ export const world_countries_name  : CustomLayer[]= [
         ["linear"],
         ["zoom"],
         world_countries_name_zoom.min, 11,
-        world_countries_name_zoom.min + 2, 12,
+        world_countries_name_zoom.min + 2, 11,
         world_countries_name_zoom.min + 3, 13,
         world_countries_name_zoom.max , 0
       ],
@@ -51,8 +58,8 @@ export const world_countries_name  : CustomLayer[]= [
       "text-offset": [0, -0.6]
     },
     "paint": {
-      "text-color": "#000000",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)",
+      "text-color": scheme['text-color'],
+      "text-halo-color": scheme['text-halo-color'],
       "text-halo-width": 1.2
     }
   }

@@ -1,5 +1,11 @@
 import { INC, roads_low_zoom } from "../zoom";
 import type { CustomLayer } from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 
 export const roads_low  :  CustomLayer[]= [
   {
@@ -15,7 +21,7 @@ export const roads_low  :  CustomLayer[]= [
             },
 
     paint: {
-            "line-color": "#9DB2BF",
+            "line-color": scheme.roads_low.line,
             "line-width": [
                             "interpolate",
                             ["linear"],

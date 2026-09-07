@@ -1,5 +1,12 @@
 import { roads_zoom } from "../zoom";
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 const INC = 2;
 
 const roadWidth = [
@@ -39,14 +46,14 @@ const roadWidth = [
 
 const roadColor = [
   "match", ["get", "class"],
-  "motorway", "#ACBAC4",
-  "major", "#ACBAC4",
-  "minor", "#C6D0DB",
-  "residential", "#C6D0DB",
-  "service", "#f0f0f0",
-  "path", "#BFCEDB",
-  "track", "#C6D0DB",
-  "#8ba5c19c" // other
+  "motorway", scheme.roads.motorway,
+  "major", scheme.roads.major,
+  "minor",  scheme.roads.minor,
+  "residential", scheme.roads.residential,
+  "service", scheme.roads.service,
+  "path", scheme.roads.path,
+  "track", scheme.roads.track,
+  scheme.roads.others // other
 ];
 
 

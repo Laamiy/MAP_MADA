@@ -1,4 +1,12 @@
-const INC = 2 ; 
+import { DARK_COLOR_SCHEME } from "./colors";
+
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
+const INC = 2 ;
+
 export const locations = [
   {
     id: "locations-symbol",
@@ -33,8 +41,8 @@ export const locations = [
       "text-allow-overlap": false,
     },
     paint: {
-      "text-color": "#5E53EE",
-      "text-halo-color": "rgba(255, 250, 250, 0.8)", // Dark, semi-transparent
+      "text-color": scheme.locations["text-color"],
+      "text-halo-color": scheme.locations["text-halo-color"], // Dark, semi-transparent
       "text-halo-width": 2.5,
       "text-halo-blur": 1,
       "text-opacity": [

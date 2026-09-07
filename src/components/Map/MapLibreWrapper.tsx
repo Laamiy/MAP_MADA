@@ -22,6 +22,7 @@ export const MapLibreWrapper = ({
   route = null,
   onStartChange,
   onEndChange,
+  onLayersToggle,
 }: MapLibreWrapperProps) => {
   const [debugMode, setDebugMode] = useState(false);
 
@@ -83,15 +84,16 @@ export const MapLibreWrapper = ({
       />
 
       <MapControls
-        zoom={zoom}
-        minZoom={MAP_CONFIG.minZoom}
-        maxZoom={MAP_CONFIG.maxZoom}
-        onZoomIn={() => handleZoomIn(mapInstance)}
-        onZoomOut={() => handleZoomOut(mapInstance)}
-        onNavigationClick={() => {
-          if (mapInstance) handleNavigationClick(mapInstance, center, zoom);
-        }}
-      />
+              zoom={zoom}
+              minZoom={MAP_CONFIG.minZoom}
+              maxZoom={MAP_CONFIG.maxZoom}
+              onZoomIn={() => handleZoomIn(mapInstance)}
+              onZoomOut={() => handleZoomOut(mapInstance)}
+              onLayersClick={onLayersToggle}
+              onNavigationClick={() => {
+                if (mapInstance) handleNavigationClick(mapInstance, center, zoom);
+              }}
+            />
 
       {editorEnabled && selPoi && (
         <Editor

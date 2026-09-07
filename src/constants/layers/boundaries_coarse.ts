@@ -1,13 +1,20 @@
 import { boundaries_coarse_zoom, INC } from "../zoom";
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
+
 export const admin_boundaries  : CustomLayer[]= [
   {
     id: "boundaries-coarse-line-district",
     type: "line",
     "source-layer": "admin_lines",
-    filter: ["all", ["==", "admin_level", "4"], ["has", "name"]],
+    filter: ["all", ["==", "scheme", "4"], ["has", "name"]],
     paint: {
-      "line-color": "#000000",
+      "line-color": scheme.boundaries_coarse.line,
       "line-width": [
         "interpolate",
         ["linear"],
@@ -21,7 +28,7 @@ export const admin_boundaries  : CustomLayer[]= [
         boundaries_coarse_zoom.max,
         0.5,
       ],
-      "line-dasharray": [0.5, 7],
+      "line-dasharray": [0.2, 7],
     },
   },
  {
@@ -50,8 +57,8 @@ export const admin_boundaries  : CustomLayer[]= [
       ],
     },
     paint: {
-      "text-color": "#000000",
-      "text-halo-color": "#ffffff",
+      "text-color": scheme['text-color'],
+      "text-halo-color": scheme['text-halo-color'],
       "text-halo-width": 1.5,
       "text-opacity": [
         "interpolate",

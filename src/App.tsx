@@ -9,25 +9,17 @@ import { useMapLibre } from "@/hooks/Map/useMapLibre";
 import { EditorProvider } from "@/context/editorContext";
 import { useState } from "react"
 import { useMapInteractivity } from "@/hooks/Map/useMapInteractivity";
-
+import type {layerModeType}from "@/types/map.types"
 const App = () => {
-
+  const [layerMode , setLayerMode] = useState<layerModeType>("standard")
   const {searchQuery,mapCenter,zoom,setSearchQuery,setZoom,toggleSidebar,} = useMapState();
-  const { mapContainer, map} = useMapLibre({ center : mapCenter, zoom: zoom, onZoomChange:  setZoom });
+  const { mapContainer, map} = useMapLibre({ center : mapCenter, zoom: zoom, onZoomChange:  setZoom , mode:layerMode });
   const { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting ,handleChangeStart, handleChangeEnd, startPoint  , endPoint, routingOn} = useOSRMRoute();
   const [projection, setProjection] = useState(true)
   useMapInteractivity({
       map : map.current,
-      config: {
-        poiSourceLayers: ["pois"],
-        areaSourceLayers: ["boundaries_coarse_name", "places"],
-      },
-      onSelectPoi: (props) => {
-        console.log("POI selected:", props.name, props);
-      },
-      onSelectArea: (props) => {
-        console.log("Flying to area/place:", props.name, props);
-      },
+      config: { poiSourceLayers: ["pois"], areaSourceLayers: ["boundaries_coarse_name", "places"],},
+      onSelectPoi: (props) => {console.log("POI selected:", props.name, props);}
     });
   const handleGlobeToggle = () => {
     setProjection((prev) => {
@@ -37,7 +29,9 @@ const App = () => {
       }
       return nextState;
     });
+
   };
+  const handleLayersToggle = () => {setLayerMode((prev) => (prev === "standard" ? "satellite" : "standard")); };
   return (
     <div className={layoutStyles.container}>
       <mapContext.Provider value={map.current} >
@@ -61,6 +55,7 @@ const App = () => {
           route={route}
           onStartChange={handleChangeStart}
           onEndChange={handleChangeEnd}
+          onLayersToggle={handleLayersToggle}
         />
       </div>
       </EditorProvider>

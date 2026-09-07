@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import type { FeatureProperties , ClickEvent} from "@/types/map.types";
-import { getStringProp, formatCategory } from "@/utils/map.utils";
+import { getStringProp, formatCategory , resolveLayerIds , handleAreaClick , clearAdminHighlight} from "@/utils/map.utils";
 
 export interface InteractivityConfig {
   poiSourceLayers?: string[];
@@ -18,13 +18,9 @@ interface UseMapInteractivityProps {
   onSelectArea?: (areaProperties: FeatureProperties) => void;
 }
 
-export const useMapInteractivity = ({
-  map,
-  config,
-  onSelectPoi,
-  onSelectArea,
-}: UseMapInteractivityProps) => {
+export const useMapInteractivity = ({ map, config, onSelectPoi, onSelectArea,}: UseMapInteractivityProps) => {
   const popupRef = useRef<maplibregl.Popup | null>(null);
+  const selectedFeatureRef = useRef<{ source: string; sourceLayer?: string; id: string | number } | null>(null);
 
   useEffect(() => {
     if (!map)
@@ -36,33 +32,34 @@ export const useMapInteractivity = ({
       maxWidth: "300px",
       offset: 15,
     });
-
-    const resolveLayerIds = ( explicitIds?: string[], sourceLayers?: string[]): string[] => {
-      const ids = new Set<string>(explicitIds || []);
-      if (!sourceLayers || sourceLayers.length === 0)
-        return Array.from(ids);
-
-      const style = map.getStyle();
-      if (!style || !style.layers)
-        return Array.from(ids);
-
-      style.layers.forEach((layer: maplibregl.LayerSpecification) => {
-        const src = "source" in layer && typeof layer.source === "string" ? layer.source : undefined;
-        const srcLayer = "source-layer" in layer && typeof layer["source-layer"] === "string" ? layer["source-layer"] : undefined;
-
-        if (
-          (srcLayer && sourceLayers.includes(srcLayer)) ||
-          (src && sourceLayers.includes(src))
-        ) {
-          ids.add(layer.id);
-        }
-      });
-
-      return Array.from(ids);
+    const clearSelectedFeature = () => {
+      if (selectedFeatureRef.current && map)
+      {
+        map.setFeatureState(selectedFeatureRef.current, { selected: false });
+        selectedFeatureRef.current = null;
+      }
     };
 
-    const targetPoiLayers = resolveLayerIds(config.poiLayerIds, config.poiSourceLayers);
-    const targetAreaLayers = resolveLayerIds(config.areaLayerIds,config.areaSourceLayers);
+    popupRef.current.on("close", () =>
+    {
+      clearSelectedFeature();
+      clearAdminHighlight(map);
+    });
+
+
+    const targetPoiLayers  = resolveLayerIds(map , config.poiLayerIds, config.poiSourceLayers);
+    const targetAreaLayers = resolveLayerIds(map, config.areaLayerIds, config.areaSourceLayers);
+
+    const onBgClick = (e: maplibregl.MapMouseEvent) => {
+      const hits = map.queryRenderedFeatures(e.point, { layers: targetAreaLayers, });
+      console.log(`PLACE LAYERS : ${JSON.stringify(targetAreaLayers)}`)
+      if (hits.length === 0)
+      {
+        clearAdminHighlight(map);
+      }
+    };
+
+    map.on("click", onBgClick);
 
     const handleMouseEnter = () => {
       map.getCanvas().style.cursor = "pointer";
@@ -75,6 +72,7 @@ export const useMapInteractivity = ({
     const handlePoiClick = (e: ClickEvent) => {
       if (!e.features || e.features.length === 0)
         return;
+      clearSelectedFeature();
 
       const feature = e.features[0];
       const props: FeatureProperties = feature.properties || {};
@@ -82,7 +80,9 @@ export const useMapInteractivity = ({
       const coordinates: [number, number] = feature.geometry.type === "Point"
           ? (feature.geometry.coordinates.slice() as [number, number])
           : [e.lngLat.lng, e.lngLat.lat];
+// pulse effect :
 
+// pulse effect :
       const title = getStringProp(props, "name") || formatCategory(props);
       const category =
         getStringProp(props, "amenity") ||
@@ -106,47 +106,15 @@ export const useMapInteractivity = ({
           </div>
         </div>
       `;
-
       popupRef.current?.setLngLat(coordinates).setHTML(htmlContent).addTo(map);
 
       onSelectPoi?.(props);
     };
 
-    const handleAreaClick = (e: ClickEvent) => {
-      if (!e.features || e.features.length === 0) return;
-
-      const feature = e.features[0];
-      const props: FeatureProperties = feature.properties || {};
-
-      const targetCoordinates: [number, number] =
-        feature.geometry.type === "Point"
-          ? (feature.geometry.coordinates.slice() as [number, number])
-          : [e.lngLat.lng, e.lngLat.lat];
-
-      const currentZoom = map.getZoom();
-      const adminLevel = Number(props.admin_level);
-
-      let targetZoom = currentZoom + 2.5;
-      if (adminLevel === 6) targetZoom = Math.max(currentZoom + 2, 11);
-      if (adminLevel === 4) targetZoom = Math.max(currentZoom + 2, 9);
-
-      map.flyTo({
-        center: targetCoordinates,
-        zoom: Math.min(targetZoom, map.getMaxZoom()),
-        speed: 1.2,
-        curve: 1.4,
-        essential: true,
-      });
-
-      onSelectArea?.(props);
-    };
-
-    const attachListeners = (
-      layerIds: string[],
-      clickHandler: (e: ClickEvent) => void
-    ) => {
+    const attachListeners = ( layerIds: string[], clickHandler: (e: ClickEvent) => void) => {
       layerIds.forEach((id) => {
-        if (map.getLayer(id)) {
+        if (map.getLayer(id))
+        {
           map.on("mouseenter", id, handleMouseEnter);
           map.on("mouseleave", id, handleMouseLeave);
           map.on("click", id, clickHandler);
@@ -154,26 +122,25 @@ export const useMapInteractivity = ({
       });
     };
 
-    const detachListeners = (
-      layerIds: string[],
-      clickHandler: (e: ClickEvent) => void
-    ) => {
+    const detachListeners = ( layerIds: string[], clickHandler: (e: ClickEvent) => void) => {
       layerIds.forEach((id) => {
-        if (map.getLayer(id)) {
+        if (map.getLayer(id))
+        {
           map.off("mouseenter", id, handleMouseEnter);
           map.off("mouseleave", id, handleMouseLeave);
           map.off("click", id, clickHandler);
         }
       });
     };
-
+    const onAreaClick = (e: ClickEvent) => handleAreaClick(map, e, onSelectArea);
     attachListeners(targetPoiLayers, handlePoiClick);
-    attachListeners(targetAreaLayers, handleAreaClick);
+    attachListeners(targetAreaLayers, onAreaClick);
 
     return () => {
       detachListeners(targetPoiLayers, handlePoiClick);
-      detachListeners(targetAreaLayers, handleAreaClick);
+      detachListeners(targetAreaLayers, onAreaClick);
       popupRef.current?.remove();
+      clearSelectedFeature();
     };
   }, [
     map,

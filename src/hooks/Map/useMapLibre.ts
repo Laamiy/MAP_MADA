@@ -4,6 +4,7 @@ import type { StyleSpecification   } from "maplibre-gl";
 import type { Coordinates } from "@/types/map.types";
 import { MAP_CONFIG } from "@/config/map.config";
 import mapStyle from "@/constants/maps.style";
+import type { layerModeType } from "@/types/map.types"
 
 interface UseMapLibreProps {
                             center: Coordinates;
@@ -11,11 +12,13 @@ interface UseMapLibreProps {
                             onZoomChange: (zoom: number) => void;
                             onMapClick?: (coords: Coordinates) => void;
                             onMapLoad?: () => void;
+                            mode : layerModeType,
                           }
 
 export const useMapLibre = ({
                                 center,
                                 zoom,
+                                mode ,
                                 onZoomChange,
                                 onMapLoad,
                               }: UseMapLibreProps
@@ -41,7 +44,7 @@ export const useMapLibre = ({
                                                 minZoom: MAP_CONFIG.minZoom,
                                                 maxZoom: MAP_CONFIG.maxZoom,
                                                 maxPitch: 80,
-                                                pitch: 70,
+                                                pitch: MAP_CONFIG.pitch,
                                                 canvasContextAttributes: { antialias: true },
                                               });
             map.current.setRenderWorldCopies(false); // remove infinit world copy
@@ -80,7 +83,52 @@ export const useMapLibre = ({
                       map.current = null;
                     };
   }, []);
+  useEffect(() => {
+      const mapInstance = map.current;
+      if (!mapInstance || !mapInstance.isStyleLoaded()) return;
 
+      // Define vector overlay layer IDs that sit above the satellite layer
+      // (Roads, Labels, Administrative Lines, POIs)
+      const overlayLayerIds = [
+        "roads-line",
+        "roads-labels",
+        "admin-lines",
+        "places-labels",
+        "pois-symbol",
+      ];
+
+      if (mode === "standard") {
+        // Hide satellite, show vector overlays
+        if (mapInstance.getLayer("satellite-layer")) {
+          mapInstance.setLayoutProperty("satellite-layer", "visibility", "none");
+        }
+        overlayLayerIds.forEach((id) => {
+          if (mapInstance.getLayer(id)) {
+            mapInstance.setLayoutProperty(id, "visibility", "visible");
+          }
+        });
+      } else if (mode === "hybrid") {
+        // Show satellite, keep vector overlays visible on top
+        if (mapInstance.getLayer("satellite-layer")) {
+          mapInstance.setLayoutProperty("satellite-layer", "visibility", "visible");
+        }
+        overlayLayerIds.forEach((id) => {
+          if (mapInstance.getLayer(id)) {
+            mapInstance.setLayoutProperty(id, "visibility", "visible");
+          }
+        });
+      } else if (mode === "satellite") {
+        // Show satellite, hide vector overlays
+        if (mapInstance.getLayer("satellite-layer")) {
+          mapInstance.setLayoutProperty("satellite-layer", "visibility", "visible");
+        }
+        overlayLayerIds.forEach((id) => {
+          if (mapInstance.getLayer(id)) {
+            mapInstance.setLayoutProperty(id, "visibility", "none");
+          }
+        });
+      }
+    }, [mode]);
   useEffect(() =>
     {
       if (map.current && !map.current.isMoving())

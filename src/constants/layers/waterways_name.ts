@@ -1,5 +1,12 @@
 import { waterways_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
+
 export const waterways_name : CustomLayer[] =
   [
     {
@@ -26,8 +33,8 @@ export const waterways_name : CustomLayer[] =
         "symbol-spacing": 400
       },
       paint: {
-        "text-color": "#2196F3", // blue-800
-        "text-halo-color": "#ffffff",
+        "text-color": scheme.waterways_name["text-color"],
+        "text-halo-color": scheme.waterways_name['text-halo-color'],
         "text-halo-width": 1.5
       }
     }

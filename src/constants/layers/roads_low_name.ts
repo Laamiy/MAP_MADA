@@ -1,5 +1,11 @@
 import { INC, roads_low_name_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
+import { DARK_COLOR_SCHEME } from "./colors";
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 export const roads_low_name : CustomLayer[] = [
   {
     id: "roads-low-name-symbol",
@@ -29,8 +35,8 @@ export const roads_low_name : CustomLayer[] = [
               "text-ignore-placement": false,
             },
     paint: {
-              "text-color": "#ffffff",
-              "text-halo-color": "#8ba5c1",
+              "text-color": scheme.roads_low_name["text-color"],
+              "text-halo-color": scheme.roads_low_name["text-halo-color"],
               "text-halo-width": 1.5,
             },
   },
@@ -75,7 +81,7 @@ export const roads_low_name : CustomLayer[] = [
 
   },
   paint: {
-            "text-color": "#fff",
+            "text-color": DARK_COLOR_SCHEME["text-color"],
             "text-halo-width": 1.2
           }
 }

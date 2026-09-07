@@ -1,4 +1,11 @@
 import { railways_zoom } from "../zoom"
+import { DARK_COLOR_SCHEME } from "./colors";
+
+import {store} from  "@/store/store"
+import { THEME_MAP } from "../theme.constant";
+
+const currentTheme = store.getState().theme.currentTheme;
+const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 
 export const railways = [
   {
@@ -10,7 +17,7 @@ export const railways = [
                 "line-join": "miter",
               },
       paint: {
-              "line-color": "rgba(33, 40, 47, 1)",
+              "line-color": scheme.railways.line,
               "line-width": 1,
               "line-opacity": [
                 "interpolate",

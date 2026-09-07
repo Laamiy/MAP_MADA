@@ -16,6 +16,7 @@ export interface MapConfig {
   defaultZoom: number;
   minZoom: number;
   maxZoom: number;
+  pitch?: number;
 }
 export type style =
   {
@@ -43,7 +44,7 @@ export type style =
 // Layer :
 export type  CustomLayer  = {
   id: string;
-  type : "symbol"|"line"|"fill" |"circle"
+  type : "symbol"|"line"|"fill" |"circle"|"raster"| "background"
   source?: string;
   "source-layer"?: string;
   minzoom?: number;
@@ -58,3 +59,4 @@ export type ClickEvent = maplibregl.MapMouseEvent & {
 };
 // Feature :
 export type FeatureProperties = Record<string, unknown>;
+export type layerModeType = "standard"|"satellite"|"hybrid"
