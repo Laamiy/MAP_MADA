@@ -1,5 +1,6 @@
 export const LIGHT_COLOR_SCHEME = {
 
+
   "text-color": "#000000",
   "text-halo-color": "#ffffff",
   "background-color": "#54CBFE",
@@ -25,8 +26,8 @@ export const LIGHT_COLOR_SCHEME = {
 
   building: { fill: "#7895B23B", },
   cityPoints: {
-    "inner-circle-color": "#0080ff",
-    "outer-circle-color": "#ffffff",
+    "inner-circle-color": "#ffffff",
+    "outer-circle-color": "#0080ff",
     "outer-circle-stroke-color": "#0080ff",
   },
   esa_vegetation_raw: {
@@ -139,12 +140,12 @@ export const LIGHT_COLOR_SCHEME = {
           "text-color": "#2196F3",
           "text-halo-color": "#ffffff",
   },
-} as const
+}
 
 export const DARK_COLOR_SCHEME = {
   "text-color": "#ffffff",
   "text-halo-color": "#121212",
-  "background-color": "#0d1b2a",
+  "background-color": "#0d1b4a",
 
   admin_polygons: {
     level3: "#a78bfa",
@@ -167,8 +168,8 @@ export const DARK_COLOR_SCHEME = {
 
   building: { fill: "#33415580" },
   cityPoints: {
-    "inner-circle-color": "#38bdf8",
-    "outer-circle-color": "#0f172a",
+    "inner-circle-color":  "#0f172a",
+    "outer-circle-color":"#38bdf8",
     "outer-circle-stroke-color": "#38bdf8",
   },
   esa_vegetation_raw: {
@@ -270,7 +271,7 @@ export const DARK_COLOR_SCHEME = {
     fill: "#111827",
     line: "rgba(75, 85, 99, 0.4)",
   },
-  waterway: { fill: "#0e7490"  , line  : "#0e7490"},
+  waterway: { fill: "#0d1b4a"  , line  : "#0d1b4a"},
 
   waterways_name: {
     "text-color": "#38bdf8",
@@ -281,7 +282,7 @@ export const DARK_COLOR_SCHEME = {
        "text-halo-color": "#0f172a",
   }
 
-} as const;
+}
 
 export const BLUE_SHADES_COLOR_SCHEME = {
   "text-color": "#0F172A",
@@ -309,8 +310,8 @@ export const BLUE_SHADES_COLOR_SCHEME = {
 
   building: { fill: "#5FBDFF3D" },
   cityPoints: {
-    "inner-circle-color": "#7B66FF",
-    "outer-circle-color": "#C5FFF8",
+    "inner-circle-color": "#C5FFF8" ,
+    "outer-circle-color":  "#7B66FF",
     "outer-circle-stroke-color": "#2563EB",
   },
   esa_vegetation_raw: {
@@ -336,7 +337,7 @@ export const BLUE_SHADES_COLOR_SCHEME = {
     "text-halo-color": "rgba(197, 255, 248, 0.9)",
   },
   places: {
-    "text-color": "#1D4ED8",
+    "text-color": "#3A86FF",
     "text-halo-color": "#C5FFF8",
   },
   pois: {
@@ -347,10 +348,10 @@ export const BLUE_SHADES_COLOR_SCHEME = {
     library: "#0369A1",
     ice_cream: "#96EFFF",
     bbq: "#1E40AF",
-    ferry: "#1D4ED8",
+    ferry: "#3A86FF",
     cafe: "#38BDF8",
     garden: "#0284C7",
-    stadium: "#1D4ED8",
+    stadium: "#3A86FF",
     food_court: "#0369A1",
     restaurant: "#1E3A8A",
     supermarket: "#4338CA",
@@ -367,13 +368,13 @@ export const BLUE_SHADES_COLOR_SCHEME = {
     tourism: "#7B66FF",
     pharmacy: "#0284C7",
     sanitary: "#38BDF8",
-    hospital: "#1D4ED8",
+    hospital: "#3A86FF",
     health: "#2563EB",
     natural: "#96EFFF",
     park: "#0284C7",
     bank: "#1E40AF",
     justice: "#3B82F6",
-    fuel: "#1D4ED8",
+    fuel: "#3A86FF",
     hotel: "#5FBDFF",
     aerodrome: "#2563EB",
     army: "#1E3A8A",
@@ -382,7 +383,7 @@ export const BLUE_SHADES_COLOR_SCHEME = {
   },
   railways: { line: "rgba(30, 58, 138, 0.9)" },
   roads: {
-    motorway: "#1D4ED8",
+    motorway: "#3A86FF",
     major: "#2563EB",
     minor: "#5FBDFF",
     residential: "#96EFFF",
@@ -412,17 +413,17 @@ export const BLUE_SHADES_COLOR_SCHEME = {
     fill: "#F0F9FF",
     line: "rgba(95, 189, 255, 0.5)",
   },
-  waterway: { fill: "#1D4ED8" , line :  "#1D4ED8" },
+  waterway: { fill: "#3A86FF" , line :  "#3A86FF" },
 
   waterways_name: {
     "text-color": "#1E3A8A",
     "text-halo-color": "#C5FFF8",
   },
   roads_local_name: {
-     "text-color": "#94a3b8",
+     "text-color": "#ffffff",
         "text-halo-color": "#0f172a",
    }
-} as const;
+}
 
 export const PURPLE_SHADES_COLOR_SCHEME = {
   "text-color": "#2E1065",
@@ -450,8 +451,8 @@ export const PURPLE_SHADES_COLOR_SCHEME = {
 
   building: { fill: "#D0A2F73D" },
   cityPoints: {
-    "inner-circle-color": "#7E22CE",
-    "outer-circle-color": "#F1EAFF",
+    "inner-circle-color": "#F1EAFF",
+    "outer-circle-color": "#7E22CE",
     "outer-circle-stroke-color": "#581C87",
   },
   esa_vegetation_raw: {
@@ -553,14 +554,14 @@ export const PURPLE_SHADES_COLOR_SCHEME = {
     fill: "#FAF5FF",
     line: "rgba(208, 162, 247, 0.5)",
   },
-  waterway: { fill: "#581C87", line: "#581C87" } ,
+  waterway: { fill: "#DC95FF", line: "#DC95FF" } ,
 
   waterways_name: {
     "text-color": "#3B0764",
     "text-halo-color": "#F1EAFF",
   },
   roads_local_name: {
-     "text-color": "#94a3b8",
+     "text-color": "#ffffff",
         "text-halo-color": "#0f172a",
    }
-} as const;
+}

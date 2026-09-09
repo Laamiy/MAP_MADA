@@ -47,7 +47,7 @@ export const MapLibreWrapper = ({
   return (
     <main className={layoutStyles.mapContainer}>
       <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col items-start gap-2">
-        <button
+        {/*<button
           onClick={() => setDebugMode(!debugMode)}
           className="
             px-3 py-1.5 text-[12px] font-medium
@@ -64,7 +64,7 @@ export const MapLibreWrapper = ({
             }`}
           />
           DEBUG: {debugMode ? "Hide" : "Show"} Debug
-        </button>
+        </button>*/}
 
         {debugMode && (
           <div className="bg-white p-4 rounded-lg shadow-lg max-w-xs">

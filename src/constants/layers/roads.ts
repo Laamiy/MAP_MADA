@@ -1,12 +1,7 @@
 import { roads_zoom } from "../zoom";
 import type {CustomLayer} from "@/types/map.types"
-import { DARK_COLOR_SCHEME } from "./colors";
+import type { ThemeScheme } from "@/types/map.theme.types";
 
-import {store} from  "@/store/store"
-import { THEME_MAP } from "../theme.constant";
-
-const currentTheme = store.getState().theme.currentTheme;
-const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
 const INC = 2;
 
 const roadWidth = [
@@ -44,92 +39,96 @@ const roadWidth = [
     12]
 ];
 
-const roadColor = [
-  "match", ["get", "class"],
-  "motorway", scheme.roads.motorway,
-  "major", scheme.roads.major,
-  "minor",  scheme.roads.minor,
-  "residential", scheme.roads.residential,
-  "service", scheme.roads.service,
-  "path", scheme.roads.path,
-  "track", scheme.roads.track,
-  scheme.roads.others // other
-];
+export function getRoads(scheme: ThemeScheme): CustomLayer[] {
 
 
-export const roads  : CustomLayer[]= [
-  {
-    id: "roads-path-steps",
-    type: "line",
-    source: "roads",
-    "source-layer": "roads",
-    filter: ["==", ["get", "class"], "path"],
-    layout: {
-      "line-cap": "butt",
-      "line-join": "miter",
+  const roadColor = [
+    "match", ["get", "class"],
+    "motorway", scheme.roads.motorway,
+    "major", scheme.roads.major,
+    "minor", scheme.roads.minor,
+    "residential", scheme.roads.residential,
+    "service", scheme.roads.service,
+    "path", scheme.roads.path,
+    "track", scheme.roads.track,
+    scheme.roads.others // other
+  ];
+
+  const roads: CustomLayer[] = [
+    {
+      id: "roads-path-steps",
+      type: "line",
+      source: "roads",
+      "source-layer": "roads",
+      filter: ["==", ["get", "class"], "path"],
+      layout: {
+        "line-cap": "butt",
+        "line-join": "miter",
+      },
+      paint: {
+        "line-color": "white",
+        "line-width": [
+          "interpolate", ["linear"], ["zoom"],
+          roads_zoom.min, 0.8,
+          roads_zoom.min + INC, 1.2,
+          roads_zoom.min + INC + 1, 4,
+          roads_zoom.max - 1, 10
+        ],
+        "line-dasharray": [1, 1], // square stairs
+        "line-opacity": 1,
+      },
     },
-    paint: {
-      "line-color": "white",
-      "line-width": [
-        "interpolate", ["linear"], ["zoom"],
-        roads_zoom.min, 0.8,
-        roads_zoom.min + INC, 1.2,
-        roads_zoom.min + INC + 1, 4,
-        roads_zoom.max - 1, 10
+    {
+      id: "roads-minor-line",
+      type: "line",
+      source: "roads",
+      "source-layer": "roads",
+      filter: [
+        "all",
+        ["has", "class"],
+        ["!=", ["get", "class"], "motorway"],
+        ["!=", ["get", "class"], "major"]
       ],
-      "line-dasharray": [1, 1], // square stairs
-      "line-opacity": 1,
+      layout: {
+        "line-cap": "round",
+        "line-join": "round",
+      },
+      paint: {
+        "line-color": roadColor,
+        "line-width": roadWidth,
+        "line-opacity": [
+          "interpolate", ["linear"], ["zoom"],
+          0, 0,
+          roads_zoom.min, 0.5,
+          roads_zoom.min + 0.01, 1,
+        ],
+      },
     },
-  },
-  {
-    id: "roads-minor-line",
-    type: "line",
-    source: "roads",
-    "source-layer": "roads",
-    filter: [
-      "all",
-      ["has", "class"],
-      ["!=", ["get", "class"], "motorway"],
-      ["!=", ["get", "class"], "major"]
-    ],
-    layout: {
-      "line-cap": "round",
-      "line-join": "round",
-    },
-    paint: {
-      "line-color": roadColor,
-      "line-width": roadWidth,
-      "line-opacity": [
-        "interpolate", ["linear"], ["zoom"],
-        0, 0,
-        roads_zoom.min, 0.5,
-        roads_zoom.min + 0.01, 1,
+    {
+      id: "roads-major-line",
+      type: "line",
+      source: "roads",
+      "source-layer": "roads",
+      filter: [
+        "any",
+        ["==", ["get", "class"], "motorway"],
+        ["==", ["get", "class"], "major"]
       ],
-    },
-  },
-  {
-    id: "roads-major-line",
-    type: "line",
-    source: "roads",
-    "source-layer": "roads",
-    filter: [
-      "any",
-      ["==", ["get", "class"], "motorway"],
-      ["==", ["get", "class"], "major"]
-    ],
-    layout: {
-      "line-cap": "round",
-      "line-join": "round",
-    },
-    paint: {
-      "line-color": roadColor,
-      "line-width": roadWidth,
-      "line-opacity": [
-        "interpolate", ["linear"], ["zoom"],
-        0, 0,
-        roads_zoom.min, 0.5,
-        roads_zoom.min + 0.01, 1,
-      ],
-    },
-  }
-];
+      layout: {
+        "line-cap": "round",
+        "line-join": "round",
+      },
+      paint: {
+        "line-color": roadColor,
+        "line-width": roadWidth,
+        "line-opacity": [
+          "interpolate", ["linear"], ["zoom"],
+          0, 0,
+          roads_zoom.min, 0.5,
+          roads_zoom.min + 0.01, 1,
+        ],
+      },
+    }
+  ];
+  return roads;
+}

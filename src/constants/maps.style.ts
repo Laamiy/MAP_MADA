@@ -1,9 +1,15 @@
 import * as layers_imp from "@/constants/layers";
-import { citiesGeoJSON, citiesLayers } from "@/constants/layers/city_point";
-import type { style, CustomLayer} from "@/types/map.types"
+
 import { pois_zoom,road_arrows_zoom,} from "./zoom";
 import { src, martinSrc ,withSource} from "@/utils/map.utils";
+import { citiesGeoJSON, getCityPoints } from "@/constants/layers/city_point";
+
+import { THEME_MAP } from "./theme.constant";
 import { MAP_CONFIG } from "@/config/map.config";
+
+import type {MapTheme} from '@/types/map.theme.types'
+import type { ThemeScheme } from "@/types/map.theme.types";
+import type { style, CustomLayer} from "@/types/map.types"
 
 const sources = {
 
@@ -47,44 +53,62 @@ const sources = {
 
                   };
 
-const layers: CustomLayer[] = [
-                            ...layers_imp.background,
-                            ...withSource(layers_imp.world_countries_50m, "world_countries_50m"),
-                            ...withSource(layers_imp.esa_vegetation_raw, "esa_vegetation_raw"),
-                            // ...withSource(layers_imp.land_cover, "land_cover"),
-                            ...withSource(layers_imp.land_cover_coarse, "land_cover_light"),
-                            ...withSource(layers_imp.water_polygon, "water_polygons"),
-                            ...withSource(layers_imp.waterways, "waterways"),
-                            ...withSource(layers_imp.world_water_lakes, "water_lakes"),
-                            ...withSource(layers_imp.satellite_view , "satelliteSource"),// Satellite view
-                            ...withSource(layers_imp.roads, "roads"),
-                            ...withSource(layers_imp.roads_low, "roads_low"),
-                            ...withSource(layers_imp.roads_low_name, "roads_low_name"),
-                            ...withSource(layers_imp.buildings, "buildings"),
-                            ...withSource(layers_imp.places, "places"),
-                            ...withSource(layers_imp.world_countries_name, "world_countries_name"),
-                            ...withSource(layers_imp.water_polygons_labels, "water_polygons_labels"),
-                            ...withSource(layers_imp.regions, "boundaries_coarse_name"),
-                            ...withSource(layers_imp.boundaries_coarse_name, "boundaries_coarse_name"),
-                            ...withSource(layers_imp.admin_boundaries, "admin_boundaries"),
-                            ...withSource(layers_imp.roads_local_name, "roads_local_name"),
-                            ...withSource(layers_imp.pois, "pois"),
-                            ...withSource(layers_imp.waterways_name, "waterways_name"),
-                            ...withSource(layers_imp.admin_polygons, "admin_polygons"),
-                            ...withSource(layers_imp.road_arrows, "road_arrows"),
+const styleCache = new Map<MapTheme, style>();
 
-                            ...citiesLayers,
+export const createMapStyle = (themeKey: MapTheme): style => {
 
-];
+  const cachedStyle = styleCache.get(themeKey);
+  if (cachedStyle)
+    return cachedStyle;
 
+  const scheme: ThemeScheme = THEME_MAP[themeKey] || THEME_MAP.dark;
+  const layers: CustomLayer[] = [
 
-const mapStyle: style = {
-                            version: 8,
-                            sprite: MAP_CONFIG.spriteUrl,
-                            glyphs: `${MAP_CONFIG.glyphUrl}/{fontstack}/{range}`,
-  sources,
+    ...layers_imp.getBackground(scheme),
+    ...withSource(layers_imp.getWorldCountries50m(scheme), "world_countries_50m"),
+    ...withSource(layers_imp.getEsaVegetation(scheme), "esa_vegetation_raw"),
+    ...withSource(layers_imp.getLandcoverCoarse(scheme), "land_cover_light"),
+    ...withSource(layers_imp.getWaterPolygons(scheme), "water_polygons"),
+    ...withSource(layers_imp.getWaterways(scheme), "waterways"),
+    ...withSource(layers_imp.getWorldWaterLakes(scheme), "water_lakes"),
+    ...withSource(layers_imp.satellite_view , "satelliteSource"),// Satellite view
+    ...withSource(layers_imp.getRoads(scheme), "roads"),
+    ...withSource(layers_imp.getRoadsLow(scheme), "roads_low"),
+    ...withSource(layers_imp.getRoadsLowName(scheme), "roads_low_name"),
+    ...withSource(layers_imp.getBuilding(scheme), "buildings"),
+    ...withSource(layers_imp.getPlace(scheme), "places"),
+    ...withSource(layers_imp.getWorldCountriesName(scheme), "world_countries_name"),
+    ...withSource(layers_imp.getWaterPolygonsLabels(scheme), "water_polygons_labels"),
+    ...withSource(layers_imp.getRegions(scheme), "boundaries_coarse_name"),
+    ...withSource(layers_imp.getBoundariesCoarseName(scheme), "boundaries_coarse_name"),
+    ...withSource(layers_imp.getBoundariesCoarse(scheme), "admin_boundaries"),
+    ...withSource(layers_imp.getRoadsLocalName(scheme), "roads_local_name"),
+    ...withSource(layers_imp.getPoi(scheme), "pois"),
+    ...withSource(layers_imp.getWaterWaysName(scheme), "waterways_name"),
+    ...withSource(layers_imp.getAdminPolygons(scheme), "admin_polygons"),
+    ...withSource(layers_imp.getRoadArrows(scheme), "road_arrows"),
+    ...getCityPoints(scheme),
 
-                            layers,
-                          };
+  ];
+  const newStyle = {
+      version: 8,
+      sprite: MAP_CONFIG.spriteUrl,
+      glyphs: `${MAP_CONFIG.glyphUrl}/{fontstack}/{range}`,
+      sources,
+      layers,
+    };
+
+  styleCache.set(themeKey, newStyle);
+  return newStyle;
+}
+
+const mapStyle: style = createMapStyle('dark')
+// {
+//                             version: 8,
+//                             sprite: MAP_CONFIG.spriteUrl,
+//                             glyphs: `${MAP_CONFIG.glyphUrl}/{fontstack}/{range}`,
+//                             sources,
+//                             layers,
+//                           };
 
 export default mapStyle;

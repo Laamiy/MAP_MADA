@@ -2,15 +2,12 @@ import maplibregl from "maplibre-gl";
 import type {FeatureProperties , ClickEvent} from "@/types/map.types";
 import { MAP_CONFIG } from "../config/map.config";
 import type {CustomLayer} from "@/types/map.types"
-import type { MapTheme } from "@/types/map.theme.types";
-import { store } from "@/store/store";
-import { THEME_MAP } from "@/constants/theme.constant";
-import { DARK_COLOR_SCHEME } from "@/constants/layers/colors";
-
 
 type customSource = maplibregl.SourceSpecification & { tiles: string[]; };
+
 export const handleZoomIn = (map: maplibregl.Map |null ) => map?.zoomIn();
 export const handleZoomOut = (map: maplibregl.Map|null) => map?.zoomOut();
+
 export const handleNavigationClick = ( map: maplibregl.Map, center: { lng: number; lat: number }, zoom: number) =>
     {
         map.flyTo({
@@ -48,7 +45,6 @@ export const bustTiles = (map: maplibregl.Map) => {
     }
 };
 // Interaction utils :
-//
 const ADMIN_HIGHLIGHT_LAYERS = ["admin-highlight-fill", "admin-highlight-line"];
 const HIDE_FILTER: maplibregl.FilterSpecification = ["==", ["get", "osm_id"], ""];
 
@@ -167,22 +163,5 @@ export function martinSrc( srcName : string , min : number , max : number )
   }
 }
 export const withSource = (layers: CustomLayer[], src: string): CustomLayer[] => {
- /// I need something that somehow injects the theme in there :
-
   return layers.map((l) => ({ ...l, source: src   }));
 }
-// export function Wrapper(layer : CustomLayer[], src : string , toThemeId : string  ) : CustomLayer
-// {
-
-//   const currentTheme = store.getState().theme.currentTheme;
-//   const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
-
-//   const current_layer = withSource(layer , src)
-//   Object.keys(currentTheme).filter((id : string ) => {
-//     if (id === toThemeId)
-//     {
-
-//     }
-//   })
-//  return {}
-// }

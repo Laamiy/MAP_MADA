@@ -16,6 +16,7 @@ const App = () => {
   const { mapContainer, map} = useMapLibre({ center : mapCenter, zoom: zoom, onZoomChange:  setZoom , mode:layerMode });
   const { route, loading, error, handleGetRoute , handleClearRoute,handleRouteToggle , handleCloseRouting ,handleChangeStart, handleChangeEnd, startPoint  , endPoint, routingOn} = useOSRMRoute();
   const [projection, setProjection] = useState(true)
+
   useMapInteractivity({
       map : map.current,
       config: { poiSourceLayers: ["pois"], areaSourceLayers: ["boundaries_coarse_name", "places"],},
@@ -42,6 +43,7 @@ const App = () => {
         onMenuToggle={toggleSidebar}
         onRouteToggle={handleRouteToggle}
         isRoutingMode={routingOn}
+        projection={projection}
         onGlobeProjection= {handleGlobeToggle}
       />
       <div className={layoutStyles.mainContent}>

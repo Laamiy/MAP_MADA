@@ -53,6 +53,7 @@ export type  CustomLayer  = {
   layout?: { [key: string]: unknown }
   paint?: { [key: string]: unknown }
 }
+export type VegClassType = Record<string , { color: string; opacity: number }>
 // Events :
 export type ClickEvent = maplibregl.MapMouseEvent & {
   features?: maplibregl.MapGeoJSONFeature[];

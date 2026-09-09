@@ -4,7 +4,9 @@ import type { StyleSpecification   } from "maplibre-gl";
 import type { Coordinates } from "@/types/map.types";
 import { MAP_CONFIG } from "@/config/map.config";
 import mapStyle from "@/constants/maps.style";
+import { createMapStyle } from "@/constants/maps.style";
 import type { layerModeType } from "@/types/map.types"
+import { useAppSelector } from "@/store/store";
 
 interface UseMapLibreProps {
                             center: Coordinates;
@@ -26,6 +28,9 @@ export const useMapLibre = ({
   {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
+
+  const currentTheme = useAppSelector((state) => state.theme.currentTheme);
+
   useEffect(() => {
     if (!mapContainer.current)
         return;
@@ -129,6 +134,15 @@ export const useMapLibre = ({
         });
       }
     }, [mode]);
+
+  useEffect(() => {
+      if (!map.current) return;
+
+      const updatedStyle = createMapStyle(currentTheme) as StyleSpecification;
+      // diff: true prevents map redrawing/flickering for unchanged layers
+      map.current.setStyle(updatedStyle, { diff: true });
+    }, [currentTheme]);
+
   useEffect(() =>
     {
       if (map.current && !map.current.isMoving())

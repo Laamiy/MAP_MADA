@@ -33,3 +33,5 @@ export const water_polygons_labels_zoom: zoom_range = { min: 14, max: 20 }
 export const land_cover_zoom: zoom_range = { min: 13, max: 18 }
 export const land_cover_coarse_zoom: zoom_range = { min: 6, max: 18}
 export const roads_local_name_zoom : zoom_range = {min:14 , max:18}
+export const city_points_zoom : zoom_range = { min: 5, max: 14 }
+export const location_zoom: zoom_range = { min: 4, max: 20 }

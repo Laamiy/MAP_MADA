@@ -1,88 +1,87 @@
 import { INC, roads_low_name_zoom } from "../zoom"
 import type {CustomLayer} from "@/types/map.types"
-import { DARK_COLOR_SCHEME } from "./colors";
-import {store} from  "@/store/store"
-import { THEME_MAP } from "../theme.constant";
+import type { ThemeScheme } from "@/types/map.theme.types"
 
-const currentTheme = store.getState().theme.currentTheme;
-const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME;
-export const roads_low_name : CustomLayer[] = [
-  {
-    id: "roads-low-name-symbol",
-    type: "symbol",
-    "source-layer": "roads_low_name",
-    minzoom: roads_low_name_zoom.min + 5,
-    maxzoom: roads_low_name_zoom.max,
-    filter: ["has", "name"],
-    layout: {
-              "text-field": ["get", "name"],
-              "text-size": [
-                "interpolate",
-                ["linear"],
-                ["zoom"],
-                roads_low_name_zoom.min + 5,
-                11,
-                roads_low_name_zoom.max,
-                17,
-              ],
-              "symbol-placement": "line",
-              "symbol-spacing": 200,
-              "text-font": ["Noto Sans Bold"],
-              "text-rotation-alignment": "map",
-              "text-pitch-alignment": "viewport",
-              "text-keep-upright": true,
-              "text-allow-overlap": false,
-              "text-ignore-placement": false,
-            },
-    paint: {
-              "text-color": scheme.roads_low_name["text-color"],
-              "text-halo-color": scheme.roads_low_name["text-halo-color"],
-              "text-halo-width": 1.5,
-            },
-  },
+export function getRoadsLowName(scheme: ThemeScheme): CustomLayer[] {
+  const roads_low_name: CustomLayer[] = [
+    {
+      id: "roads-low-name-symbol",
+      type: "symbol",
+      "source-layer": "roads_low_name",
+      minzoom: roads_low_name_zoom.min + 5,
+      maxzoom: roads_low_name_zoom.max,
+      filter: ["has", "name"],
+      layout: {
+        "text-field": ["get", "name"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          roads_low_name_zoom.min + 5,
+          11,
+          roads_low_name_zoom.max,
+          17,
+        ],
+        "symbol-placement": "line",
+        "symbol-spacing": 200,
+        "text-font": ["Noto Sans Bold"],
+        "text-rotation-alignment": "map",
+        "text-pitch-alignment": "viewport",
+        "text-keep-upright": true,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false,
+      },
+      paint: {
+        "text-color": scheme.roads_low_name["text-color"],
+        "text-halo-color": scheme.roads_low_name["text-halo-color"],
+        "text-halo-width": 1.5,
+      },
+    },
 
-  {
-  id: "roads-low-ref-symbol",
-  type: "symbol",
-  "source-layer": "roads_low_name",
-  minzoom: roads_low_name_zoom.min,
-  maxzoom: roads_low_name_zoom.max,
-  filter: ["has", "ref"],
-  layout: {
-    "text-field": ["get", "ref"],
-    "text-size": [
-      "interpolate",
-      ["linear"],
-      ["zoom"],
-      roads_low_name_zoom.min,
-      5,
-      roads_low_name_zoom.min + INC,
-      6,
-      roads_low_name_zoom.min + 2*INC,
-      7,
-      roads_low_name_zoom.max,
-      9
-    ],
-    "text-font": ["Noto Sans Bold"],
-    "symbol-placement": "line",
-    "symbol-spacing": 700,
-    "text-rotation-alignment": "viewport",
-    "text-pitch-alignment": "viewport",
-    "text-keep-upright": true,
-    "text-allow-overlap": false,
-    "text-ignore-placement": false,
-    "icon-image": "rectangle", // arrow icon id
-    "icon-size": 1.5,
-    "icon-keep-upright": false, // flip if upside-down
-    "icon-allow-overlap": false,
-    "icon-text-fit": "both",            // Icon stretches to text bounds
-    "icon-text-fit-padding": [1, 1, 1, 1],
-    "icon-rotation-alignment": "viewport", // align to line tangent
+    {
+      id: "roads-low-ref-symbol",
+      type: "symbol",
+      "source-layer": "roads_low_name",
+      minzoom: roads_low_name_zoom.min,
+      maxzoom: roads_low_name_zoom.max,
+      filter: ["has", "ref"],
+      layout: {
+        "text-field": ["get", "ref"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          roads_low_name_zoom.min,
+          5,
+          roads_low_name_zoom.min + INC,
+          6,
+          roads_low_name_zoom.min + 2 * INC,
+          7,
+          roads_low_name_zoom.max,
+          9
+        ],
+        "text-font": ["Noto Sans Bold"],
+        "symbol-placement": "line",
+        "symbol-spacing": 700,
+        "text-rotation-alignment": "viewport",
+        "text-pitch-alignment": "viewport",
+        "text-keep-upright": true,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false,
+        "icon-image": "rectangle", // arrow icon id
+        "icon-size": 1.5,
+        "icon-keep-upright": false, // flip if upside-down
+        "icon-allow-overlap": false,
+        "icon-text-fit": "both",            // Icon stretches to text bounds
+        "icon-text-fit-padding": [1, 1, 1, 1],
+        "icon-rotation-alignment": "viewport", // align to line tangent
 
-  },
-  paint: {
-            "text-color": DARK_COLOR_SCHEME["text-color"],
-            "text-halo-width": 1.2
-          }
+      },
+      paint: {
+        "text-color": scheme["text-color"],
+        "text-halo-width": 1.2
+      }
+    }
+  ];
+  return roads_low_name;
 }
-]

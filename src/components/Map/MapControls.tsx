@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigation, Plus, Minus, Layers } from 'lucide-react';
+import { useAppSelector } from '@/store/store';
 
 interface MapControlsProps {
   zoom: number;
@@ -20,48 +21,63 @@ export const MapControls: React.FC<MapControlsProps> = ({
   onLayersClick,
   onNavigationClick,
 }) => {
-  const mapBtnClass =
-    "w-12 h-12 flex items-center justify-center text-foreground/80 bg-background/70 backdrop-blur-md transition-all \
-    duration-200 outline-none hover:bg-muted hover:text-foreground active:scale-95 disabled:opacity-30 disabled:pointer-events-none";
+  const currentTheme = useAppSelector((state) => state.theme.currentTheme);
+  const isDarkMap = currentTheme === 'dark';
+
+  // Dynamic glassmorphic theme styles
+  const themeStyles = {
+    capsule: isDarkMap
+      ? 'bg-white/75 border-gray-200/80 text-gray-800 shadow-xl backdrop-blur-xl'
+      : 'bg-slate-900/80 border-slate-800/80 text-slate-200 shadow-xl backdrop-blur-xl',
+    hover: isDarkMap ? 'hover:bg-black/5' : 'hover:bg-white/10',
+    divider: isDarkMap ? 'bg-gray-300/60' : 'bg-slate-700/60',
+    iconFill: isDarkMap ? 'text-gray-700' : 'text-slate-200',
+  };
+
+  const mapBtnClass = `w-12 h-12 flex items-center justify-center transition-all duration-200 outline-none
+    ${themeStyles.hover} active:scale-95 disabled:opacity-30 disabled:pointer-events-none`;
 
   return (
     <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-100 pointer-events-auto overflow-visible">
+      {/* Layers Toggle */}
       <button
         onClick={onLayersClick}
-        className={`${mapBtnClass} border border-border rounded-2xl shadow-xl`}
+        className={`${mapBtnClass} border rounded-2xl ${themeStyles.capsule}`}
         aria-label="Toggle map layers"
       >
-        <Layers className="w-5 h-5 fill-current text-foreground/70" />
+        <Layers className={`w-5 h-5 fill-current ${themeStyles.iconFill}`} />
       </button>
 
-      <div className="flex flex-col bg-background/70 border border-border rounded-2xl shadow-xl overflow-hidden backdrop-blur-md">
+      {/* Zoom In / Zoom Out Group */}
+      <div className={`flex flex-col border rounded-2xl overflow-hidden ${themeStyles.capsule}`}>
         <button
           onClick={onZoomIn}
           disabled={zoom >= maxZoom}
-          className={`${mapBtnClass} border-none`}
+          className={`${mapBtnClass}`}
           aria-label="Zoom in"
         >
           <Plus className="w-5 h-5" />
         </button>
 
-        <div className="h-px w-full bg-border" />
+        <div className={`h-px w-full ${themeStyles.divider}`} />
 
         <button
           onClick={onZoomOut}
           disabled={zoom <= minZoom}
-          className={`${mapBtnClass} border-none`}
+          className={`${mapBtnClass}`}
           aria-label="Zoom out"
         >
           <Minus className="w-5 h-5" />
         </button>
       </div>
 
+      {/* Navigation / Recenter Button */}
       <button
         onClick={onNavigationClick}
-        className={`${mapBtnClass} border border-border rounded-2xl shadow-xl`}
+        className={`${mapBtnClass} border rounded-2xl ${themeStyles.capsule}`}
         aria-label="Center map"
       >
-        <Navigation className="w-5 h-5 fill-current text-foreground/70" />
+        <Navigation className={`w-5 h-5 fill-current ${themeStyles.iconFill}`} />
       </button>
     </div>
   );

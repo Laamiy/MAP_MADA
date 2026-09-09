@@ -1,19 +1,12 @@
 import type { CustomLayer} from "@/types/map.types"
+import type { ThemeScheme } from '@/types/map.theme.types'
+import { INC , city_points_zoom } from "../zoom";
 import {
         tanaCoords,antsirananaCoords,
         fianarantsoaCoords ,mahajangaCoords,
         morondavaCoords,toamasinaCoords,
         tolagnaroCoords
       } from "../city.coords";
-import { DARK_COLOR_SCHEME } from "./colors";
-import {store} from  "@/store/store"
-import { THEME_MAP } from "../theme.constant";
-
-const currentTheme = store.getState().theme.currentTheme;
-const scheme = THEME_MAP[currentTheme] || DARK_COLOR_SCHEME
-
-const zoom = { min: 5, max: 14 }
-const INC = 3;
 
 
 export const createGeoJSON = (coords: [number, number], name: string, isCapital = false) => ({
@@ -40,13 +33,13 @@ export const citiesGeoJSON = {
   fianarantsoa: createGeoJSON(fianarantsoaCoords, "Fianarantsoa"),
 }
 
-const createCityLayers = (sourceId: string, name: string, isCapital = false): CustomLayer[] => [
+const createCityLayers = (sourceId: string, name: string,scheme : ThemeScheme, isCapital = false ): CustomLayer[] => [
   {
     id: `${sourceId}-outer`,
     type: "circle",
     source: sourceId,
-    minzoom: zoom.min,
-    maxzoom: zoom.max,
+    minzoom: city_points_zoom.min,
+    maxzoom: city_points_zoom.max,
     paint: {
       "circle-radius": isCapital ? 12 : 5,
       "circle-color": scheme.cityPoints["outer-circle-color"],
@@ -58,8 +51,8 @@ const createCityLayers = (sourceId: string, name: string, isCapital = false): Cu
     id: `${sourceId}-inner`,
     type: "circle",
     source: sourceId,
-    minzoom: zoom.min,
-    maxzoom: zoom.max,
+    minzoom: city_points_zoom.min,
+    maxzoom: city_points_zoom.max,
     paint: {
       "circle-radius": isCapital ? 5 : 2,
       "circle-color": scheme.cityPoints["inner-circle-color"],
@@ -71,8 +64,8 @@ const createCityLayers = (sourceId: string, name: string, isCapital = false): Cu
     id: `${sourceId}-label`,
     type: "symbol",
     source: sourceId,
-    minzoom: zoom.min + 1,
-    maxzoom: zoom.max,
+    minzoom: city_points_zoom.min + 1,
+    maxzoom: city_points_zoom.max,
     layout: {
       "text-field": name,
       "text-font": ["Noto Sans Regular"],
@@ -83,11 +76,11 @@ const createCityLayers = (sourceId: string, name: string, isCapital = false): Cu
             ["zoom"],
             0,
             0,
-            zoom.min,
+            city_points_zoom.min,
             15,
-            zoom.min + INC,
+            city_points_zoom.min + INC,
             16,
-            zoom.max - 1,
+            city_points_zoom.max - 1,
             20,
           ]
         : 15,
@@ -103,12 +96,15 @@ const createCityLayers = (sourceId: string, name: string, isCapital = false): Cu
   },
 ]
 
-export const citiesLayers: CustomLayer[] = [
-  ...createCityLayers("antananarivo", "Antananarivo", true),
-  ...createCityLayers("toamasina", "Toamasina"),
-  ...createCityLayers("mahajanga", "Mahajanga"),
-  ...createCityLayers("antsiranana", "Antsiranana"),
-  ...createCityLayers("tolagnaro", "Tolagnaro"),
-  ...createCityLayers("morondava", "Morondava"),
-  ...createCityLayers("fianarantsoa", "Fianarantsoa"),
-]
+export function getCityPoints(scheme: ThemeScheme): CustomLayer[] {
+  const citiesLayers: CustomLayer[] = [
+    ...createCityLayers("antananarivo", "Antananarivo",scheme,  true),
+    ...createCityLayers("toamasina", "Toamasina" , scheme),
+    ...createCityLayers("mahajanga", "Mahajanga", scheme),
+    ...createCityLayers("antsiranana", "Antsiranana",scheme),
+    ...createCityLayers("tolagnaro", "Tolagnaro",scheme ),
+    ...createCityLayers("morondava", "Morondava", scheme),
+    ...createCityLayers("fianarantsoa", "Fianarantsoa",scheme),
+  ];
+  return citiesLayers;
+}
